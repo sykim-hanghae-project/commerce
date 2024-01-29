@@ -1,21 +1,20 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './App.css'
-import { getAuth } from './checkAuth'
 import PrivateRoutes from './routes/PrivateRoutes'
-import PublicRoutes from './routes/PublicRoutes'
 import CommonRoutes from './routes/CommonRoutes'
+import { UserContextProvider } from './context/UserContext'
 
 function App() {
-  const user = getAuth()
-
-  const router = createBrowserRouter(
-    user 
-    ? [PrivateRoutes(user.isSeller), CommonRoutes()] //로그인 O
-    : [PublicRoutes(), CommonRoutes()] // 로그인 X
-  )
+  
+  const router = createBrowserRouter([
+    PrivateRoutes(), //로그인 유무 관계O
+    CommonRoutes() //로그인 유무 관계X
+  ])
 
   return (
-    <RouterProvider router={router} />
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
   )
 }
 
