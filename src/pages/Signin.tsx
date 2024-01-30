@@ -11,11 +11,11 @@ import { Button } from '@/components/ui/button'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 import { auth, db } from "@/helpers/firebase"; 
 import { doc, getDoc } from 'firebase/firestore'
-import { useUserDispatch } from '@/context/UserContext'
+// import { useUserDispatch } from '@/context/UserContext'
 
 
 const Signin: React.FC = () => {
-  const dispatch = useUserDispatch()
+  // const dispatch = useUserDispatch()
   const navigate = useNavigate()
 
   function onClickSignupBtn() {
@@ -82,8 +82,8 @@ const Signin: React.FC = () => {
       if (user) {
         window.localStorage.setItem('user-role', user.isSeller ? 'seller' : 'consumer')
 
-        dispatch({ type: 'SET_USER', loggedUser: user })
-        dispatch({ type: 'SET_ISLOGGEDIN', isLoggedIn: true })
+        // dispatch({ type: 'SET_USER', loggedUser: user })
+        // dispatch({ type: 'SET_ISLOGGEDIN', isLoggedIn: true })
       }
       
       window.alert('로그인이 완료되었습니다.')

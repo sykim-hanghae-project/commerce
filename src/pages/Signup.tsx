@@ -23,7 +23,7 @@ const Signup: React.FC = () => {
     await createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const user = userCredential.user
-      const id = parse(v4()).join("")
+      const id = Number.parseInt(parse(v4()).join(""))
       await setDoc(doc(db, 'users', user.uid), {
         id,
         email,
