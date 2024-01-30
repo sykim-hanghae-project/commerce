@@ -21,8 +21,8 @@ const Header = () => {
   return (
     <header className='flex items-center justify-center px-8 py-4 border-b border-slate-200'>
       <div className='w-full'>
-        <button className='button category'>Men</button>
-        <button className='button category'>Women</button>
+        <button className='button headerCategoryItem'>Men</button>
+        <button className='button headerCategoryItem'>Women</button>
       </div>
 
       <button 
@@ -37,15 +37,15 @@ const Header = () => {
           </div>
 
           {/* 장바구니 */}
-          <div className='navItem'>
-            <button className='button iconBtn' onClick={onClickCartBtn}>
+          <div className='headerNavItem'>
+            <button className='button headerIconBtn' onClick={onClickCartBtn}>
               <BsHandbag />
             </button>
           </div>
 
           {/* 마이페이지 */}
-          <div className='navItem'>
-            <button className='button iconBtn' onClick={onClickMyPageBtn}>
+          <div className='headerNavItem'>
+            <button className='button headerIconBtn' onClick={onClickMyPageBtn}>
               <BsPerson />
             </button>
           </div>

@@ -8,6 +8,7 @@ import ManageOrder from '@/pages/ManageOrder';
 import Signin from '@/pages/Signin';
 import Signup from '@/pages/Signup';
 import { checkAuth } from '@/utils/checkAuth';
+import EditInfo from '@/pages/EditInfo';
 
 // 로그인 상태
 export default function PrivateRoutes(): RouteObject {
@@ -23,11 +24,13 @@ export default function PrivateRoutes(): RouteObject {
 
   const SellerRoutes: RouteObject = {
     path: '/mypage',
-    element: <Navigate to='/mypage/allproducts' replace />,
+    // element: <Navigate to='/mypage/allproducts' replace />,
     children: [
-      { path: '/mypage/add-product', element: <AddProduct /> },
-      { path: '/mypage/allproducts', element: <ViewAllProducts /> },
+      { path: '/mypage/add-product', element: <AddProduct type='create' /> },
+      { path: '/mypage/edit-product', element: <AddProduct type='edit' /> },
+      { path: '/mypage/view-allproducts', element: <ViewAllProducts /> },
       { path: '/mypage/manage-order', element: <ManageOrder />},
+      { path: '/mypage/edit-info', element: <EditInfo /> }
     ]
   }
 

@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 import { auth, db } from "@/helpers/firebase"; 
 import { doc, getDoc } from 'firebase/firestore'
-// import { useUserDispatch } from '@/context/UserContext'
 
 
 const Signin: React.FC = () => {

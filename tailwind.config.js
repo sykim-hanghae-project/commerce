@@ -8,7 +8,8 @@ export default {
         'primary-foreground': '#FFFFFF',
         'secondary': '#FFFFFF',
         'secondary-foreground': '#000000',
-        'destructive': '#FF0000'
+        'destructive': '#FF0000',
+        'background': '#FFFFFF'
       },
     },
   },
