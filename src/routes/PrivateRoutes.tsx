@@ -14,25 +14,19 @@ import EditInfo from '@/pages/EditInfo';
 export default function PrivateRoutes(): RouteObject {
   const { token, uid, role } = checkAuth()
 
-  const CustomerRoutes: RouteObject = {
-    path: '/mypage',
-    element: <Navigate to='/mypage/myorder' replace />,
-    children: [
-      { path: '/mypage/myorder', element: <MyOrder /> }
-    ]
-  }
+  const CustomerRoutes: RouteObject[] = [
+    { path: '/mypage', element: <Navigate to='/mypage/myorder' replace /> },
+    { path: '/mypage/myorder', element: <MyOrder /> }
+  ]
 
-  const SellerRoutes: RouteObject = {
-    path: '/mypage',
-    // element: <Navigate to='/mypage/allproducts' replace />,
-    children: [
-      { path: '/mypage/add-product', element: <AddProduct type='create' /> },
-      { path: '/mypage/edit-product', element: <AddProduct type='edit' /> },
-      { path: '/mypage/view-allproducts', element: <ViewAllProducts /> },
-      { path: '/mypage/manage-order', element: <ManageOrder />},
-      { path: '/mypage/edit-info', element: <EditInfo /> }
-    ]
-  }
+  const SellerRoutes: RouteObject[] = [
+    { path: '/mypage', element: <Navigate to='/mypage/view-allproducts' /> },
+    { path: '/mypage/add-product', element: <AddProduct type='create' /> },
+    { path: '/mypage/edit-product', element: <AddProduct type='edit' /> },
+    { path: '/mypage/view-allproducts', element: <ViewAllProducts /> },
+    { path: '/mypage/manage-order', element: <ManageOrder />},
+    { path: '/mypage/edit-info', element: <EditInfo /> }
+  ] 
 
   const children: RouteObject[] = 
     (token != null && uid != null)  //로그인 상태
@@ -40,7 +34,6 @@ export default function PrivateRoutes(): RouteObject {
       { path: '/cart', element: <Cart /> },
       { path: '/login', element: <Navigate to='/' replace />  },
       { path: '/signup', element: <Navigate to='/' replace />  }, 
-      role === 'seller' ? SellerRoutes : CustomerRoutes
     ]
     : [
       { path: '/cart', element: <Navigate to='/login' replace /> },
@@ -51,6 +44,6 @@ export default function PrivateRoutes(): RouteObject {
 
   return {
     element: <Layout />,
-    children
+    children: children.concat(role === 'seller' ? SellerRoutes : CustomerRoutes)
   }
 }
