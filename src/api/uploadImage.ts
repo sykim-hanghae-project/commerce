@@ -7,6 +7,9 @@ async function uploadImage(file: File | Blob) {
   const filename = v4()
   const fileRef = ref(storage, `images/${filename}`)
   await uploadBytes(fileRef, file)
+  .catch((error) => {
+    throw error
+  })
   
   return filename
 }
