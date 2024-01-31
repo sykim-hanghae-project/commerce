@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { User as TUser } from '@/types/user';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '@/helpers/firebase';
-import { getUser } from '@/utils/getUser';
+import { getUser } from '@/api/getUser';
 
 type State = {
   loggedUser: TUser | null,
