@@ -1,14 +1,17 @@
+import { lazy } from 'react'
 import { Navigate, RouteObject } from 'react-router-dom';
+
+const Cart = lazy(() => import('@/pages/Cart'))
+const MyOrder = lazy(() => import('@/pages/MyOrder'))
+const AddProduct = lazy(() => import('@/pages/AddProduct'))
+const ViewAllProducts = lazy(() => import('@/pages/ViewAllProducts'))
+const ManageOrder = lazy(() => import('@/pages/ManageOrder'))
+const Signin = lazy(() => import('@/pages/Signin'))
+const Signup = lazy(() => import('@/pages/Signup'))
+const EditInfo = lazy(() => import('@/pages/EditInfo'))
+
 import Layout from '@/components/layout/Layout';
-import Cart from '@/pages/Cart';
-import MyOrder from '@/pages/MyOrder';
-import AddProduct from '@/pages/AddProduct';
-import ViewAllProducts from '@/pages/ViewAllProducts';
-import ManageOrder from '@/pages/ManageOrder';
-import Signin from '@/pages/Signin';
-import Signup from '@/pages/Signup';
 import { checkAuth } from '@/utils/checkAuth';
-import EditInfo from '@/pages/EditInfo';
 
 // 로그인 상태
 export default function PrivateRoutes(): RouteObject {
