@@ -1,36 +1,40 @@
   import { useMemo } from 'react'
-  import { QueryFunctionContext, useInfiniteQuery } from '@tanstack/react-query'
-  import { QuerySnapshot } from 'firebase/firestore';
+  import { useInfiniteQuery } from '@tanstack/react-query'
+  import { DocumentData, QuerySnapshot, Timestamp } from 'firebase/firestore';
 
 
   interface useProductsQueryProps {
     rowsPerPage: number,
-    queryFunc: (context: QueryFunctionContext, crowsPerPage: number) => Promise<QuerySnapshot>
+    queryFunc: (pageParam: Timestamp, rowsPerPage: number) => Promise<QuerySnapshot>
   }
 
   const useProductsQuery = ({ rowsPerPage, queryFunc }: useProductsQueryProps) => {
     const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
       {
         queryKey: ['getProducts'],
-        queryFn: async (context: QueryFunctionContext) => await queryFunc(context, rowsPerPage),
-        getNextPageParam: (lastpage, allpages) => {
-          // console.log("allpages[0].size",allpages[0].size)
-          if (allpages[0].size < rowsPerPage){
-            return null
+        queryFn: async ({ pageParam }) => await queryFunc(pageParam, rowsPerPage),
+        getNextPageParam: (lastpage, ) => {
+          if (lastpage.docs.length < rowsPerPage){
+            return undefined
           }
+          
           return lastpage.docs[lastpage.docs.length-1].data().createdAt
         }
       }
     )
 
     const products = useMemo(() => {
+      let res: { docId: string, data: DocumentData }[] = []
       if (data) {
-        return data?.pages[0].docs.map(doc => {
-          return {
-            docId: doc.id,
-            data: doc.data()
-          }
-        })
+        for (const page of data.pages) {
+          res = res.concat(page.docs.map(doc => {
+            return {
+              docId: doc.id,
+              data: doc.data()
+            }
+          }))
+        }
+        return res
       }
     }, [data])
 

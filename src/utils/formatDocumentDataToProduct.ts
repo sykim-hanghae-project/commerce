@@ -1,6 +1,7 @@
+import { Product } from "@/types/product";
 import { DocumentData } from "firebase/firestore";
 
-export default function formatDocumentDataToProduct(data: DocumentData) {
+export default function formatDocumentDataToProduct(data: DocumentData): Product {
   return {
     id: data.id,
     sellerId: data.sellerId,

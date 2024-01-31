@@ -1,10 +1,13 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Product } from '@/types/product'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Button } from './ui/button';
 import deleteProduct from '@/api/deleteProduct';
-import deletePhoto from '@/api/deletePhoto';
-import { useNavigate } from 'react-router-dom';
+import deletePhoto from '@/api/deleteImage';
+import getImageUrl from '@/api/getImageUrl';
+
 
 interface ProductContainerProps {
   id: string,
@@ -12,7 +15,15 @@ interface ProductContainerProps {
 }
 
 const ProductContainer = ({ id, product }: ProductContainerProps) => {
+  const [imgUrl, setImgUrl] = useState<string>()
+
   const navigate = useNavigate()
+
+  useEffect(() => {
+    //img url 받아오기
+    getImageUrl(product.productImage[0])
+    .then((url) => setImgUrl(url))
+  }, [product]) 
 
   const onClickEditBtn = () => {
     navigate(`/mypage/edit-product?product=${id}`)
@@ -24,9 +35,9 @@ const ProductContainer = ({ id, product }: ProductContainerProps) => {
       for (const url of product.productImage) {
         await deletePhoto(url)
       }
-  
       await deleteProduct(id);
-    } catch (error) {
+    } 
+    catch (error) {
       window.alert('상품 삭제를 실패했습니다.')
       window.location.reload()
       return
@@ -41,7 +52,7 @@ const ProductContainer = ({ id, product }: ProductContainerProps) => {
     <div className='flex m-1 p-4 items-center border border-y-neutral-200 border-x-0'>
       <img
         className='w-24 h-24 mr-5'
-        src={product.productImage[0]} 
+        src={imgUrl} 
       />
       <div className='w-full'>
         <div className='text-ellipsis	text-base '>{product.productName}</div>
@@ -52,7 +63,7 @@ const ProductContainer = ({ id, product }: ProductContainerProps) => {
       <div className='ml-8'>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="secondary"><BsThreeDotsVertical /></Button>
+            <Button variant="ghost"><BsThreeDotsVertical /></Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-16">    
             <DropdownMenuItem onClick={onClickEditBtn}>

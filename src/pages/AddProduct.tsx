@@ -13,9 +13,12 @@ import PhotoInput from '@/components/PhotoInput'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Textarea } from '@/components/ui/textarea'
 import addProduct from '@/api/addProduct'
-import uploadImage from '@/api/uploadPhoto'
+import uploadImage from '@/api/uploadImage'
 import { Product } from '@/types/product'
 import getProduct from '@/api/getProduct'
+import deletePhoto from '@/api/deleteImage'
+import updateProduct from '@/api/updateProduct'
+import getImageBlob from '@/api/getImageBlob'
 
 interface AddProductProps {
   type: 'create' | 'edit'
@@ -24,14 +27,16 @@ interface AddProductProps {
 const AddProduct= ({ type }: AddProductProps) => {
   const state = useUserState()
   const [product, setProduct] = useState<Product>()
+  const [pid, setPid] = useState<string>()
   
   const [searchParams, ] = useSearchParams()
   const navigate = useNavigate()
 
   useEffect(() => {
     if (type === 'edit') {
-      const pid = searchParams.get('product')
-      getProduct(pid!)
+      const docId = searchParams.get('product')
+      setPid(docId!)
+      getProduct(docId!)
       .then((res) => {
         if (res) {
           console.log(res)
@@ -53,7 +58,13 @@ const AddProduct= ({ type }: AddProductProps) => {
     }).max(500, {
       message: "500자 이내로 작성해주세요.",
     }),
-    photo: z.instanceof(FileList),
+    photo: z.any(),
+    // photo: z.array(z.object({
+    //   isOriginal : z.boolean(),
+    //   filename: z.string(),
+    //   url: z.string(),
+    //   file: z.instanceof(File) 
+    // })),
     category: z.string(),
     price: z.number().min(1),
     quantity: z.number().min(1)
@@ -64,6 +75,7 @@ const AddProduct= ({ type }: AddProductProps) => {
     defaultValues: {
       name: "",
       description: "",
+      category: "Women",
       price: 100,
       quantity: 10
     }
@@ -79,17 +91,81 @@ const AddProduct= ({ type }: AddProductProps) => {
     }
   }, [form, product])
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmitCreate(values: z.infer<typeof formSchema>) {
+    console.log(values)
     try {
-      const fileUrls = await uploadImage(values.photo)
-      await addProduct(state.loggedUser!.id, values.name, values.price, values.quantity, values.description, values.category, fileUrls)
+      const filenames: string[] = []
+      for (const photo of values.photo.value) {
+        const filename = await uploadImage(photo.file)
+        filenames.push(filename)
+      }
+
+      await addProduct(state.loggedUser!.id, values.name, values.price, values.quantity, values.description, values.category, filenames)
 
       window.alert("상품을 성공적으로 등록하였습니다.")
-      navigate('/mypage')
     } 
     catch (error) {
       window.alert(error)
-    }    
+    } finally {
+      navigate('/mypage')
+    }
+  }
+
+  async function onSubmitEdit(values: z.infer<typeof formSchema>) {
+    console.log(values)
+    const values_photo = values.photo.value
+    try {
+      //모든 사진 중 기존 사진에 있었던 사진은 blob으로
+      const blobs: Blob[] = []
+      for (const photo of values_photo) {
+        if (photo.isOriginal) {
+          const blob = await getImageBlob(photo.filename)
+          blobs.push(blob)
+        }
+      }
+
+      //기존 사진 storage에서 삭제
+      for (const filename of product!.productImage) {
+        await deletePhoto(filename)
+      }
+
+      //사진 storage에 업로드
+      const filenames: string[] = []
+      //기존 사진
+      for (const blob of blobs) { 
+        const filename = await uploadImage(blob)
+        filenames.push(filename)
+      }
+      //새로 추가된 사진
+      for (const photo of values_photo) {
+        if (!photo.isOriginal) {
+          const filename = await uploadImage(photo.file)
+          filenames.push(filename)
+        }
+      }
+
+
+      //상품 업데이트
+      const updatedProduct: Product = {
+        id: product!.id,
+        sellerId: product!.sellerId,
+        productName: values.name,
+        productDescription: values.description,
+        productImage: filenames,
+        productCategory: values.category,
+        productPrice: values.price,
+        productQuantity: values.quantity,
+        createdAt: product!.createdAt,
+        updatedAt: product!.updatedAt //updateProduct에서 교체 예정
+      }
+      await updateProduct(pid!, updatedProduct)
+
+    } catch(error){
+      window.alert(error)
+    } finally {
+      window.alert("상품을 성공적으로 수정하였습니다.")
+      navigate('/mypage')
+    }
   }
 
   return (
@@ -99,7 +175,7 @@ const AddProduct= ({ type }: AddProductProps) => {
 
       <div className='w-full'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(type === 'create' ? onSubmitCreate : onSubmitEdit)} className="space-y-8">
             <FormField
               control={form.control}
               name="name"
@@ -144,7 +220,17 @@ const AddProduct= ({ type }: AddProductProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>상품 사진</FormLabel>
-                  <PhotoInput onChange={field.onChange} defaultValues={(type === 'edit' && product) ? product.productImage : undefined}/>
+                  <PhotoInput 
+                    {...field}
+                    defaultValues={(type === 'edit' && product) ? product.productImage : undefined}
+                    onChange={(e) => {
+                      console.log("e.detail.value",e.detail.value)
+                      console.log(field.onChange)
+                      field.onChange({
+                        value: e.detail.value
+                      })
+                    }}
+                  />
                   <FormDescription>
                     최대 10장
                   </FormDescription>

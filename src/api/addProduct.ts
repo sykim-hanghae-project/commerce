@@ -9,7 +9,7 @@ async function addProduct(
   productQuantity: number,
   productDescription: string,
   productCategory: string,
-  fileUrls: string[]
+  filenames: string[]
   ) {
   const id = Number.parseInt(parse(v4()).join(""))
   await addDoc(collection(db, "products"), {
@@ -20,7 +20,7 @@ async function addProduct(
     productQuantity,
     productDescription,
     productCategory,
-    productImage: fileUrls,
+    productImage: filenames,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp()
   })
