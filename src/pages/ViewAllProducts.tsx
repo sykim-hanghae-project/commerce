@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { useLoaderData } from 'react-router-dom'
 import MyPageLayout from '@/components/layout/MyPageLayout'
 import useProductsQuery from '@/hooks/useProductsQuery'
 import getAllProductBySeller from '@/api/getAllProductBySeller'
 import ProductContainer from '@/components/ProductContainer'
 import formatDocumentDataToProduct from '@/utils/formatDocumentDataToProduct'
-import { useUserState } from '@/context/UserContext'
+import { User } from '@/types/user'
 
 const ViewAllProducts: React.FC = () => {
-  const user = useUserState()
+  const user = useLoaderData() as User 
   console.log(user)
   const [ref, inView] = useInView()
   const { products, isLoading, hasNextPage, fetchNextPage } = useProductsQuery({
     rowsPerPage: 5,
     queryFunc: (pageParam, rowsPerPage) => {
-      return getAllProductBySeller(user.loggedUser ? user.loggedUser.id : 0, pageParam, rowsPerPage)
+      return getAllProductBySeller(user.id, pageParam, rowsPerPage)
     }
   })
 

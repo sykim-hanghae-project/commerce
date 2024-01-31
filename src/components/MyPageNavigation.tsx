@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import { signOut } from "firebase/auth";
-import { useUserState } from '@/context/UserContext'
 import { auth } from '@/helpers/firebase'
+import { User } from '@/types/user';
 
 type Item = {
   name: string
@@ -16,9 +16,8 @@ type Group = {
 }
 
 const MyPageNavigation = () => {
-  const { isLoggedIn, loggedUser } = useUserState()
-  const [name, setName] = useState<string>()
-  const [navContent, setNavContent] = useState<Group[]>()
+  const user = useLoaderData() as User 
+  
   const [curPath, ] = useState<string>(useLocation().pathname)
 
   const navigate = useNavigate()
@@ -72,21 +71,11 @@ const MyPageNavigation = () => {
     },
   ]
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      setName(loggedUser?.nickname)
-      
-      if (loggedUser?.isSeller) setNavContent([...sellerItems, ...commonItems])
-      else setNavContent([...consumerItems, ...commonItems])
-    }
-  }, [isLoggedIn, loggedUser])
-
-
-  return isLoggedIn && (
+  return (
     <div className='p-8 pr-24'>
-      <div className='text-3xl'>{name}</div>
+      <div className='text-3xl'>{user.nickname}</div>
       <ul>
-        {navContent?.map((group, idx) => (
+        {(user.isSeller ? sellerItems : consumerItems).concat(commonItems).map((group, idx) => (
           <li className='myPageNavGroup' key={`mpn_group_${idx}`}>
             <div className='myPageNavGroupTitle'>{group.title}</div>
             <ul>

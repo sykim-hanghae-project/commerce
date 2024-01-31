@@ -1,31 +1,30 @@
 import { useEffect, useState } from 'react'
 import * as z from "zod"
 import { useForm } from 'react-hook-form'
-
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
+
 import MyPageLayout from '@/components/layout/MyPageLayout'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { useUserState } from '@/context/UserContext'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import PhotoInput from '@/components/PhotoInput'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Textarea } from '@/components/ui/textarea'
 import addProduct from '@/api/addProduct'
 import uploadImage from '@/api/uploadImage'
-import { Product } from '@/types/product'
 import getProduct from '@/api/getProduct'
 import deleteImage from '@/api/deleteImage'
 import updateProduct from '@/api/updateProduct'
 import getImageBlob from '@/api/getImageBlob'
-
+import { User } from '@/types/user'
+import { Product } from '@/types/product'
 interface AddProductProps {
   type: 'create' | 'edit'
 }
 
 const AddProduct= ({ type }: AddProductProps) => {
-  const state = useUserState()
+  const user = useLoaderData() as User 
   const [product, setProduct] = useState<Product>()
   const [pid, setPid] = useState<string>()
   const [isSubmit, setIsSubmit] = useState(false)
@@ -103,7 +102,7 @@ const AddProduct= ({ type }: AddProductProps) => {
         filenames.push(filename)
       }
 
-      await addProduct(state.loggedUser!.id, values.name, values.price, values.quantity, values.description, values.category, filenames)
+      await addProduct(user.id, values.name, values.price, values.quantity, values.description, values.category, filenames)
 
       window.alert("상품을 성공적으로 등록하였습니다.")
     } 
