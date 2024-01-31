@@ -29,22 +29,22 @@ const PhotoContainer = ({ src, onClickDeleteBtn }: PhotoContainerProps) => useMe
 
 interface PhotoInputProps {
   defaultValues?: string[]
-  // onChange: React.ChangeEventHandler<TInputImage[]>
-  onChange: (event: CustomEvent) => void
-  onSubmit?: () => void
+  onChange: (images: TInputImage[]) => void
+  // onChange: (event: CustomEvent) => void
 }
 
-const PhotoInput = ({ defaultValues, onChange, onSubmit }: PhotoInputProps) => {
+const PhotoInput = ({ defaultValues, onChange }: PhotoInputProps) => {
   const [images, setImages] = useState<TInputImage[]>([]) 
 
   useEffect(() => { 
     console.log("images",images)
-    const newEvent = new CustomEvent('change', {
-      detail: {
-        value: images
-      }
-    })
-    onChange(newEvent)
+    // const newEvent = new CustomEvent('change', {
+    //   detail: {
+    //     value: images
+    //   }
+    // })
+    // onChange(newEvent)
+    onChange(images)
   }, [images]) // 이미지 삭제/추가가 이루어질때
 
   //input의 onchange 이벤트 발생(이미지 선택)
@@ -102,7 +102,6 @@ const PhotoInput = ({ defaultValues, onChange, onSubmit }: PhotoInputProps) => {
         accept='image/*'
         multiple
         onChange={loadFile}
-        onSubmit={onSubmit}
       />
       <ScrollArea className='w-full'>
       {images && 

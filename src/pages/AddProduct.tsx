@@ -16,7 +16,7 @@ import addProduct from '@/api/addProduct'
 import uploadImage from '@/api/uploadImage'
 import { Product } from '@/types/product'
 import getProduct from '@/api/getProduct'
-import deletePhoto from '@/api/deleteImage'
+import deleteImage from '@/api/deleteImage'
 import updateProduct from '@/api/updateProduct'
 import getImageBlob from '@/api/getImageBlob'
 
@@ -28,6 +28,7 @@ const AddProduct= ({ type }: AddProductProps) => {
   const state = useUserState()
   const [product, setProduct] = useState<Product>()
   const [pid, setPid] = useState<string>()
+  const [isSubmit, setIsSubmit] = useState(false)
   
   const [searchParams, ] = useSearchParams()
   const navigate = useNavigate()
@@ -92,10 +93,12 @@ const AddProduct= ({ type }: AddProductProps) => {
   }, [form, product])
 
   async function onSubmitCreate(values: z.infer<typeof formSchema>) {
+    if (!isSubmit) return
+
     console.log(values)
     try {
       const filenames: string[] = []
-      for (const photo of values.photo.value) {
+      for (const photo of values.photo) {
         const filename = await uploadImage(photo.file)
         filenames.push(filename)
       }
@@ -112,12 +115,13 @@ const AddProduct= ({ type }: AddProductProps) => {
   }
 
   async function onSubmitEdit(values: z.infer<typeof formSchema>) {
+    if (!isSubmit) return
+
     console.log(values)
-    const values_photo = values.photo.value
     try {
       //모든 사진 중 기존 사진에 있었던 사진은 blob으로
       const blobs: Blob[] = []
-      for (const photo of values_photo) {
+      for (const photo of values.photo) {
         if (photo.isOriginal) {
           const blob = await getImageBlob(photo.filename)
           blobs.push(blob)
@@ -126,7 +130,7 @@ const AddProduct= ({ type }: AddProductProps) => {
 
       //기존 사진 storage에서 삭제
       for (const filename of product!.productImage) {
-        await deletePhoto(filename)
+        await deleteImage(filename)
       }
 
       //사진 storage에 업로드
@@ -137,13 +141,12 @@ const AddProduct= ({ type }: AddProductProps) => {
         filenames.push(filename)
       }
       //새로 추가된 사진
-      for (const photo of values_photo) {
+      for (const photo of values.photo) {
         if (!photo.isOriginal) {
           const filename = await uploadImage(photo.file)
           filenames.push(filename)
         }
       }
-
 
       //상품 업데이트
       const updatedProduct: Product = {
@@ -159,11 +162,12 @@ const AddProduct= ({ type }: AddProductProps) => {
         updatedAt: product!.updatedAt //updateProduct에서 교체 예정
       }
       await updateProduct(pid!, updatedProduct)
-
-    } catch(error){
-      window.alert(error)
-    } finally {
       window.alert("상품을 성공적으로 수정하였습니다.")
+    } 
+    catch(error){
+      window.alert(error)
+    } 
+    finally {
       navigate('/mypage')
     }
   }
@@ -223,13 +227,14 @@ const AddProduct= ({ type }: AddProductProps) => {
                   <PhotoInput 
                     {...field}
                     defaultValues={(type === 'edit' && product) ? product.productImage : undefined}
-                    onChange={(e) => {
-                      console.log("e.detail.value",e.detail.value)
-                      console.log(field.onChange)
-                      field.onChange({
-                        value: e.detail.value
-                      })
-                    }}
+                    // onChange={(e) => {
+                    //   // console.log("e.detail.value",e.detail.value)
+                    //   // console.log(field.onChange)
+                    //   field.onChange({
+                    //     value: e.detail.value
+                    //   })
+                    // }}
+                    onChange={(images) => field.onChange(images)}
                   />
                   <FormDescription>
                     최대 10장
@@ -303,7 +308,7 @@ const AddProduct= ({ type }: AddProductProps) => {
 
             <div className='flex justify-center'>
               <Button variant={"secondary"} className='w-40 mr-3'>취소</Button>
-              <Button type="submit" className='w-40'>등록</Button>
+              <Button type="submit" className='w-40' onClick={()=>setIsSubmit(true)}>등록</Button>
             </div>
           </form>
         </Form>
