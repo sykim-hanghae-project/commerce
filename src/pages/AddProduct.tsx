@@ -249,7 +249,7 @@ const AddProduct= ({ type }: AddProductProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>카테고리</FormLabel>
-                  <Select {...field}>
+                  <Select {...field}  onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="상품의 카테고리를 선택하세요." />
