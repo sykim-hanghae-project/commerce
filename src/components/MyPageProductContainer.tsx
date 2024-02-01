@@ -9,12 +9,12 @@ import deletePhoto from '@/api/deleteImage';
 import getImageUrl from '@/api/getImageUrl';
 
 
-interface ProductContainerProps {
+interface MyPageProductContainerProps {
   id: string,
   product: Product
 }
 
-const ProductContainer = ({ id, product }: ProductContainerProps) => {
+const MyPageProductContainer = ({ id, product }: MyPageProductContainerProps) => {
   const [imgUrl, setImgUrl] = useState<string>()
 
   const navigate = useNavigate()
@@ -79,4 +79,4 @@ const ProductContainer = ({ id, product }: ProductContainerProps) => {
   )
 }
 
-export default ProductContainer
+export default MyPageProductContainer

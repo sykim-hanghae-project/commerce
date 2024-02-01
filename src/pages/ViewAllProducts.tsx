@@ -4,7 +4,7 @@ import { useLoaderData } from 'react-router-dom'
 import MyPageLayout from '@/components/layout/MyPageLayout'
 import useProductsQuery from '@/hooks/useProductsQuery'
 import getAllProductBySeller from '@/api/getAllProductBySeller'
-import ProductContainer from '@/components/ProductContainer'
+import MyPageProductContainer from '@/components/MyPageProductContainer'
 import formatDocumentDataToProduct from '@/utils/formatDocumentDataToProduct'
 import { User } from '@/types/user'
 
@@ -34,7 +34,7 @@ const ViewAllProducts: React.FC = () => {
           {!isLoading && products && (
             products.map((val) => (
               <li key={val.docId}>
-                <ProductContainer id={val.docId} product={formatDocumentDataToProduct(val.data)} key={`item_${val.docId}`} />
+                <MyPageProductContainer id={val.docId} product={formatDocumentDataToProduct(val.data)} key={`item_${val.docId}`} />
               </li>
             ))
           )}
