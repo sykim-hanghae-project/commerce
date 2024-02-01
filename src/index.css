@@ -65,4 +65,21 @@
       margin-top: 0;
     }
   }
+
+  /* Home*/
+  .homeProductsContainer {
+    margin-top: 3rem;
+    &:nth-of-type(1) {
+      margin-top: 0;
+    }
+  }
+
+  .homeProductsContainerProductItem {
+    width: calc((100% - (3rem) * 3) / 4);
+
+    margin-left: 3rem;
+    &:nth-of-type(1) {
+      margin-left: 0;
+    }
+  }
 } 
