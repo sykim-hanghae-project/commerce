@@ -25,7 +25,7 @@ const MyPageNavigation = () => {
   const onClickSignOut = () => {
     signOut(auth)
     .then(() => {
-      window.alert('로그아웃 완료.')
+      window.alert('로그아웃 완료')
 
       window.localStorage.removeItem('user-token')
       window.localStorage.removeItem('uid')
