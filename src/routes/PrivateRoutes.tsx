@@ -20,7 +20,8 @@ export default function PrivateRoutes(): RouteObject {
 
   const loader = async () => {
     const uid = window.localStorage.getItem('uid')
-    const user = await getUser(uid!)
+    if (!uid) return null
+    const user = await getUser(uid)
     return user
   }
 
