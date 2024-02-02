@@ -38,8 +38,11 @@ const ListProduct = ({ type }: ListProductProps) => {
     setIsFilterOpen(!isFilterOpen)
   }
 
-  const onClickFilterItem = (sortBy: "createdAt" | "price") => {
-    if (sortBy === "createdAt")
+  const onClickFilterItem = (sortby: "createdAt" | "price") => {
+    if (sortBy === sortby || (!sortBy && sortby === "createdAt")) // 현재 이미 선택한 필터대로 정렬되어 있는 경우
+      return
+
+    if (sortby === "createdAt")
       window.location.replace(`/product/list?${type}=${listType}&sortby=createdAt`)
     else 
       window.location.replace(`/product/list?${type}=${listType}&sortby=price`)
