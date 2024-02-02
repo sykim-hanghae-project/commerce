@@ -3,45 +3,18 @@ import { useForm } from 'react-hook-form'
 import * as z from "zod"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
-import { createUserWithEmailAndPassword, signOut } from 'firebase/auth'
-import { parse, v4 } from 'uuid'
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { getErrorMessage } from '@/utils/getErrorMessage'
-import { auth, db } from "@/helpers/firebase"; 
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import createUser from '@/api/createUser'
 
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const createUser = async (name: string, email: string, password: string, type: string) => {
-    await createUserWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      const user = userCredential.user
-      const id = Number.parseInt(parse(v4()).join(""))
-      await setDoc(doc(db, 'users', user.uid), {
-        id,
-        email,
-        isSeller: type === "seller" ? true : false,
-        nickname: name,
-        password,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      })
-    })
-    .then(() => {
-      signOut(auth)
-    })
-    .catch((error) => {
-      throw(error)
-    })
-  }
-
   
   const regExp = /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{10,}$/;
   const formSchema = z.object({
