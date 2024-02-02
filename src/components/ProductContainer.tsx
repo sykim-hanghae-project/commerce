@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react'
+
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel'
 import { Product } from '@/types/product'
 import priceToString from '@/utils/priceToString'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel'
 import getImageUrl from '@/api/getImageUrl'
-import { useEffect, useState } from 'react'
 
 interface ProductContainerProps {
   product: Product
