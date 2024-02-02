@@ -13,7 +13,7 @@ import PhotoInput from '@/components/PhotoInput'
 import { Textarea } from '@/components/ui/textarea'
 import addProduct from '@/api/addProduct'
 import uploadImage from '@/api/uploadImage'
-import getProduct from '@/api/getProduct'
+import getProductByDocId from '@/api/getProductByDocId'
 import deleteImage from '@/api/deleteImage'
 import updateProduct from '@/api/updateProduct'
 import getImageBlob from '@/api/getImageBlob'
@@ -36,7 +36,7 @@ const AddProduct= ({ type }: AddProductProps) => {
     if (type === 'edit') {
       const docId = searchParams.get('product')
       setPid(docId!)
-      getProduct(docId!)
+      getProductByDocId(docId!)
       .then((res) => {
         if (res) {
           console.log(res)
