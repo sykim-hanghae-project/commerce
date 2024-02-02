@@ -4,6 +4,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Product } from '@/types/product'
 import priceToString from '@/utils/priceToString'
 import getImageUrl from '@/api/getImageUrl'
+import { useNavigate } from 'react-router-dom'
 
 interface ProductContainerProps {
   product: Product
@@ -11,6 +12,8 @@ interface ProductContainerProps {
 
 const ProductContainer = ({ product }: ProductContainerProps) => {
   const [imageUrl, setImageUrl] = useState<string[]>([])
+  
+  const navigate = useNavigate()
 
   async function getUrl() {
     const urls: string[] = []
@@ -21,12 +24,16 @@ const ProductContainer = ({ product }: ProductContainerProps) => {
     setImageUrl(urls)
   }
 
+  const onClick = () => {
+    navigate(`/product/${product.id}`)
+  }
+
   useEffect(() => {
     getUrl()
   }, [])
 
   return (
-    <div className='relative'>
+    <div className='relative cursor-pointer' onClick={onClick}>
       <Carousel>
         <CarouselContent>
           {imageUrl.map((url, idx) => (
