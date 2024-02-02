@@ -23,13 +23,13 @@ const Header = () => {
       <div className='w-full'>
         <button 
           className='button headerCategoryItem'
-          onClick={() => navigate(`/product/list?category=Men`)}
+          onClick={() => window.location.replace(`/product/list?category=Men`)}
         >
           Men
         </button>
         <button 
           className='button headerCategoryItem'
-          onClick={() => navigate(`/product/list?category=Women`)}
+          onClick={() => window.location.replace(`/product/list?category=Women`)}
         >
           Women
         </button>
