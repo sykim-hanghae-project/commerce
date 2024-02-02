@@ -3,6 +3,8 @@ import { Product } from "@/types/product";
 import { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import ProductContainer from "./ProductContainer";
+import { useNavigate } from "react-router-dom";
+import formatDocumentDataToProduct from "@/utils/formatDocumentDataToProduct";
 
 interface HomeProductsByCategoryProps {
   category: string,
@@ -11,9 +13,12 @@ interface HomeProductsByCategoryProps {
 const HomeProductsByCategory = ({ category }: HomeProductsByCategoryProps) => {
   const [products, setProducts] = useState<Product[]>([])
 
+  const navigate = useNavigate()
+
   async function getProducts() {
-    const products = await getProductsByCategory(category, 4)
-    setProducts(products)
+    const result = await getProductsByCategory(category, 4, null)
+    const formattedResult = result.docs.map(doc => formatDocumentDataToProduct(doc.data()))
+    setProducts(formattedResult)
   }
 
   useEffect(() => {
@@ -21,7 +26,7 @@ const HomeProductsByCategory = ({ category }: HomeProductsByCategoryProps) => {
   }, [])
   
   const onClickCategory = () => {
-
+    navigate(`/product/list?category=${category}`)
   }
 
   return (
