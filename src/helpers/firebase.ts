@@ -10,13 +10,13 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyApV0aZSd9qJqxQ1XyGo8BPJ7u0xDWXHtg",
-  authDomain: "hh-ecommerce.firebaseapp.com",
-  projectId: "hh-ecommerce",
-  storageBucket: "hh-ecommerce.appspot.com",
-  messagingSenderId: "713134179062",
-  appId: "1:713134179062:web:76ea7f4865a717d2ee22d7",
-  measurementId: "G-Y3Y8BXY282"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_APP_appId,
+  measurementId: import.meta.env.VITE_measurementId
 };
 
 // Initialize Firebase
