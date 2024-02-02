@@ -34,7 +34,7 @@ const ViewAllProducts: React.FC = () => {
           {!isLoading && products && (
             products.map((val) => (
               <li key={val.docId}>
-                <MyPageProductContainer id={val.docId} product={formatDocumentDataToProduct(val.data)} key={`item_${val.docId}`} />
+                <MyPageProductContainer docId={val.docId} product={formatDocumentDataToProduct(val.data)} key={`item_${val.docId}`} />
               </li>
             ))
           )}
