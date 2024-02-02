@@ -4,7 +4,7 @@ import { lazy } from 'react'
 const Layout = lazy(() => import('@/components/layout/Layout')) 
 const Home = lazy(() => import('@/pages/Home'))
 const Product = lazy(() => import('@/pages/Product'))
-const Search = lazy(() => import('@/pages/Search'))
+const ListProduct = lazy(() => import('@/pages/ListProduct'))
 
 // 로그인, 비로그인 상태 
 export default function CommonRoutes(): RouteObject {
@@ -13,7 +13,8 @@ export default function CommonRoutes(): RouteObject {
     children: [
       { path: '/', element: <Home /> },
       { path: '/product/:productId', element: <Product /> },
-      { path: '/search', element: <Search /> },
+      { path: '/product/search', element: <ListProduct type='search' /> },
+      { path: '/product/list', element: <ListProduct type='category' /> },
     ]
   }
 }
