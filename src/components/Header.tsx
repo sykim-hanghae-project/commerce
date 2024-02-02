@@ -21,8 +21,18 @@ const Header = () => {
   return (
     <header className='flex items-center justify-center px-8 py-4 border-b border-slate-200'>
       <div className='w-full'>
-        <button className='button headerCategoryItem'>Men</button>
-        <button className='button headerCategoryItem'>Women</button>
+        <button 
+          className='button headerCategoryItem'
+          onClick={() => navigate(`/product/list?category=Men`)}
+        >
+          Men
+        </button>
+        <button 
+          className='button headerCategoryItem'
+          onClick={() => navigate(`/product/list?category=Women`)}
+        >
+          Women
+        </button>
       </div>
 
       <button 

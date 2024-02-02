@@ -16,7 +16,7 @@ const HomeProductsByCategory = ({ category }: HomeProductsByCategoryProps) => {
   const navigate = useNavigate()
 
   async function getProducts() {
-    const result = await getProductsByCategory(category, 4, null)
+    const result = await getProductsByCategory(category, 4, "createdAt", "desc", null)
     const formattedResult = result.docs.map(doc => formatDocumentDataToProduct(doc.data()))
     setProducts(formattedResult)
   }

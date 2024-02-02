@@ -82,4 +82,14 @@
       margin-left: 0;
     }
   }
+
+  /* ListProduct(category or search) */
+  .filterItem {
+    display: flex;
+    justify-content: end;
+    padding: 0.125rem 0;
+    &:hover {
+      text-decoration-line: underline;
+    }
+  }
 } 
