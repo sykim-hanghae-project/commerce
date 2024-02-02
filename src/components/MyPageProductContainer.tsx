@@ -10,11 +10,11 @@ import getImageUrl from '@/api/getImageUrl';
 
 
 interface MyPageProductContainerProps {
-  id: string,
+  docId: string,
   product: Product
 }
 
-const MyPageProductContainer = ({ id, product }: MyPageProductContainerProps) => {
+const MyPageProductContainer = ({ docId, product }: MyPageProductContainerProps) => {
   const [imgUrl, setImgUrl] = useState<string>()
 
   const navigate = useNavigate()
@@ -26,16 +26,16 @@ const MyPageProductContainer = ({ id, product }: MyPageProductContainerProps) =>
   }, [product]) 
 
   const onClickEditBtn = () => {
-    navigate(`/mypage/edit-product?product=${id}`)
+    navigate(`/mypage/edit-product?product=${docId}`)
   }
 
   const onClickDeleteBtn = async () => {
-    console.log(id)
+    console.log(docId)
     try {
       for (const url of product.productImage) {
         await deletePhoto(url)
       }
-      await deleteProduct(id);
+      await deleteProduct(docId);
     } 
     catch (error) {
       window.alert('상품 삭제를 실패했습니다.')
