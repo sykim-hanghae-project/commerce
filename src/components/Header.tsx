@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom'
 import { BsHandbag, BsPerson } from "react-icons/bs";
 import SearchInput from './SearchInput';
+import CartDrawer from './CartDrawer';
+import { useCartState } from '@/context/CartContext';
 
 const Header = () => {
+  const cartState = useCartState()
+
   const navigate = useNavigate()
 
   const onClickTitle = () => {
     navigate('/')
-  }
-
-  const onClickCartBtn = () => {
-    navigate('/cart')
   }
 
   const onClickMyPageBtn = () => {
@@ -48,9 +48,14 @@ const Header = () => {
 
           {/* 장바구니 */}
           <div className='headerNavItem'>
-            <button className='button headerIconBtn' onClick={onClickCartBtn}>
-              <BsHandbag />
-            </button>
+            <CartDrawer>
+              <button className='button headerIconBtn relative bg-slate-100'>
+                <BsHandbag />
+                <div className='absolute top-0 right-[-0.5rem] bg-slate-400 w-4 h-4 rounded-[50%]'>
+                  <p className='text-white text-xs'>{cartState.items.length}</p>
+                </div>
+              </button>
+            </CartDrawer>
           </div>
 
           {/* 마이페이지 */}

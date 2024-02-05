@@ -92,4 +92,12 @@
       text-decoration-line: underline;
     }
   }
+
+  /* CartDrawer */
+  .CartItem {
+    margin-top: 1rem;
+    &:nth-of-type(1) {
+      margin-top: 0;
+    }  
+  }
 } 

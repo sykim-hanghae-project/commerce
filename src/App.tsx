@@ -4,8 +4,8 @@ import { Suspense } from 'react'
 import './App.css'
 import PrivateRoutes from './routes/PrivateRoutes'
 import CommonRoutes from './routes/CommonRoutes'
-import { UserContextProvider } from './context/UserContext'
 import Loading from './components/Loading'
+import { CartContextProvider } from './context/CartContext'
 
 function App() {
   
@@ -18,11 +18,11 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <UserContextProvider>
+      <CartContextProvider>
         <Suspense fallback={<Loading />}>
           <RouterProvider router={router} />
         </Suspense>
-      </UserContextProvider>
+      </CartContextProvider>
     </QueryClientProvider>
   )
 }
