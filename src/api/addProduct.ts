@@ -1,9 +1,9 @@
-import { db } from "@/helpers/firebase"
 import { addDoc, collection, serverTimestamp } from "firebase/firestore"
-import incrementCounter from "./incrementCounter"
+import { v4 as uuidv4 } from 'uuid'
+import { db } from "@/helpers/firebase"
 
 async function addProduct(
-  sellerId: number,
+  sellerId: string,
   productName: string,
   productPrice: number,
   productQuantity: number,
@@ -11,10 +11,10 @@ async function addProduct(
   productCategory: string,
   filenames: string[]
   ) {
-  const counter = await incrementCounter("product")
+  const id = uuidv4()
 
   await addDoc(collection(db, "products"), {
-    id: counter,
+    id,
     sellerId,
     productName,
     productPrice,

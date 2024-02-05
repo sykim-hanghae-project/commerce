@@ -1,7 +1,7 @@
 import { db } from "@/helpers/firebase"
 import { collection, getDocs, query, where } from "firebase/firestore"
 
-async function getProductById(id: number) {
+async function getProductById(id: string) {
   const q = query(collection(db, "products"), where("id", "==", id))
   const querySnapShot = await getDocs(q)
   if (querySnapShot.empty) return null

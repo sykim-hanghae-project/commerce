@@ -18,7 +18,7 @@ export default function CommonRoutes(): RouteObject {
         path: '/product/:productId', 
         element: <ProductDetail />, 
         loader: ({ params }) => {
-          const res = getProductById(Number.parseInt(params.productId!))
+          const res = getProductById(params.productId!)
           res.then((product) => {
             if (!product) throw new Response("Not Found", { status: 404 })
           })    

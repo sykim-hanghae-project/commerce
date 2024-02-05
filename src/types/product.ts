@@ -1,8 +1,8 @@
 import { Timestamp } from "firebase/firestore"
 
 export type Product = {
-  id: number,
-  sellerId: number,
+  id: string,
+  sellerId: string,
   productName: string,
   productPrice: number,
   productQuantity: number,
