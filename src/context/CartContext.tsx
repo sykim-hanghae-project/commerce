@@ -13,12 +13,14 @@ type Action =
 
 const getCartItem = () => {
   const string_cart = window.localStorage.getItem('cart')
+  console.log("string_cart",string_cart)
   if (!string_cart) return []
+
   const cart = JSON.parse(string_cart)
   return cart
 }
 
-const StateContext = createContext<State>(getCartItem());
+const StateContext = createContext<State>({ items: getCartItem() });
 const DispatchContext = createContext<Dispatch<Action> | null>(null);
 
 interface Props {
@@ -26,7 +28,7 @@ interface Props {
 }
 
 const CartContextProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(reducer, getCartItem());
+  const [state, dispatch] = useReducer(reducer, { items: getCartItem() });
 
   return (
     <StateContext.Provider value={state}>
@@ -51,6 +53,7 @@ function reducer(state: State, action: Action): State {
           }
         ]
       }
+      console.log("newState",newState)
       break
     }
     case 'DELETE_ITEM': {

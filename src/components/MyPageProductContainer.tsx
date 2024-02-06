@@ -1,59 +1,62 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/types/product'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Button } from './ui/button';
 import deleteProduct from '@/api/deleteProduct';
-import deletePhoto from '@/api/deleteImage';
 import getImageUrl from '@/api/getImageUrl';
+import Loading from './Loading';
+import deleteImage from '@/api/deleteImage';
+import { Dispatch, SetStateAction } from 'react';
 
 
 interface MyPageProductContainerProps {
-  docId: string,
-  product: Product
+  product: Product,
+  setIsDeleting: Dispatch<SetStateAction<boolean>>
 }
 
-const MyPageProductContainer = ({ docId, product }: MyPageProductContainerProps) => {
-  const [imgUrl, setImgUrl] = useState<string>()
+const MyPageProductContainer = ({ product, setIsDeleting }: MyPageProductContainerProps) => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['productImage', product.productImage[0]],
+    queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
+    staleTime: Infinity,
+  })
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    //img url 받아오기
-    getImageUrl(product.productImage[0])
-    .then((url) => setImgUrl(url))
-  }, [product]) 
 
   const onClickEditBtn = () => {
-    navigate(`/mypage/edit-product?product=${docId}`)
+    navigate(`/mypage/edit-product?product=${product.id}`)
   }
+
 
   const onClickDeleteBtn = async () => {
-    console.log(docId)
-    try {
-      for (const url of product.productImage) {
-        await deletePhoto(url)
-      }
-      await deleteProduct(docId);
-    } 
-    catch (error) {
+    setIsDeleting(true)
+
+    deleteProduct(product.id)
+    .catch((error) => {
+      console.log(error)
       window.alert('상품 삭제를 실패했습니다.')
+    })
+    .then(async () => { //상품 삭제 성공
+      for (const filename of product.productImage) {
+        await deleteImage(filename)
+      }
+      window.alert('상품 삭제가 완료되었습니다.')
+    })
+    .finally(() => {
       window.location.reload()
-      return
-    } 
-
-    window.alert('상품 삭제가 완료되었습니다.')
-    window.location.reload()
+    })
   }
-
 
   return (
     <div className='flex m-1 p-4 items-center border border-y-neutral-200 border-x-0'>
-      <img
-        className='w-24 h-24 mr-5'
-        src={imgUrl} 
-      />
+      <div className='mr-5'>
+      {isError ? <div className='w-24 h-24 bg-gray-100' /> 
+        : isLoading ? <Loading /> 
+        : <img src={data} className='w-24 h-24 object-cover' />}
+      </div>
       <div className='w-full'>
         <div className='text-ellipsis	text-base '>{product.productName}</div>
         <div className='text-sm text-gray-400'>{product.productCategory}</div>

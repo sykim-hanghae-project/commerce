@@ -19,7 +19,7 @@ const PhotoContainer = ({ src, onClickDeleteBtn }: PhotoContainerProps) => useMe
 
   return (
     <div className='relative'>
-      <img src={src} className='w-28 h-28 bg-slate-200' alt='Fail'/>
+      <img src={src} className='w-28 h-28 bg-slate-200 object-cover' alt='Fail'/>
       <button onClick={onClick} className='absolute top-0 right-0 z-20'>
         <TiDeleteOutline />
       </button>
@@ -30,7 +30,6 @@ const PhotoContainer = ({ src, onClickDeleteBtn }: PhotoContainerProps) => useMe
 interface PhotoInputProps {
   defaultValues?: string[]
   onChange: (images: TInputImage[]) => void
-  // onChange: (event: CustomEvent) => void
 }
 
 const PhotoInput = ({ defaultValues, onChange }: PhotoInputProps) => {
@@ -38,12 +37,6 @@ const PhotoInput = ({ defaultValues, onChange }: PhotoInputProps) => {
 
   useEffect(() => { 
     console.log("images",images)
-    // const newEvent = new CustomEvent('change', {
-    //   detail: {
-    //     value: images
-    //   }
-    // })
-    // onChange(newEvent)
     onChange(images)
   }, [images]) // 이미지 삭제/추가가 이루어질때
 

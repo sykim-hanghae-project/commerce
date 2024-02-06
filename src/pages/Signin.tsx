@@ -9,8 +9,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { getErrorMessage } from '@/utils/getErrorMessage'
-import { auth, db } from "@/helpers/firebase"; 
-import { doc, getDoc } from 'firebase/firestore'
+import { auth } from "@/helpers/firebase"; 
+import { getUser } from '@/api/getUser'
 
 
 const Signin: React.FC = () => {
@@ -42,26 +42,6 @@ const Signin: React.FC = () => {
     return uid ? getUser(uid) : null
   }
 
-  const getUser = async (uid: string) => {
-    const docRef = doc(db, 'users', uid)
-    const docSnap = await getDoc(docRef)
-  
-    if (docSnap.exists()) {
-      const data = docSnap.data()
-      return {
-        id: data.id,
-        email: data.email,
-        isSeller: data.isSeller,
-        nickname: data.nickname,
-        password: data.password,
-        createdAt: data.createdAt,
-        updatedAt: data.updatedAt 
-      }
-    } else {
-      return null
-    }
-  }
-
   const formSchema = z.object({
     email: z.string().email(),
     password: z.string()
@@ -80,9 +60,6 @@ const Signin: React.FC = () => {
     .then((user) => {
       if (user) {
         window.localStorage.setItem('user-role', user.isSeller ? 'seller' : 'consumer')
-
-        // dispatch({ type: 'SET_USER', loggedUser: user })
-        // dispatch({ type: 'SET_ISLOGGEDIN', isLoggedIn: true })
       }
       
       window.alert('로그인이 완료되었습니다.')

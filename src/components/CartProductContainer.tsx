@@ -1,13 +1,35 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query';
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
 import getImageUrl from '@/api/getImageUrl'
-import getProductById from '@/api/getProductById'
-import { Product } from '@/types/product'
+import getProduct from '@/api/getProduct'
 import formatDocumentDataToProduct from '@/utils/formatDocumentDataToProduct'
 import priceToString from '@/utils/priceToString'
 import { CartItem } from '@/types/CartItem';
 import { useCartDispatch } from '@/context/CartContext';
+import Loading from './Loading';
+
+interface CartProductImageProps {
+  filename: string
+} 
+
+const CartProductImage = ({ filename }: CartProductImageProps) => {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['product', filename],
+    queryFn: ({ queryKey }) => getImageUrl(queryKey[1])
+  })
+
+  if (isLoading) return <Loading />
+  if (isError) {
+    console.log(error)
+    return <div className='w-20 h-20 bg-gray-100'></div>
+  }
+
+  return (
+    <img src={data} className='w-20 h-20 object-cover' />
+  )
+}
 
 interface CartProductContainerProps {
   item: CartItem
@@ -19,8 +41,15 @@ const CartProductContainer = ({ item }: CartProductContainerProps) => {
 
   const [quantity, setQuantity] = useState<number>(item.quantity)
 
-  const [product, setProduct] = useState<Product>()
-  const [imgUrl, setImgUrl] = useState<string>()
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['product', item.id],
+    queryFn: ({ queryKey }) => getProduct(queryKey[1]),
+    staleTime: 20000 // 20초
+  })
+
+  if (isError) {
+    console.log(error)
+  }
 
   const onIncrementQuantity = () => {
     setQuantity(quantity + 1)
@@ -38,31 +67,22 @@ const CartProductContainer = ({ item }: CartProductContainerProps) => {
     dispatch({ type: "DELETE_ITEM", itemId: item.id })
   }
 
-  useEffect(() => {
-    getProductById(item.id)
-    .then((data) => {
-      if (data) 
-        setProduct(formatDocumentDataToProduct(data))
-    })
-  }, [])
+  const onClick = () => {
+    window.location.assign(`/product/${item.id}`)
+  }
 
-  useEffect(() => {
-    if (product) {
-      getImageUrl(product.productImage[0])
-      .then((url) => setImgUrl(url))
-    }
-  }, [product])
-
-  return product && (
-    <div className='flex'>
+  return data && (
+    <div className='flex cursor-pointer' onClick={onClick}>
       
       <div className='mr-4'>
-        <img src={imgUrl} className='w-20 h-20 object-cover' />
+        <CartProductImage filename={formatDocumentDataToProduct(data).productImage[0]} />
       </div>
 
       <div className='w-full '>
         <div className='flex mb-2'>
-          <p className='text-sm text-ellipsis line-clamp-1 w-full'>{product.productName}</p>
+          <p className='text-sm text-ellipsis line-clamp-1 w-full'>
+            {isError ? "?" : isLoading ? "loading..." : data.productName}
+          </p>
           <p className='text-sm min-w-max'>{priceToString(item.price * item.quantity)}</p>
         </div>
 

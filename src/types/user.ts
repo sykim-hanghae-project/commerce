@@ -7,5 +7,5 @@ export type User = {
   nickname: string,
   password: string,
   createdAt?: Timestamp,
-  updatedAt?: Timestamp
+  updatedAt?: Timestamp,
 }

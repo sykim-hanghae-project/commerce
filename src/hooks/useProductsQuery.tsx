@@ -1,14 +1,17 @@
   import { useMemo } from 'react'
   import { useInfiniteQuery } from '@tanstack/react-query'
-  import { DocumentData, QuerySnapshot, Timestamp } from 'firebase/firestore';
+  import { QuerySnapshot, Timestamp } from 'firebase/firestore';
+import { Product } from '@/types/product';
+import formatDocumentDataToProduct from '@/utils/formatDocumentDataToProduct';
 
 
   interface useProductsQueryProps {
     rowsPerPage: number,
-    queryFunc: (pageParam: Timestamp, rowsPerPage: number) => Promise<QuerySnapshot>
+    queryFunc: (pageParam: Timestamp | number | string, rowsPerPage: number) => Promise<QuerySnapshot>,
+    sortBy: 'createdAt' | 'price' | 'productName'
   }
 
-  const useProductsQuery = ({ rowsPerPage, queryFunc }: useProductsQueryProps) => {
+  const useProductsQuery = ({ rowsPerPage, queryFunc, sortBy }: useProductsQueryProps) => {
     const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
       {
         queryKey: ['getProducts'],
@@ -18,24 +21,24 @@
             return undefined
           }
           
-          return lastpage.docs[lastpage.docs.length-1].data().createdAt
+          if (sortBy === 'createdAt') 
+            return lastpage.docs[lastpage.docs.length-1].data().createdAt
+          if (sortBy === 'price') 
+            return lastpage.docs[lastpage.docs.length-1].data().productPrice 
+          else // sortBy === 'productName' (검색)
+            return lastpage.docs[lastpage.docs.length-1].data().productName
         }
       }
     )
 
     const products = useMemo(() => {
-      let res: { docId: string, data: DocumentData }[] = []
+      let res: Product[] = []
       if (data) {
         for (const page of data.pages) {
-          res = res.concat(page.docs.map(doc => {
-            return {
-              docId: doc.id,
-              data: doc.data()
-            }
-          }))
+          res = res.concat(page.docs.map(doc => formatDocumentDataToProduct(doc.data())))
         }
-        return res
       }
+      return res
     }, [data])
 
     return { 

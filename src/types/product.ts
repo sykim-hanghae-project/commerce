@@ -10,7 +10,8 @@ export type Product = {
   productCategory: string,
   productImage: string[],
   createdAt: Timestamp,
-  updatedAt: Timestamp
+  updatedAt: Timestamp,
+  keyword?: string[]
 }
 
 export type TInputImage = {
@@ -18,4 +19,13 @@ export type TInputImage = {
   filename?: string, // (cloud에 존재하는) 기존 이미지만 존재
   url: string,
   file?: File //input에서 추가한 사진은 file 존재, (cloud에 존재하는) 기존 이미지는 존재 X
+}
+
+export type TProductInForm = {
+  name: string,
+  description: string,
+  image?: TInputImage[],
+  category: string,
+  price: number,
+  quantity: number
 }

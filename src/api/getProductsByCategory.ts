@@ -6,7 +6,7 @@ async function getProductsByCategory(
   number: number, 
   orderField: string, 
   orderDirection: "desc" | "asc", 
-  pageParam: Timestamp | null
+  pageParam: Timestamp | number | null
 ) {
   let q = undefined
   if (pageParam)

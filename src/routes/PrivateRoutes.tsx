@@ -3,6 +3,7 @@ import { Navigate, RouteObject } from 'react-router-dom';
 
 const MyOrder = lazy(() => import('@/pages/MyOrder'))
 const AddProduct = lazy(() => import('@/pages/AddProduct'))
+const EditProduct = lazy(() => import('@/pages/EditProduct'))
 const ViewAllProducts = lazy(() => import('@/pages/ViewAllProducts'))
 const ManageOrder = lazy(() => import('@/pages/ManageOrder'))
 const Signin = lazy(() => import('@/pages/Signin'))
@@ -24,15 +25,15 @@ export default function PrivateRoutes(): RouteObject {
     return user
   }
 
-  const CustomerRoutes: RouteObject[] = [
+  const ConsumerRoutes: RouteObject[] = [
     { path: '/mypage', element: <Navigate to='/mypage/myorder' replace /> },
     { path: '/mypage/myorder', element: <MyOrder /> }
   ]
 
   const SellerRoutes: RouteObject[] = [
     { path: '/mypage', element: <Navigate to='/mypage/view-allproducts' /> },
-    { path: '/mypage/add-product', element: <AddProduct type='create' />, loader },
-    { path: '/mypage/edit-product', element: <AddProduct type='edit' />, loader },
+    { path: '/mypage/add-product', element: <AddProduct />, loader },
+    { path: '/mypage/edit-product', element: <EditProduct />, loader },
     { path: '/mypage/view-allproducts', element: <ViewAllProducts />, loader },
     { path: '/mypage/manage-order', element: <ManageOrder />},
     { path: '/mypage/edit-info', element: <EditInfo /> }
@@ -54,6 +55,6 @@ export default function PrivateRoutes(): RouteObject {
 
   return {
     element: <Layout />,
-    children: children.concat(role === 'seller' ? SellerRoutes : CustomerRoutes)
+    children: [...children, ...(role? role === "seller" ? SellerRoutes : ConsumerRoutes : [])]
   }
 }
