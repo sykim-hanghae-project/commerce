@@ -1,7 +1,13 @@
-import { QuerySnapshot, Timestamp, collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore"
+import { Timestamp, collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore"
 import { db } from "@/helpers/firebase"
+import formatDocumentDataToProduct from "@/utils/formatDocumentDataToProduct"
+import { Product } from "@/types/product"
 
-async function getAllProductBySeller(sellerId: string, pageParam: Timestamp, rowsPerPage: number): Promise<QuerySnapshot> {
+async function getAllProductBySeller(
+  sellerId: string,
+  pageParam: Timestamp, 
+  rowsPerPage: number
+): Promise<Product[]> {
   // console.log("pageParam", context.pageParam)
   const productsRef = collection(db, "products")
   let q = undefined
@@ -13,7 +19,7 @@ async function getAllProductBySeller(sellerId: string, pageParam: Timestamp, row
   }
 
   const querySnapShot = await getDocs(q)
-  return querySnapShot
+  return querySnapShot.docs.map(doc => formatDocumentDataToProduct(doc.data()))
 } 
 
 export default getAllProductBySeller

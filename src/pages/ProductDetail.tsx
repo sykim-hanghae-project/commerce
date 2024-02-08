@@ -9,7 +9,6 @@ import ProductContainer from '@/components/ProductContainer'
 import { Button } from '@/components/ui/button'
 import { useCartDispatch, useCartState } from '@/context/CartContext'
 import { Product } from '@/types/product'
-import formatDocumentDataToProduct from '@/utils/formatDocumentDataToProduct'
 import priceToString from '@/utils/priceToString'
 
 interface ProductImageProps {
@@ -41,10 +40,7 @@ const ProductDetail: React.FC = () => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['recommendProducts', product.productCategory],
-    queryFn: async ({ queryKey }) =>  {
-      const snapshot = await getProductsByCategory(queryKey[1], 5, "createdAt", "desc", null)
-      return snapshot.docs.map(doc => formatDocumentDataToProduct(doc.data()))
-    },
+    queryFn: async ({ queryKey }) =>  getProductsByCategory(queryKey[1], 5, "createdAt", "desc", null),
     staleTime: 2000
   })
 

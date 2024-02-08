@@ -2,7 +2,6 @@ import getProductsByCategory from "@/api/getProductsByCategory";
 import { IoIosArrowForward } from "react-icons/io";
 import ProductContainer from "./ProductContainer";
 import { useNavigate } from "react-router-dom";
-import formatDocumentDataToProduct from "@/utils/formatDocumentDataToProduct";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "./Loading";
 
@@ -37,9 +36,9 @@ const HomeProductsByCategory = ({ category }: HomeProductsByCategoryProps) => {
       </button>
 
       <ul className="flex mt-4">
-        {data?.docs.map((doc, idx) => (
+        {data.map((product, idx) => (
           <li className="homeProductsContainerProductItem" key={`${category}_product_${idx}`}>
-            <ProductContainer product={formatDocumentDataToProduct(doc.data())} />
+            <ProductContainer product={product} />
           </li>
         ))}
       </ul>

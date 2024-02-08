@@ -1,4 +1,5 @@
 import { db } from "@/helpers/firebase"
+import formatDocumentDataToProduct from "@/utils/formatDocumentDataToProduct"
 import { Timestamp, collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore"
 
 async function getProductsByKeyword(
@@ -31,8 +32,7 @@ async function getProductsByKeyword(
     )
   }
   const querySnapShot = await getDocs(q)
-  console.log(querySnapShot.docs.map(doc => doc.data()))
-  return querySnapShot
+  return querySnapShot.docs.map(doc => formatDocumentDataToProduct(doc.data()))
 }
 
 export default getProductsByKeyword

@@ -15,6 +15,7 @@ const Search = () => {
   const [ref, inView] = useInView()
   const { products, isLoading, hasNextPage, fetchNextPage } = useProductsQuery({
     rowsPerPage: 8,
+    qKey: keyword ? keyword : "",
     queryFunc: (pageParam, rowsPerPage) => {
       return getProductsByKeyword(
         keyword!, //keyword

@@ -16,6 +16,7 @@ const ListProduct = () => {
   const [ref, inView] = useInView()
   const { products, isLoading, hasNextPage, fetchNextPage } = useProductsQuery({
     rowsPerPage: 8,
+    qKey: category ? category : "",
     queryFunc: (pageParam, rowsPerPage) => {
       return getProductsByCategory(
         category!, //category

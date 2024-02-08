@@ -1,4 +1,5 @@
 import { db } from "@/helpers/firebase"
+import formatDocumentDataToProduct from "@/utils/formatDocumentDataToProduct"
 import { Timestamp, collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore"
 
 async function getProductsByCategory(
@@ -14,7 +15,7 @@ async function getProductsByCategory(
   else
     q = query(collection(db, "products"), where("productCategory", "==", category), orderBy(orderField, orderDirection), limit(number))
   const querySnapShot = await getDocs(q)
-  return querySnapShot
+  return querySnapShot.docs.map(doc => formatDocumentDataToProduct(doc.data()))
 }
 
 export default getProductsByCategory
