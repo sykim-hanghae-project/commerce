@@ -72,15 +72,15 @@ const CartProductContainer = ({ item }: CartProductContainerProps) => {
   }
 
   return data && (
-    <div className='flex cursor-pointer' onClick={onClick}>
+    <div className='flex'>
       
-      <div className='mr-4'>
+      <div className='mr-4 cursor-pointer' onClick={onClick}>
         <CartProductImage filename={formatDocumentDataToProduct(data).productImage[0]} />
       </div>
 
       <div className='w-full '>
         <div className='flex mb-2'>
-          <p className='text-sm text-ellipsis line-clamp-1 w-full'>
+          <p className='text-sm text-ellipsis line-clamp-1 w-full cursor-pointer' onClick={onClick}>
             {isError ? "?" : isLoading ? "loading..." : data.productName}
           </p>
           <p className='text-sm min-w-max'>{priceToString(item.price * item.quantity)}</p>
@@ -96,7 +96,7 @@ const CartProductContainer = ({ item }: CartProductContainerProps) => {
             <button onClick={onIncrementQuantity}><CiCirclePlus /></button>
           </div>
           
-          <button onClick={onDelete} className='text-sm hover:underline min-w-max'>
+          <button onClick={onDelete} className='text-xs hover:underline min-w-max'>
             <p>삭제</p>
           </button>
         </div>
