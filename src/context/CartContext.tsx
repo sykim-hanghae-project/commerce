@@ -13,11 +13,11 @@ type Action =
 
 const getCartItem = () => {
   const string_cart = window.localStorage.getItem('cart')
-  console.log("string_cart",string_cart)
+  // console.log("string_cart",string_cart)
   if (!string_cart) return []
 
   const cart = JSON.parse(string_cart)
-  return cart
+  return cart.items
 }
 
 const StateContext = createContext<State>({ items: getCartItem() });
