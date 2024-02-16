@@ -63,8 +63,7 @@ const Signin: React.FC = () => {
       }
       
       window.alert('로그인이 완료되었습니다.')
-      window.location.reload()
-      navigate('/')
+      window.location.assign('/')
     })
     .catch((error) => {
       window.alert(getErrorMessage(error));
