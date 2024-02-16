@@ -14,6 +14,15 @@ export type Product = {
   keyword?: string[]
 }
 
+export type EditableProduct = {
+  productName?: string,
+  productPrice?: number,
+  productQuantity?: number,
+  productDescription?: string,
+  productCategory?: string,
+  productImage?: string[],
+}
+
 export type TInputImage = {
   isOriginal: boolean, //기존 이미지 or 새로 추가된 이미지
   filename?: string, // (cloud에 존재하는) 기존 이미지만 존재

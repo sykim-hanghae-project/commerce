@@ -8,7 +8,7 @@ import getProduct from '@/api/getProduct'
 import deleteImage from '@/api/deleteImage'
 import updateProduct from '@/api/updateProduct'
 import getImageBlob from '@/api/getImageBlob'
-import { Product, TInputImage } from '@/types/product'
+import { EditableProduct, Product, TInputImage } from '@/types/product'
 import ProductForm from '@/components/ProductForm'
 import Loading from '@/components/Loading'
 
@@ -84,17 +84,13 @@ const EditProduct= () => {
       }
 
       //상품 업데이트
-      const updatedProduct: Product = {
-        id: product!.id,
-        sellerId: product!.sellerId,
+      const updatedProduct: EditableProduct = {
         productName: values.name,
         productDescription: values.description,
         productImage: filenames,
         productCategory: values.category,
         productPrice: values.price,
         productQuantity: values.quantity,
-        createdAt: product!.createdAt,
-        updatedAt: product!.updatedAt //updateProduct에서 교체 예정
       }
       await updateProduct(product!.id, updatedProduct)
       window.alert("상품을 성공적으로 수정하였습니다.")
@@ -116,14 +112,17 @@ const EditProduct= () => {
       <div className='w-full'>
         <ProductForm 
           onSubmit={onSubmitEdit} 
-          defaultValues={data ? {
-            name: data.productName,
-            description: data.productDescription,
-            image: data.productImage,
-            category: data.productCategory,
-            price: data.productPrice,
-            quantity: data.productQuantity
-          } : undefined} 
+          defaultValues={
+            data ? {
+              name: data.productName,
+              description: data.productDescription,
+              image: data.productImage,
+              category: data.productCategory,
+              price: data.productPrice,
+              quantity: data.productQuantity
+            } 
+            : undefined
+          } 
         />
       </div>
       {isSubmitting && <div className='fixed top-0 left-0 w-[100vw] h-[100vh] flex justify-center items-center'><Loading /></div>}
