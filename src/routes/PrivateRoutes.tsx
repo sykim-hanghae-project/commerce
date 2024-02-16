@@ -18,7 +18,7 @@ import { getUser } from '@/api/getUser';
 export default function PrivateRoutes(): RouteObject {
   const { token, uid, role } = checkAuth()
 
-  const loader = async () => {
+  const userLoader = async () => {
     const uid = window.localStorage.getItem('uid')
     if (!uid) return null
     const user = await getUser(uid)
@@ -32,10 +32,10 @@ export default function PrivateRoutes(): RouteObject {
 
   const SellerRoutes: RouteObject[] = [
     { path: '/mypage', element: <Navigate to='/mypage/view-allproducts' /> },
-    { path: '/mypage/add-product', element: <AddProduct />, loader },
-    { path: '/mypage/edit-product', element: <EditProduct />, loader },
-    { path: '/mypage/view-allproducts', element: <ViewAllProducts />, loader },
     { path: '/mypage/manage-order', element: <ManageOrder />},
+    { path: '/mypage/add-product', element: <AddProduct />, loader: userLoader },
+    { path: '/mypage/edit-product', element: <EditProduct />, loader: userLoader },
+    { path: '/mypage/view-allproducts', element: <ViewAllProducts />, loader: userLoader },
     { path: '/mypage/edit-info', element: <EditInfo /> }
   ] 
 
