@@ -42,12 +42,10 @@ export default function PrivateRoutes(): RouteObject {
   const children: RouteObject[] = 
     (token != null && uid != null)  //로그인 상태
     ? [
-      // { path: '/cart', element: <Cart /> },
       { path: '/login', element: <Navigate to='/' replace />  },
       { path: '/signup', element: <Navigate to='/' replace />  }, 
     ]
     : [ // 로그아웃 상태
-      // { path: '/cart', element: <Navigate to='/login' replace /> },
       { path: '/mypage', element: <Navigate to='/login' replace /> },
       { path: '/login', element: <Signin /> },
       { path: '/signup', element: <Signup /> }
