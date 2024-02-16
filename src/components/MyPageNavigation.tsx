@@ -32,6 +32,7 @@ const MyPageNavigation = () => {
       window.localStorage.removeItem('user-role')
 
       navigate('/')
+      window.localStorage.removeItem('cart')
     })
     .catch((error) => {
       console.log(error)
