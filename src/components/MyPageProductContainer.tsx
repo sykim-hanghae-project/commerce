@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from './ui/button';
 import getImageUrl from '@/api/getImageUrl';
 import Loading from './Loading';
+import priceToString from '@/utils/priceToString';
 
 
 interface MyPageProductContainerProps {
@@ -51,7 +52,7 @@ const MyPageProductContainer = ({ product, onDeleteProduct }: MyPageProductConta
           <div className='text-ellipsis	text-base line-clamp-1'>{product.productName}</div>
           <div className='text-sm text-gray-400 min-w-max'>{product.productCategory}</div>
         </div>
-        <div className=''>{`₩${product.productPrice}`}</div>
+        <div className='min-w-max'>{priceToString(product.productPrice)}</div>
         <div className='w-20 flex justify-end'>{product.productQuantity}</div>
       </div>
 
