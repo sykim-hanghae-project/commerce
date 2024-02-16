@@ -4,7 +4,6 @@ import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
 import getImageUrl from '@/api/getImageUrl'
 import getProduct from '@/api/getProduct'
-import formatDocumentDataToProduct from '@/utils/formatDocumentDataToProduct'
 import priceToString from '@/utils/priceToString'
 import { CartItem } from '@/types/CartItem';
 import { useCartDispatch } from '@/context/CartContext';
@@ -16,7 +15,7 @@ interface CartProductImageProps {
 
 const CartProductImage = ({ filename }: CartProductImageProps) => {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['product', filename],
+    queryKey: ['productImage', filename],
     queryFn: ({ queryKey }) => getImageUrl(queryKey[1])
   })
 
@@ -27,7 +26,7 @@ const CartProductImage = ({ filename }: CartProductImageProps) => {
   }
 
   return (
-    <img src={data} className='w-20 h-20 object-cover' />
+    <img src={data} className='w-20 h-20 object-cover min-w-20' />
   )
 }
 
@@ -44,7 +43,7 @@ const CartProductContainer = ({ item }: CartProductContainerProps) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['product', item.id],
     queryFn: ({ queryKey }) => getProduct(queryKey[1]),
-    staleTime: 20000 // 20초
+    staleTime: Infinity
   })
 
   if (isError) {
@@ -75,10 +74,10 @@ const CartProductContainer = ({ item }: CartProductContainerProps) => {
     <div className='flex'>
       
       <div className='mr-4 cursor-pointer' onClick={onClick}>
-        <CartProductImage filename={formatDocumentDataToProduct(data).productImage[0]} />
+        <CartProductImage filename={data.productImage[0]} />
       </div>
 
-      <div className='w-full '>
+      <div className='w-full'>
         <div className='flex mb-2'>
           <p className='text-sm text-ellipsis line-clamp-1 w-full cursor-pointer' onClick={onClick}>
             {isError ? "?" : isLoading ? "loading..." : data.productName}
