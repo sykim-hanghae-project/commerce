@@ -73,7 +73,7 @@ const MyPageNavigation = () => {
   ]
 
   return (
-    <div className='p-8 pr-24'>
+    <div className='p-8'>
       <div className='text-3xl'>{user.nickname}</div>
       <ul>
         {(user.isSeller ? sellerItems : consumerItems).concat(commonItems).map((group, idx) => (
