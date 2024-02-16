@@ -100,4 +100,29 @@
       margin-top: 0;
     }  
   }
+
+  /* Order */
+  .OrderItem {
+    margin-top: 1rem;
+    &:nth-of-type(1) {
+      margin-top: 0rem;
+    }
+  }
+
+  .ModalOutside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .Modal {
+    background-color: white;
+  }
 } 

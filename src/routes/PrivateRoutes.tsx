@@ -9,6 +9,7 @@ const ManageOrder = lazy(() => import('@/pages/ManageOrder'))
 const Signin = lazy(() => import('@/pages/Signin'))
 const Signup = lazy(() => import('@/pages/Signup'))
 const EditInfo = lazy(() => import('@/pages/EditInfo'))
+const Order = lazy(() => import('@/pages/Order'));
 
 import Layout from '@/components/layout/Layout';
 import { checkAuth } from '@/utils/checkAuth';
@@ -27,15 +28,16 @@ export default function PrivateRoutes(): RouteObject {
 
   const ConsumerRoutes: RouteObject[] = [
     { path: '/mypage', element: <Navigate to='/mypage/myorder' replace /> },
-    { path: '/mypage/myorder', element: <MyOrder /> }
+    { path: '/mypage/myorder', element: <MyOrder />, loader: userLoader },
+    { path: '/order', element: <Order />, loader: userLoader }
   ]
 
   const SellerRoutes: RouteObject[] = [
     { path: '/mypage', element: <Navigate to='/mypage/view-allproducts' /> },
-    { path: '/mypage/manage-order', element: <ManageOrder />},
     { path: '/mypage/add-product', element: <AddProduct />, loader: userLoader },
     { path: '/mypage/edit-product', element: <EditProduct />, loader: userLoader },
     { path: '/mypage/view-allproducts', element: <ViewAllProducts />, loader: userLoader },
+    { path: '/mypage/manage-order', element: <ManageOrder />, loader: userLoader},
     { path: '/mypage/edit-info', element: <EditInfo /> }
   ] 
 

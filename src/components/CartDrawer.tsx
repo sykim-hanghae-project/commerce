@@ -6,14 +6,13 @@ import { Button } from './ui/button'
 import { useCartState } from '@/context/CartContext'
 import CartProductContainer from './CartProductContainer'
 import priceToString from '@/utils/priceToString'
-
 interface CartDrawerProps {
   children: React.ReactNode
 }
 
 const CartDrawer = ({ children }: CartDrawerProps) => {
   const cartState = useCartState()
-
+  // console.log(cartState.items.length)
 
   const getTotalPrice = () => {
     let totalPrice = 0
@@ -21,6 +20,10 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
       totalPrice += item.price * item.quantity
     })
     return totalPrice
+  }
+
+  const onClickOrderBtn = () => {
+    window.location.assign('/order')
   }
 
   return (
@@ -59,7 +62,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                 <p className='font-semibold min-w-max'>{priceToString(getTotalPrice())}</p>
               </div>
 
-              <Button className='w-full'>주문하기</Button>
+              <Button className='w-full' onClick={onClickOrderBtn}>주문하기</Button>
             </div>) : (
               <div><p>장바구니가 비었습니다.</p></div>
             )

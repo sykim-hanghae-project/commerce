@@ -9,7 +9,9 @@ export default {
         'secondary': '#FFFFFF',
         'secondary-foreground': '#000000',
         'destructive': '#FF0000',
-        'background': '#FFFFFF'
+        'background': '#FFFFFF',
+        'muted': '#f3f4f6',
+        'accent': '#d1d5db'
       },
     },
   },

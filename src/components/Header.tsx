@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { BsHandbag, BsPerson } from "react-icons/bs";
 import SearchInput from './SearchInput';
 import CartDrawer from './CartDrawer';
@@ -7,14 +6,13 @@ import { useCartState } from '@/context/CartContext';
 const Header = () => {
   const cartState = useCartState()
 
-  const navigate = useNavigate()
-
   const onClickTitle = () => {
-    navigate('/')
+    window.location.assign('/')
+    // navigate('/')
   }
 
   const onClickMyPageBtn = () => {
-    navigate('/mypage')
+    window.location.assign('/mypage')
   }
 
   const onClickSearchBtn = (keyword: string) => {

@@ -10,6 +10,7 @@ type Action =
   | { type: 'DELETE_ITEM'; itemId: string }
   | { type: 'INCREMENT_ITEM'; itemId: string }
   | { type: 'DECREMENT_ITEM'; itemId: string }
+  | { type: 'EMPTY' }
 
 const getCartItem = () => {
   const string_cart = window.localStorage.getItem('cart')
@@ -83,6 +84,12 @@ function reducer(state: State, action: Action): State {
           { ...prevItem, quantity: prevItem.quantity - 1 },
           ...state.items.slice(idx+1)
         ]
+      }
+      break
+    }
+    case 'EMPTY': {
+      newState = {
+        items: []
       }
       break
     }
