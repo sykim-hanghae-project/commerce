@@ -1,0 +1,5 @@
+import{r as s,j as e,v as d}from"./index-DyzY6ZJS.js";const n=s.createContext(null),c=({children:o,className:t})=>(s.useEffect(()=>(document.body.style.cssText=`
+    position: fixed; 
+    top: -${window.scrollY}px;
+    overflow-y: scroll;
+    width: 100%;`,()=>{const r=document.body.style.top;document.body.style.cssText="",window.scrollTo(0,parseInt(r||"0",10)*-1)}),[]),e.jsx(n.Provider,{value:null,children:e.jsx("div",{className:d("Modal",t),children:o})})),a=({title:o,children:t})=>{if(s.useContext(n)===void 0)throw new Error("Header 컴포넌트는 Modal 컴포넌트 아래에서만 사용될 수 있습니다.");return e.jsxs("div",{className:"flex p-2",children:[e.jsx("p",{className:"min-w-max",children:o}),t]})};c.Header=a;const x=({children:o})=>{if(s.useContext(n)===void 0)throw new Error("Body 컴포넌트는 Modal 컴포넌트 아래에서만 사용될 수 있습니다.");return e.jsx("div",{className:"p-2",children:o})};c.Body=x;const i=({children:o,onClose:t})=>{if(s.useContext(n)===void 0)throw new Error("Close 컴포넌트는 Modal 컴포넌트 아래에서만 사용될 수 있습니다.");const l=()=>{t()};return e.jsx("div",{className:"w-full h-fit flex justify-end",onClick:l,children:e.jsx("div",{className:"cursor-pointer text-base",children:o})})};c.Close=i;export{c as M};
