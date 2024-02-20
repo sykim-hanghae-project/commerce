@@ -21,7 +21,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <CartContextProvider>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<div className='absolute top-0 left-0 h-full w-full flex justify-center items-center'><Loading /></div>}>
           <RouterProvider router={router} />
         </Suspense>
       </CartContextProvider>
