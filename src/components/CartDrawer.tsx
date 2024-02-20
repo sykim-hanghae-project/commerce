@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Drawer } from 'vaul'
 import { useQueries } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { IoMdClose } from "react-icons/io";
 
 import { Button } from './ui/button'
@@ -16,7 +17,8 @@ interface CartDrawerProps {
 
 const CartDrawer = ({ children }: CartDrawerProps) => {
   const cartState = useCartState()
-  // console.log(cartState.items.length)
+  
+  const navigate = useNavigate()
 
   const productQueries = useQueries({
     queries: cartState.items.map((item) => (
@@ -81,7 +83,11 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
   }, [cartState, productQueries])
 
   const onClickOrderBtn = () => {
-    window.location.assign('/order')
+    navigate('/order', {
+      state: {
+        products: orderableProducts
+      }
+    })
   }
 
   return (

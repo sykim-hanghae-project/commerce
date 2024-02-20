@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
 import getImageUrl from '@/api/getImageUrl'
@@ -39,6 +40,7 @@ interface CartProductContainerProps {
 }
 
 const CartProductContainer = ({ pid, product, quantity: cquantity, isLoading, isError, error }: CartProductContainerProps) => {
+  const navigate = useNavigate()
   const dispatch = useCartDispatch()
 
   const [quantity, setQuantity] = useState<number>(cquantity)
@@ -81,7 +83,7 @@ const CartProductContainer = ({ pid, product, quantity: cquantity, isLoading, is
   }
 
   const onClick = () => {
-    window.location.assign(`/product/${item.id}`)
+    navigate(`/product/${pid}`)
   }
 
   return product && (

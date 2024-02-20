@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Timestamp } from 'firebase/firestore'
 import { IoMdClose } from "react-icons/io";
@@ -71,6 +71,8 @@ const OrderContainer = ({
     queryFn: ({ queryKey }) => getUser(queryKey[1])
   })
 
+  const navigate = useNavigate()
+
   const onClickContainer = () => {
     toggle()
   }
@@ -93,7 +95,7 @@ const OrderContainer = ({
     if (res) {
       await updateOrderStatus(orderId, statusVal)
       window.alert(`주문 상태를 변경했습니다.`)
-      window.location.assign('/mypage/manage-order')
+      navigate('/mypage/manage-order')
     }
   }
 

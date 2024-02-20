@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel'
 import { Product } from '@/types/product'
@@ -33,10 +34,10 @@ interface ProductContainerProps {
 }
 
 const ProductContainer = ({ product }: ProductContainerProps) => {
-  // console.log(product)
+  const navigate = useNavigate()
 
   const onClick = () => {
-    window.location.assign(`/product/${product.id}`)
+    navigate(`/product/${product.id}`)
   }
 
   return (

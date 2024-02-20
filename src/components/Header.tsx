@@ -2,36 +2,36 @@ import { BsHandbag, BsPerson } from "react-icons/bs";
 import SearchInput from './SearchInput';
 import CartDrawer from './CartDrawer';
 import { useCartState } from '@/context/CartContext';
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const cartState = useCartState()
+  const navigate = useNavigate()
 
   const onClickTitle = () => {
-    window.location.assign('/')
-    // navigate('/')
+    navigate('/')
   }
 
   const onClickMyPageBtn = () => {
-    window.location.assign('/mypage')
+    navigate('/mypage')
   }
 
   const onClickSearchBtn = (keyword: string) => {
-    window.location.assign(`/product/search?keyword=${keyword}`)
+    navigate(`/product/search?keyword=${keyword}`)
   }
-
 
   return (
     <header className='flex items-center justify-center px-8 py-4 border-b border-slate-200'>
       <div className='w-full'>
         <button 
           className='button headerCategoryItem'
-          onClick={() => window.location.assign(`/product/list?category=Men`)}
+          onClick={() => navigate(`/product/list?category=Men`)}
         >
           Men
         </button>
         <button 
           className='button headerCategoryItem'
-          onClick={() => window.location.assign(`/product/list?category=Women`)}
+          onClick={() => navigate(`/product/list?category=Women`)}
         >
           Women
         </button>

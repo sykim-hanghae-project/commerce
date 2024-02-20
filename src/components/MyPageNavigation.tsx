@@ -33,7 +33,7 @@ const MyPageNavigation = () => {
 
       window.localStorage.removeItem('cart')
 
-      window.location.assign('/')
+      navigate('/')
     })
     .catch((error) => {
       console.log(error)

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import getProductsByKeyword from '@/api/getProductsByKeyword'
 import ProductList from '@/components/ProductList'
 import useProductsQuery from '@/hooks/useProductsQuery'
@@ -9,8 +9,9 @@ import { Timestamp } from 'firebase/firestore'
 const Search = () => {
   const [searchParams, ] = useSearchParams()
   const keyword = searchParams.get('keyword') // 검색어
-  console.log(keyword)
   const sortBy = searchParams.get("sortby") // "createdAt" | "price"
+
+  const navigate = useNavigate()
 
   const [ref, inView] = useInView()
   const { products, isLoading, hasNextPage, fetchNextPage } = useProductsQuery({
@@ -38,9 +39,9 @@ const Search = () => {
       return
 
     if (sortby === "createdAt")
-      window.location.replace(`/product/search?keyword=${keyword}&sortby=createdAt`)
+      navigate(`/product/search?keyword=${keyword}&sortby=createdAt`)
     else 
-      window.location.replace(`/product/search?keyword=${keyword}&sortby=price`)
+      navigate(`/product/search?keyword=${keyword}&sortby=price`)
   }
 
   return (

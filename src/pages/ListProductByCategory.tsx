@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import getProductsByCategory from '@/api/getProductsByCategory'
 import ProductList from '@/components/ProductList'
 import useProductsQuery from '@/hooks/useProductsQuery'
@@ -10,8 +10,9 @@ import { Timestamp } from 'firebase/firestore'
 const ListProduct = () => {
   const [searchParams, ] = useSearchParams()
   const category = searchParams.get('category')  //카테고리(Men, Women)
-  console.log(category)
   const sortBy = searchParams.get("sortby") // "createdAt" | "price"
+
+  const navigate = useNavigate()
 
   const [ref, inView] = useInView()
   const { products, isLoading, hasNextPage, fetchNextPage } = useProductsQuery({
@@ -39,9 +40,9 @@ const ListProduct = () => {
       return
 
     if (sortby === "createdAt")
-      window.location.replace(`/product/list?category=${category}&sortby=createdAt`)
+      navigate(`/product/list?category=${category}&sortby=createdAt`)
     else 
-      window.location.replace(`/product/list?category=${category}&sortby=price`)
+    navigate(`/product/list?category=${category}&sortby=price`)
   }
   
   return (
