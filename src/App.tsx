@@ -12,7 +12,9 @@ function App() {
   const router = createBrowserRouter([
     PrivateRoutes(), //로그인 유무 관계O
     CommonRoutes() //로그인 유무 관계X
-  ])
+  ], {
+    basename: '/commerce'
+  })
 
   const queryClient = new QueryClient()
 
