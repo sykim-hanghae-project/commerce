@@ -14,7 +14,7 @@ export default function CommonRoutes(): RouteObject {
   return {
     element: <Layout />,
     children: [
-      { path: '/', element: <Home /> },
+      { path: '', element: <Home /> },
       { 
         path: '/product/:productId', 
         element: <ProductDetail />, 
