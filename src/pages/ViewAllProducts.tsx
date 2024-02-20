@@ -20,7 +20,7 @@ const ViewAllProducts: React.FC = () => {
   const [ref, inView] = useInView()
   const { products, isLoading, isError, hasNextPage, fetchNextPage } = useProductsQuery({
     rowsPerPage: 5,
-    qKey: 'sellerProducts',
+    qKey: ['sellerProducts'],
     queryFunc: (pageParam, rowsPerPage) => {
       return getAllProductBySeller(user.id, pageParam as Timestamp, rowsPerPage)
     },

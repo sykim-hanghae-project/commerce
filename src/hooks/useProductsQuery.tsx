@@ -4,7 +4,7 @@ import { Timestamp } from 'firebase/firestore';
 import { Product } from '@/types/product';
 interface useProductsQueryProps {
   rowsPerPage: number,
-  qKey: string,
+  qKey: string[],
   queryFunc: (pageParam: Timestamp | number | string, rowsPerPage: number) => Promise<Product[]>,
   sortBy: 'createdAt' | 'price' | 'productName'
 }
@@ -12,7 +12,7 @@ interface useProductsQueryProps {
 const useProductsQuery = ({ rowsPerPage, qKey, queryFunc, sortBy }: useProductsQueryProps) => {
   const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     {
-      queryKey: ['getProducts', qKey],
+      queryKey: ['getProducts', ...qKey],
       queryFn: async ({ pageParam }) => await queryFunc(pageParam, rowsPerPage),
       getNextPageParam: (lastpage, ) => {
         if (lastpage.length < rowsPerPage){
