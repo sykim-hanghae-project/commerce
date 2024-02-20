@@ -16,6 +16,7 @@ import updateOrderStatus from '@/api/updateOrderStatus';
 import { Status } from '@/types/order';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import orderStatusToString from '@/utils/orderStatusToString';
+import MetaTag from '@/components/MetaTag';
 
 interface ProductImageProps {
   filename: string
@@ -186,32 +187,37 @@ const MyOrder: React.FC = () => {
   }
 
   return (
-    <MyPageLayout>
-      <h1 className='h1 mb-12'>주문 내역</h1>
-      <div>
-        <div className='text-sm p-4 pr-12 flex border-b border-black'>
-          <p className='w-32 text-center'>주문일</p>
-          <p className='w-full text-center'>상품</p>
-          <p className='text-center min-w-max mr-4'>판매자</p>
-          <p className='w-20 text-center min-w-max'>주문 상태</p>
-        </div>
+    <>
+      <MetaTag />
 
-        <ul className='mt-4'>
-        {data.map((order, idx) => (
-          <li key={`order_${idx}`} className='*:mt-4'>
-            <OrderContainer 
-              orderId={order.id}
-              date={order.createdAt}
-              productId={order.productId}
-              quantity={order.productQuantity}
-              sellerId={order.sellerId}
-              status={order.status}
-            />
-          </li>
-        ))}
-        </ul>
-      </div>
-    </MyPageLayout>
+      <MyPageLayout>
+        <h1 className='h1 mb-12'>주문 내역</h1>
+        <div>
+          <div className='text-sm p-4 pr-12 flex border-b border-black'>
+            <p className='w-32 text-center'>주문일</p>
+            <p className='w-full text-center'>상품</p>
+            <p className='text-center min-w-max mr-4'>판매자</p>
+            <p className='w-20 text-center min-w-max'>주문 상태</p>
+          </div>
+
+          <ul className='mt-4'>
+          {data.map((order, idx) => (
+            <li key={`order_${idx}`} className='*:mt-4'>
+              <OrderContainer 
+                orderId={order.id}
+                date={order.createdAt}
+                productId={order.productId}
+                quantity={order.productQuantity}
+                sellerId={order.sellerId}
+                status={order.status}
+              />
+            </li>
+          ))}
+          </ul>
+        </div>
+      </MyPageLayout>
+
+    </>
   )
 }
 

@@ -11,6 +11,7 @@ import { User } from '@/types/user'
 import Loading from '@/components/Loading'
 import useDeleteProductMutation from '@/hooks/useDeleteProductMutation'
 import { Product } from '@/types/product'
+import MetaTag from '@/components/MetaTag'
 
 const ViewAllProducts: React.FC = () => {
   const user = useLoaderData() as User 
@@ -39,25 +40,29 @@ const ViewAllProducts: React.FC = () => {
   }, [inView, hasNextPage, fetchNextPage])
 
   return (
-    <MyPageLayout>
-      <h1 className='h1 mb-12'>전체 상품 조회</h1>
+    <>
+      <MetaTag />
 
-      {isError ? <p>상품을 불러오지 못했습니다.</p> : (
-        <div>
-          {isLoading && <Loading />}
-          <ul>
-            {products && (
-              products.map((product: Product) => (
-                <li key={`product_${product.id}`}>
-                  <MyPageProductContainer product={product} onDeleteProduct={deleteProductById} />
-                </li>
-              ))
-            )}
-            <div ref={ref}></div>
-          </ul>
-        </div>
-      )}
-    </MyPageLayout>
+      <MyPageLayout>
+        <h1 className='h1 mb-12'>전체 상품 조회</h1>
+
+        {isError ? <p>상품을 불러오지 못했습니다.</p> : (
+          <div>
+            {isLoading && <Loading />}
+            <ul>
+              {products && (
+                products.map((product: Product) => (
+                  <li key={`product_${product.id}`}>
+                    <MyPageProductContainer product={product} onDeleteProduct={deleteProductById} />
+                  </li>
+                ))
+              )}
+              <div ref={ref}></div>
+            </ul>
+          </div>
+        )}
+      </MyPageLayout>
+    </>
   )
 }
 

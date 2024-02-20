@@ -5,6 +5,7 @@ import getProductsByKeyword from '@/api/getProductsByKeyword'
 import ProductList from '@/components/ProductList'
 import useProductsQuery from '@/hooks/useProductsQuery'
 import { Timestamp } from 'firebase/firestore'
+import MetaTag from '@/components/MetaTag'
 
 const Search = () => {
   const [searchParams, ] = useSearchParams()
@@ -45,14 +46,20 @@ const Search = () => {
   }
 
   return (
-    <div className='py-14'>
-      <h1 className='h1 mb-6'>{keyword}</h1>
-              
-      {!isLoading && products && (
-        <ProductList products={products} onClickFilterItem={onClickFilterItem} curSortBy={sortBy === "price" ? "price" : "createdAt"} />
-      )}
-      <div ref={ref}></div>
-    </div>
+    <>
+      <MetaTag 
+        title={`${keyword} - XSO 검색`}
+      />
+
+      <div className='py-14'>
+        <h1 className='h1 mb-6'>{keyword}</h1>
+                
+        {!isLoading && products && (
+          <ProductList products={products} onClickFilterItem={onClickFilterItem} curSortBy={sortBy === "price" ? "price" : "createdAt"} />
+        )}
+        <div ref={ref}></div>
+      </div>
+    </>
   )
 }
 

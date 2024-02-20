@@ -1,8 +1,15 @@
+import MetaTag from '@/components/MetaTag'
 import React from 'react'
 
 const EditInfo: React.FC = () => {
   return (
-    <div>EditInfo</div>
+    <>
+      <MetaTag />
+
+      <div>
+      
+      </div>
+    </>
   )
 }
 

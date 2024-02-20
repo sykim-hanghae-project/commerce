@@ -18,6 +18,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import orderStatusToString from '@/utils/orderStatusToString';
 import { Status } from '@/types/order';
 import updateOrderStatus from '@/api/updateOrderStatus';
+import MetaTag from '@/components/MetaTag';
 
 interface ProductImageProps {
   filename: string
@@ -180,40 +181,44 @@ const ManageOrder: React.FC = () => {
   if (isError) console.log(error)
 
   return (
-    <MyPageLayout>
-      <h1 className='h1 mb-4'>판매 기록 관리</h1>
-      <p>각 항목을 클릭하여 상태를 변경하세요.</p>
+    <>
+      <MetaTag />
 
-      <div className='mt-12'>
-        <div className='flex text-sm p-4 border-b border-black'>
-          <p className='w-[5rem] text-center mr-4'>상태</p>
-          <p className='w-full text-center'>상품</p>
-          <p className='ml-4 min-w-max'>구매자</p>
-          <p className='ml-4 w-[6rem] text-center'>주문일</p>
+      <MyPageLayout>
+        <h1 className='h1 mb-4'>판매 기록 관리</h1>
+        <p>각 항목을 클릭하여 상태를 변경하세요.</p>
+
+        <div className='mt-12'>
+          <div className='flex text-sm p-4 border-b border-black'>
+            <p className='w-[5rem] text-center mr-4'>상태</p>
+            <p className='w-full text-center'>상품</p>
+            <p className='ml-4 min-w-max'>구매자</p>
+            <p className='ml-4 w-[6rem] text-center'>주문일</p>
+          </div>
+
+        {isLoading 
+        ? <Loading />
+        : isError 
+        ? <p>판매 기록을 불러오지 못했습니다.</p>
+        : (
+          <ul>
+            {data.map((order, idx) => (
+              <li key={`order_${idx}`} className='*:mt-4'>
+                <OrderContainer 
+                  orderId={order.id}
+                  status={order.status}
+                  productId={order.productId}
+                  quantity={order.productQuantity}
+                  buyerId={order.buyerId}
+                  date={order.createdAt}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
         </div>
-
-      {isLoading 
-      ? <Loading />
-      : isError 
-      ? <p>판매 기록을 불러오지 못했습니다.</p>
-      : (
-        <ul>
-          {data.map((order, idx) => (
-            <li key={`order_${idx}`} className='*:mt-4'>
-              <OrderContainer 
-                orderId={order.id}
-                status={order.status}
-                productId={order.productId}
-                quantity={order.productQuantity}
-                buyerId={order.buyerId}
-                date={order.createdAt}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
-      </div>
-    </MyPageLayout>
+      </MyPageLayout>
+    </>
   )
 }
 

@@ -11,6 +11,7 @@ import getImageBlob from '@/api/getImageBlob'
 import { EditableProduct, Product, TInputImage } from '@/types/product'
 import ProductForm from '@/components/ProductForm'
 import Loading from '@/components/Loading'
+import MetaTag from '@/components/MetaTag'
 
 
 const EditProduct= () => {
@@ -105,28 +106,32 @@ const EditProduct= () => {
   }
 
   return (
-    <MyPageLayout>
-      <h1 className='h1 mb-6'>상품 등록</h1>
-      <p className='mb-6'>상품의 정보를 입력해주세요.</p>
+    <>
+      <MetaTag />    
 
-      <div className='w-full'>
-        <ProductForm 
-          onSubmit={onSubmitEdit} 
-          defaultValues={
-            data ? {
-              name: data.productName,
-              description: data.productDescription,
-              image: data.productImage,
-              category: data.productCategory,
-              price: data.productPrice,
-              quantity: data.productQuantity
+      <MyPageLayout>
+        <h1 className='h1 mb-6'>상품 등록</h1>
+        <p className='mb-6'>상품의 정보를 입력해주세요.</p>
+
+        <div className='w-full'>
+          <ProductForm 
+            onSubmit={onSubmitEdit} 
+            defaultValues={
+              data ? {
+                name: data.productName,
+                description: data.productDescription,
+                image: data.productImage,
+                category: data.productCategory,
+                price: data.productPrice,
+                quantity: data.productQuantity
+              } 
+              : undefined
             } 
-            : undefined
-          } 
-        />
-      </div>
-      {isSubmitting && <div className='fixed top-0 left-0 w-[100vw] h-[100vh] flex justify-center items-center'><Loading /></div>}
-    </MyPageLayout>
+          />
+        </div>
+        {isSubmitting && <div className='fixed top-0 left-0 w-[100vw] h-[100vh] flex justify-center items-center'><Loading /></div>}
+      </MyPageLayout>
+    </>
   )
 }
 

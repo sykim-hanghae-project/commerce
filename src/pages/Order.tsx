@@ -26,6 +26,7 @@ import { User } from '@/types/user';
 import updateProduct from '@/api/updateProduct';
 import updateProductQuantity from '@/api/updateProductQuantity';
 import Loading from '@/components/Loading';
+import MetaTag from '@/components/MetaTag';
 
 const Order = () => {
   const user = useLoaderData() as User
@@ -189,234 +190,240 @@ const unloadEventHandler = useCallback(() => {
   }
 
   return (
-    <div className='p-8 flex flex-col justify-center' id='orderpage'>
-      <h1 className='h1 mb-8'>주문하기</h1>
+    <>
+      <MetaTag 
+        title='주문하기 - XSO'
+      />
 
-      <div>
-        
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField 
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>이름</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      <div className='p-8 flex flex-col justify-center' id='orderpage'>
+        <h1 className='h1 mb-8'>주문하기</h1>
 
-            <div>
-              <FormLabel>주소</FormLabel>
-              <div className='flex'>
-                <div className='w-full h-10 bg-white rounded-md border px-3 py-2'>
-                  <p>{address}</p>
-                </div>
-
-                <FormField 
-                  control={form.control}
-                  name="address2"
-                  render={({ field }) => (
-                    <FormItem className='mx-4 w-full'>
-                      <FormControl>
-                        <Input {...field} placeholder='상세 주소' />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <Button onClick={toggle}>주소 검색</Button>
-              </div>
-              
-            </div>
-
-            <div>
-              <FormLabel>전화번호</FormLabel>
-              <div className='flex'>
-                <FormField 
-                  control={form.control}
-                  name='phone1'
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select {...field} onValueChange={field.onChange}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value='010'>010</SelectItem>
-                          <SelectItem value='011'>011</SelectItem>
-                          <SelectItem value='016'>016</SelectItem>
-                          <SelectItem value='017'>017</SelectItem>
-                          <SelectItem value='018'>018</SelectItem>
-                          <SelectItem value='019'>019</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                <p className='p-2'>-</p>
-                <FormField 
-                  control={form.control}
-                  name="phone2"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <p className='p-2'>-</p>
-                <FormField 
-                  control={form.control}
-                  name="phone3"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-{/* 
-            <div>
-              <FormLabel>이메일</FormLabel>
-
-              <div className='flex items-center'>
-                <FormField 
-                  control={form.control}
-                  name="emailId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <p className='mx-2'>@</p>
-
-                <FormField 
-                  control={form.control}
-                  name="emailDomain"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField 
-                  control={form.control}
-                  name="emailDomain"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select {...field} onValueChange={field.onChange}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="이메일 선택" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="naver.com">naver.com</SelectItem>
-                          <SelectItem value="daum.net">daum.net</SelectItem>
-                          <SelectItem value="nate.com">nate.com</SelectItem>
-                          <SelectItem value="gmail.com">gmail.com</SelectItem>
-                          <SelectItem value="직접입력">직접입력</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div> */}
-
-            <div className='mt-8'>
-              <p className='font-semibold'>주문 상품</p>
-              
-              <div className='my-4 border-y border-black py-4'>
-                <ul>
-                {products.map((item, idx) => (
-                  <li className='OrderItem' key={`order_product_${idx}`} >
-                    <OrderProductContainer  
-                      imageFilename={item.product.productImage[0]}
-                      productName={item.product.productName}
-                      quantity={item.quantity}
-                      price={item.product.productPrice}
-                    />
-                  </li>
-                ))}
-                </ul>
-              </div>
-
-              <div className='flex font-semibold'>
-                <p className='w-full'>결제 금액</p>
-                <p className='min-w-max'>{priceToString(totalPrice)}</p>
-              </div>
-            </div>
-
-            <div className='flex items-center my-4'>
+        <div>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField 
                 control={form.control}
-                name="agreement"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>이름</FormLabel>
                     <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      <Input {...field} />
                     </FormControl>
-
+                    <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormLabel className='ml-4'>결제정보를 확인하였으며, 구매진행에 동의합니다.</FormLabel>
-            </div>
 
-            <div className='flex justify-center'>
-              <Button type='submit' className='px-8' disabled={loading ? true: false}>결제 진행</Button>
-            </div>
+              <div>
+                <FormLabel>주소</FormLabel>
+                <div className='flex'>
+                  <div className='w-full h-10 bg-white rounded-md border px-3 py-2'>
+                    <p>{address}</p>
+                  </div>
 
-          </form>          
-        </Form>
+                  <FormField 
+                    control={form.control}
+                    name="address2"
+                    render={({ field }) => (
+                      <FormItem className='mx-4 w-full'>
+                        <FormControl>
+                          <Input {...field} placeholder='상세 주소' />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-      </div>
+                  <Button onClick={toggle}>주소 검색</Button>
+                </div>
+                
+              </div>
 
-      {isModalOpen && 
-      <div className='ModalOutside'>
-        <Modal className='w-96'>
-          <Modal.Header title='주소 입력'>
-            <Modal.Close onClose={toggle}>
-              <IoMdClose />
-            </Modal.Close>
-          </Modal.Header>
-          <Modal.Body>
-            <DaumPostcodeEmbed onComplete={onCompletePostcode} onClose={() => setIsModalOpen(false)} />
-          </Modal.Body>
-        </Modal>
-      </div>
-      }
+              <div>
+                <FormLabel>전화번호</FormLabel>
+                <div className='flex'>
+                  <FormField 
+                    control={form.control}
+                    name='phone1'
+                    render={({ field }) => (
+                      <FormItem>
+                        <Select {...field} onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value='010'>010</SelectItem>
+                            <SelectItem value='011'>011</SelectItem>
+                            <SelectItem value='016'>016</SelectItem>
+                            <SelectItem value='017'>017</SelectItem>
+                            <SelectItem value='018'>018</SelectItem>
+                            <SelectItem value='019'>019</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                  <p className='p-2'>-</p>
+                  <FormField 
+                    control={form.control}
+                    name="phone2"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <p className='p-2'>-</p>
+                  <FormField 
+                    control={form.control}
+                    name="phone3"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+  {/* 
+              <div>
+                <FormLabel>이메일</FormLabel>
 
-      {createOrderMutation.isLoading && 
-      <div className='w-screen h-screen fixed top-0 left-0 flex justify-center items-center'>
-        <Loading />
-      </div>}
-    </div>
+                <div className='flex items-center'>
+                  <FormField 
+                    control={form.control}
+                    name="emailId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <p className='mx-2'>@</p>
+
+                  <FormField 
+                    control={form.control}
+                    name="emailDomain"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField 
+                    control={form.control}
+                    name="emailDomain"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Select {...field} onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="이메일 선택" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="naver.com">naver.com</SelectItem>
+                            <SelectItem value="daum.net">daum.net</SelectItem>
+                            <SelectItem value="nate.com">nate.com</SelectItem>
+                            <SelectItem value="gmail.com">gmail.com</SelectItem>
+                            <SelectItem value="직접입력">직접입력</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div> */}
+
+              <div className='mt-8'>
+                <p className='font-semibold'>주문 상품</p>
+                
+                <div className='my-4 border-y border-black py-4'>
+                  <ul>
+                  {products.map((item, idx) => (
+                    <li className='OrderItem' key={`order_product_${idx}`} >
+                      <OrderProductContainer  
+                        imageFilename={item.product.productImage[0]}
+                        productName={item.product.productName}
+                        quantity={item.quantity}
+                        price={item.product.productPrice}
+                      />
+                    </li>
+                  ))}
+                  </ul>
+                </div>
+
+                <div className='flex font-semibold'>
+                  <p className='w-full'>결제 금액</p>
+                  <p className='min-w-max'>{priceToString(totalPrice)}</p>
+                </div>
+              </div>
+
+              <div className='flex items-center my-4'>
+                <FormField 
+                  control={form.control}
+                  name="agreement"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      </FormControl>
+
+                    </FormItem>
+                  )}
+                />
+                <FormLabel className='ml-4'>결제정보를 확인하였으며, 구매진행에 동의합니다.</FormLabel>
+              </div>
+
+              <div className='flex justify-center'>
+                <Button type='submit' className='px-8' disabled={loading ? true: false}>결제 진행</Button>
+              </div>
+
+            </form>          
+          </Form>
+
+        </div>
+
+        {isModalOpen && 
+        <div className='ModalOutside'>
+          <Modal className='w-96'>
+            <Modal.Header title='주소 입력'>
+              <Modal.Close onClose={toggle}>
+                <IoMdClose />
+              </Modal.Close>
+            </Modal.Header>
+            <Modal.Body>
+              <DaumPostcodeEmbed onComplete={onCompletePostcode} onClose={() => setIsModalOpen(false)} />
+            </Modal.Body>
+          </Modal>
+        </div>
+        }
+
+        {createOrderMutation.isLoading && 
+        <div className='w-screen h-screen fixed top-0 left-0 flex justify-center items-center'>
+          <Loading />
+        </div>}
+      </div>    
+    </> 
   )
 }
 
