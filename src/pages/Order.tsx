@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
-import { redirect, useLoaderData } from 'react-router-dom'
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import * as z from "zod"
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IoMdClose } from "react-icons/io";
 import { DaumPostcodeEmbed, Address } from 'react-daum-postcode'
 import { v4 as uuidv4 } from 'uuid'
+import { useMutation } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/button'
-import { useCartDispatch, useCartState } from '@/context/CartContext'
+import { useCartDispatch } from '@/context/CartContext'
 import OrderProductContainer from '@/components/OrderProductContainer'
 import priceToString from '@/utils/priceToString'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -19,39 +20,27 @@ import Modal from '@/components/Modal'
 import useScript from '@/hooks/useScript';
 import onClickPayment from '@/helpers/iamport';
 import { RequestPayResponse } from '@/types/iamport';
-import getProduct from '@/api/getProduct';
-import { CartItem } from '@/types/CartItem';
-import { Product } from '@/types/product';
+import { OrderItem } from '@/types/CartItem';
 import createOrder from '@/api/createOrder';
 import { User } from '@/types/user';
 import updateProduct from '@/api/updateProduct';
 import updateProductQuantity from '@/api/updateProductQuantity';
-import { useMutation } from '@tanstack/react-query';
 import Loading from '@/components/Loading';
-
-type OrderItem = {
-  product: Product,
-  quantity: number
-}
 
 const Order = () => {
   const user = useLoaderData() as User
 
-  const cartState = useCartState()
-  if (!cartState.items) {
-    redirect('/')
-  }
-  const cartDispatch = useCartDispatch()
-  const [cartItems, ] = useState<CartItem[]>(cartState.items)//처음에 설정
-  
-  const [products, setProducts] = useState<OrderItem[]>([])
+  const navigate = useNavigate()
 
+  const location = useLocation()
+  const products = location.state.products as OrderItem[]
+
+  const cartDispatch = useCartDispatch()
+  
   const [isModalOpen, setIsModalOpen] = useState(false) //주소 입력 모달
   const [address, setAddress] = useState<string>("")
 
   const [loading, error] = useScript("https://cdn.iamport.kr/v1/iamport.js"); // 스크립트 동적 삽입
-
-  const [totalPrice, setTotalPrice] = useState(0)
 
   const [isPaid, setIsPaid] = useState(false)
 
@@ -61,11 +50,9 @@ const Order = () => {
     
     //페이지 벗어날 때 재고 복구
     window.addEventListener('unload', unloadEventHandler)
-    // window.addEventListener('popstate', popStateEventHandler)
 
     return () => {
       window.removeEventListener('unload', unloadEventHandler)
-      // window.removeEventListener('popstate', popStateEventHandler)
     }
   }, [products, isPaid])
 
@@ -87,26 +74,13 @@ const unloadEventHandler = useCallback(() => {
     })
   }
 
-  useEffect(() => {
-    initiateOrderPage()
-  }, [cartItems])
-
-  async function initiateOrderPage() {
-    const cartProducts: { product: Product, quantity: number }[] = []
+  const totalPrice = useMemo(() => {
     let total = 0
-
-    for (let i = 0; i < cartItems.length; i += 1) {
-      const res = await getProduct(cartItems[i].id) as Product
-      cartProducts.push({
-        product: res!,
-        quantity: cartItems[i].quantity
-      })
-      total += (res!.productPrice * cartItems[i].quantity)
+    for (const item of products) {
+      total += item.product.productPrice * item.quantity
     }
-
-    setProducts(cartProducts)
-    setTotalPrice(total)
-  }
+    return total
+  }, [products])
 
   const toggle = () => {
     setIsModalOpen(!isModalOpen)
@@ -188,7 +162,7 @@ const unloadEventHandler = useCallback(() => {
     
     if (!success) {
       window.alert(`결제 실패: ${error_msg}`)
-      window.location.assign('/')
+      navigate('/')
       return
     }
 
@@ -202,7 +176,7 @@ const unloadEventHandler = useCallback(() => {
       onSettled: () => {
         //장바구니 비우기
         cartDispatch({ type: "EMPTY" })
-        window.location.replace('/mypage/myorder')
+        navigate('/mypage/myorder')
       }
     })
   }

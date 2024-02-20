@@ -3,11 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
 import getImageUrl from '@/api/getImageUrl'
-import getProduct from '@/api/getProduct'
 import priceToString from '@/utils/priceToString'
-import { CartItem } from '@/types/CartItem';
 import { useCartDispatch } from '@/context/CartContext';
 import Loading from './Loading';
+import { Product } from '@/types/product';
 
 interface CartProductImageProps {
   filename: string
@@ -31,58 +30,80 @@ const CartProductImage = ({ filename }: CartProductImageProps) => {
 }
 
 interface CartProductContainerProps {
-  item: CartItem
+  pid: string
+  product: Product | null | undefined
+  quantity: number
+  isLoading: boolean
+  isError: boolean
+  error: unknown
 }
 
-const CartProductContainer = ({ item }: CartProductContainerProps) => {
-  // const cartState = useCartState()
+const CartProductContainer = ({ pid, product, quantity: cquantity, isLoading, isError, error }: CartProductContainerProps) => {
   const dispatch = useCartDispatch()
 
-  const [quantity, setQuantity] = useState<number>(item.quantity)
+  const [quantity, setQuantity] = useState<number>(cquantity)
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['product', item.id],
-    queryFn: ({ queryKey }) => getProduct(queryKey[1]),
-    staleTime: Infinity
-  })
-
+  if (isLoading) {
+    return (
+      <div className='w-full flex justify-center'>
+        <Loading />
+      </div>
+    )
+  }
   if (isError) {
     console.log(error)
+    return (
+      <div className='text-sm'>
+        <p>상품을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</p>
+      </div>
+    )
+  }
+
+  function getPrice() {
+    if (product) 
+      return priceToString(product.productPrice * quantity)
   }
 
   const onIncrementQuantity = () => {
     setQuantity(quantity + 1)
-    dispatch({ type: "INCREMENT_ITEM", itemId: item.id })
+    dispatch({ type: "INCREMENT_ITEM", itemId: pid })
   }
 
   const onDecrementQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1)
-      dispatch({ type: 'DECREMENT_ITEM', itemId: item.id })
+      dispatch({ type: 'DECREMENT_ITEM', itemId: pid })
     }
   }
 
   const onDelete = () => {
-    dispatch({ type: "DELETE_ITEM", itemId: item.id })
+    dispatch({ type: "DELETE_ITEM", itemId: pid })
   }
 
   const onClick = () => {
     window.location.assign(`/product/${item.id}`)
   }
 
-  return data && (
-    <div className='flex'>
-      
+  return product && (
+    <div className='flex relative'>
+      {product.productQuantity <= 0 && (
+        <div className='absolute left-0 top-0 w-full h-full bg-white opacity-50' />
+      )}
       <div className='mr-4 cursor-pointer' onClick={onClick}>
-        <CartProductImage filename={data.productImage[0]} />
+        <CartProductImage filename={product.productImage[0]} />
       </div>
 
       <div className='w-full'>
+        {product.productQuantity <= 0 && (
+          <div className='bg-gray-900 w-fit'>
+            <p className='text-xs text-white'>품절</p>
+          </div>
+        )}
         <div className='flex mb-2'>
           <p className='text-sm text-ellipsis line-clamp-1 w-full cursor-pointer' onClick={onClick}>
-            {isError ? "?" : isLoading ? "loading..." : data.productName}
+          {product.productName}
           </p>
-          <p className='text-sm min-w-max'>{priceToString(item.price * item.quantity)}</p>
+          <p className='text-sm min-w-max'>{getPrice()}</p>
         </div>
 
         <div className='flex'>

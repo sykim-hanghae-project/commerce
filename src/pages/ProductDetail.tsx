@@ -75,9 +75,9 @@ const ProductDetail: React.FC = () => {
               <CartDrawer>
                 <Button className='w-full mt-4' variant={'secondary'}>장바구니 보기</Button>
               </CartDrawer>
-            ) : (
+            ) : product.productQuantity > 0 ? (
               <Button className='w-full mt-4' onClick={AddToCart}>장바구니 담기</Button>
-            )}
+            ) : <Button className='w-full mt-4' disabled>품절</Button>}
           </div>
           
         </div>
