@@ -35,7 +35,7 @@ const EditProduct= () => {
   if (isLoading) return <Loading />
   if (isError) {
     console.log(error)
-    window.location.replace('/mypage')
+    return <p>오류가 발생했습니다.</p>
   }
 
   // 상품 수정
