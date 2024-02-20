@@ -1,4 +1,4 @@
-import React, { Dispatch, createContext, useContext, useReducer } from 'react'
+import React, { Dispatch, createContext, useContext, useEffect, useReducer } from 'react'
 import { CartItem } from '@/types/CartItem';
 
 type State = {
@@ -6,22 +6,14 @@ type State = {
 }
 
 type Action = 
+  | { type: 'INITIATE'; items: CartItem[] }
   | { type: 'ADD_ITEM'; itemId: string; price: number } 
   | { type: 'DELETE_ITEM'; itemId: string }
   | { type: 'INCREMENT_ITEM'; itemId: string }
   | { type: 'DECREMENT_ITEM'; itemId: string }
   | { type: 'EMPTY' }
 
-const getCartItem = () => {
-  const string_cart = window.localStorage.getItem('cart')
-  // console.log("string_cart",string_cart)
-  if (!string_cart) return []
-
-  const cart = JSON.parse(string_cart)
-  return cart.items
-}
-
-const StateContext = createContext<State>({ items: getCartItem() });
+const StateContext = createContext<State>({ items: [] });
 const DispatchContext = createContext<Dispatch<Action> | null>(null);
 
 interface Props {
@@ -29,7 +21,20 @@ interface Props {
 }
 
 const CartContextProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(reducer, { items: getCartItem() });
+  const [state, dispatch] = useReducer(reducer, { items: [] });
+
+  useEffect(() => {
+    dispatch({ type: 'INITIATE', items: getCartItem() })
+  }, [])
+
+  const getCartItem = () => {
+    const string_cart = window.localStorage.getItem('cart')
+    // console.log("string_cart",string_cart)
+    if (!string_cart) return []
+  
+    const cart = JSON.parse(string_cart)
+    return cart.items
+  }
 
   return (
     <StateContext.Provider value={state}>
@@ -43,6 +48,9 @@ const CartContextProvider = ({ children }: Props) => {
 function reducer(state: State, action: Action): State {
   let newState = undefined
   switch (action.type) {
+    case 'INITIATE' : {
+      return { items: action.items }
+    }
     case 'ADD_ITEM': {
       newState =  {
         items: [
