@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { Navigate, RouteObject } from 'react-router-dom';
+import { Navigate, RouteObject, redirect } from 'react-router-dom';
 
 const MyOrder = lazy(() => import('@/pages/MyOrder'))
 const AddProduct = lazy(() => import('@/pages/AddProduct'))
@@ -21,8 +21,9 @@ export default function PrivateRoutes(): RouteObject {
 
   const userLoader = async () => {
     const uid = window.localStorage.getItem('uid')
-    if (!uid) return null
+    if (!uid) return redirect('/login')
     const user = await getUser(uid)
+    if (!user) return redirect('/login')
     return user
   }
 
