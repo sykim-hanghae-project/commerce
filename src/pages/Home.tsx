@@ -1,8 +1,7 @@
 import HomeProductsByCategory from '@/components/HomeProductsByCategory'
 import MetaTag from '@/components/MetaTag'
-import React from 'react'
 
-const Home: React.FC = () => {
+const Home = () => {
   const category = ['Women', 'Men']
 
   return (
