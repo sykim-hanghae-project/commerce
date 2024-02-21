@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
 import MyPageLayout from '@/components/layout/MyPageLayout'
-import uploadImage from '@/api/uploadImage'
 import getProduct from '@/api/getProduct'
-import deleteImage from '@/api/deleteImage'
-import updateProduct from '@/api/updateProduct'
-import getImageBlob from '@/api/getImageBlob'
 import { EditableProduct, Product, TInputImage } from '@/types/product'
 import ProductForm from '@/components/ProductForm'
-import Loading from '@/components/Loading'
 import MetaTag from '@/components/MetaTag'
 
+const Loading = lazy(() => import('@/components/Loading'))
 
 const EditProduct= () => {
   const [searchParams, ] = useSearchParams()
@@ -51,6 +47,11 @@ const EditProduct= () => {
     console.log(values)
     setIsSubmitting(true)
     try {
+      const { default: getImageBlob } = await import('@/api/getImageBlob')
+      const { default: deleteImage } = await import('@/api/deleteImage')
+      const { default: uploadImage } = await import('@/api/uploadImage')
+      const { default: updateProduct } = await import('@/api/updateProduct')
+
       //모든 사진 중 기존 사진에 있었던 사진은 blob으로
       const blobs: Blob[] = []
       if (values.image) {

@@ -17,7 +17,6 @@ import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import orderStatusToString from '@/utils/orderStatusToString';
 import { Status } from '@/types/order';
-import updateOrderStatus from '@/api/updateOrderStatus';
 import MetaTag from '@/components/MetaTag';
 
 interface ProductImageProps {
@@ -92,8 +91,17 @@ const OrderContainer = ({
     console.log(statusVal)
     const res = window.confirm("주문 상태를 정말 변경하시겠습니까?")
     if (res) {
-      await updateOrderStatus(orderId, statusVal)
-      window.alert(`주문 상태를 변경했습니다.`)
+      const { default: updateOrderStatus } = await import('@/api/updateOrderStatus')
+
+      updateOrderStatus(orderId, statusVal)
+      .then(() => {
+        window.alert(`주문 상태를 변경했습니다.`)
+        window.location.reload()
+      })
+      .catch((error) => {
+        console.log(error)
+        window.alert('주문 상태를 변경하지 못했습니다.')
+      })
     }
   }
 

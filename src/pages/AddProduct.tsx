@@ -1,14 +1,13 @@
-import { useState } from 'react'
+import { lazy, useState } from 'react'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 
 import MyPageLayout from '@/components/layout/MyPageLayout'
-import addProduct from '@/api/addProduct'
-import uploadImage from '@/api/uploadImage'
 import { User } from '@/types/user'
 import ProductForm from '@/components/ProductForm'
 import { TInputImage } from '@/types/product'
-import Loading from '@/components/Loading'
 import MetaTag from '@/components/MetaTag'
+
+const Loading = lazy(() => import('@/components/Loading'))
 
 const AddProduct= () => {
   const user = useLoaderData() as User 
@@ -31,6 +30,9 @@ const AddProduct= () => {
     setIsSubmitting(true)
 
     try {
+      const { default: uploadImage } = await import('@/api/uploadImage')
+      const { default: addProduct } = await import('@/api/addProduct')
+
       const filenames: string[] = []
       if (values.image) {
         for (const img of values.image) {

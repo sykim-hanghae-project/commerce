@@ -8,8 +8,6 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { getErrorMessage } from '@/utils/getErrorMessage'
-import createUser from '@/api/createUser'
 import MetaTag from '@/components/MetaTag'
 
 
@@ -43,16 +41,17 @@ const Signup: React.FC = () => {
   })
 
   
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // console.log(values)
+    const { default: createUser } = await import('@/api/createUser')
     createUser(values.name, values.email, values.password, values.type)
-    .then(() => { 
-      // 로그인 페이지로 이동
+    .then(() => {
       window.alert('회원가입이 완료되었습니다.')
-      navigate('/login');
+      navigate('/login')
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(async (error) => {
+      console.log(error)
+      const { default: getErrorMessage } = await import('@/utils/getErrorMessage')
       setErrorMessage(getErrorMessage(error));
     })
   }

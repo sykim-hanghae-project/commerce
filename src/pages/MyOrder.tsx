@@ -12,7 +12,6 @@ import getImageUrl from '@/api/getImageUrl'
 import { getUser } from '@/api/getUser'
 import getProduct from '@/api/getProduct';
 import formatDate from '@/utils/formatDate';
-import updateOrderStatus from '@/api/updateOrderStatus';
 import { Status } from '@/types/order';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import orderStatusToString from '@/utils/orderStatusToString';
@@ -88,9 +87,17 @@ const OrderContainer = ({
     //주문 취소
     const res = window.confirm("정말 주문을 취소하시겠습니까?")
     if (res) {
-      await updateOrderStatus(orderId, Status.order_canceled) 
-      window.alert("주문을 취소하였습니다.")
-      window.location.reload()
+      const { default: updateOrderStatus } = await import('@/api/updateOrderStatus')
+
+      await updateOrderStatus(orderId, Status.order_canceled)
+      .then(() => {
+        window.alert("주문을 취소하였습니다.")
+        window.location.reload()
+      })
+      .catch((error) => {
+        console.log(error)
+        window.alert("주문를 취소하지 못했습니다.")
+      })
     }
   }
 

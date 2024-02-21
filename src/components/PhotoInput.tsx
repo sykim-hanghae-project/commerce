@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input"
 import { TiDeleteOutline } from "react-icons/ti";
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
 import { TInputImage } from '@/types/product';
-import getImageUrl from '@/api/getImageUrl';
 
 
 interface PhotoContainerProps {
@@ -67,6 +66,8 @@ const PhotoInput = ({ defaultValues, onChange }: PhotoInputProps) => {
   }
 
   async function covertTypeOfDefaultValToTInputImage(filenames: string[]) {
+    const { default: getImageUrl } = await import('@/api/getImageUrl')
+
     const res: TInputImage[] = []
     for (const filename of filenames) {
       const url = await getImageUrl(filename)

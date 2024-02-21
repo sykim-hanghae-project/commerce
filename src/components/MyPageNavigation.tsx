@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
-import { signOut } from "firebase/auth";
-import { auth } from '@/helpers/firebase'
 import { User } from '@/types/user';
 
 type Item = {
@@ -22,7 +20,10 @@ const MyPageNavigation = () => {
 
   const navigate = useNavigate()
 
-  const onClickSignOut = () => {
+  const onClickSignOut = async () => {
+    const { signOut } = await import("firebase/auth")
+    const { auth } = await import('@/helpers/firebase')
+
     signOut(auth)
     .then(() => {
       window.alert('로그아웃 완료')

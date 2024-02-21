@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { lazy, useMemo } from 'react'
 import { Drawer } from 'vaul'
 import { useQueries } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -6,10 +6,11 @@ import { IoMdClose } from "react-icons/io";
 
 import { Button } from './ui/button'
 import { useCartState } from '@/context/CartContext'
-import CartProductContainer from './CartProductContainer'
 import priceToString from '@/utils/priceToString'
 import getProduct from '@/api/getProduct';
 import { OrderItem } from '@/types/CartItem';
+
+const CartProductContainer = lazy(() => import('./CartProductContainer'))
 
 interface CartDrawerProps {
   children: React.ReactNode

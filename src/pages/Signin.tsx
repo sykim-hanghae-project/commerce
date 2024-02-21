@@ -1,5 +1,4 @@
 import React from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { useNavigate } from 'react-router-dom'
@@ -22,6 +21,7 @@ const Signin: React.FC = () => {
   }
 
   const loginUser = async (email: string, password: string) => {
+    const { signInWithEmailAndPassword } = await import('firebase/auth')
     await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;  

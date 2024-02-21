@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { lazy, useCallback, useEffect, useMemo, useState } from 'react';
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import * as z from "zod"
 import { useForm } from 'react-hook-form'
@@ -15,15 +15,16 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
 import useScript from '@/hooks/useScript';
-import onClickPayment from '@/helpers/iamport';
 import { RequestPayResponse } from '@/types/iamport';
 import { OrderItem } from '@/types/CartItem';
 import { User } from '@/types/user';
 import updateProduct from '@/api/updateProduct';
 import updateProductQuantity from '@/api/updateProductQuantity';
-import Loading from '@/components/Loading';
 import MetaTag from '@/components/MetaTag';
 import useCreateOrderMutation from '@/hooks/useCreateOrderMutation';
+
+const OrderAddressModal = lazy(() => import('@/components/OrderAddressModal'))
+const Loading = lazy(() => import('@/components/Loading'))
 
 const Order = () => {
   const user = useLoaderData() as User
@@ -121,7 +122,7 @@ const unloadEventHandler = useCallback(() => {
     }
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("values",values)
     if (!values.agreement) {
       window.alert('구매 진행에 대한 동의가 필요합니다.')
@@ -138,6 +139,8 @@ const unloadEventHandler = useCallback(() => {
       window.location.reload()
       return
     }
+
+    const { default: onClickPayment } = await import('@/helpers/iamport')
 
     onClickPayment(
       uuidv4(), //merchant_uid
