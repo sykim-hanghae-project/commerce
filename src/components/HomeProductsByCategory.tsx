@@ -34,7 +34,7 @@ const HomeProductsByCategory = ({ category }: HomeProductsByCategoryProps) => {
       </button>
 
       <ul className="flex mt-4">
-        {data.map((product, idx) => (
+        {data && data.map((product, idx) => (
           <li className="homeProductsContainerProductItem" key={`${category}_product_${idx}`}>
             <ProductContainer product={product} />
           </li>
