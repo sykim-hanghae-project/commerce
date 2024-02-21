@@ -3,14 +3,13 @@ import { IoIosArrowForward } from "react-icons/io";
 import ProductContainer from "./ProductContainer";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "./Loading";
 
 interface HomeProductsByCategoryProps {
   category: string,
 }
 
 const HomeProductsByCategory = ({ category }: HomeProductsByCategoryProps) => {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isError, error } = useQuery({
     queryKey: ['productsByCategory', category],
     queryFn: ({ queryKey }) => getProductsByCategory(queryKey[1], 4, "createdAt", "desc", null),
     staleTime: 2000
@@ -18,7 +17,6 @@ const HomeProductsByCategory = ({ category }: HomeProductsByCategoryProps) => {
 
   const navigate = useNavigate()
 
-  if (isLoading) return <Loading />
   if (isError) {
     console.log(error)
     return <></>
