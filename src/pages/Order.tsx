@@ -3,8 +3,7 @@ import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import * as z from "zod"
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { IoMdClose } from "react-icons/io";
-import { DaumPostcodeEmbed, Address } from 'react-daum-postcode'
+import { Address } from 'react-daum-postcode'
 import { v4 as uuidv4 } from 'uuid'
 
 import { Button } from '@/components/ui/button'
@@ -15,7 +14,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
-import Modal from '@/components/Modal'
 import useScript from '@/hooks/useScript';
 import onClickPayment from '@/helpers/iamport';
 import { RequestPayResponse } from '@/types/iamport';
@@ -401,16 +399,10 @@ const unloadEventHandler = useCallback(() => {
 
         {isModalOpen && 
         <div className='ModalOutside'>
-          <Modal className='w-96'>
-            <Modal.Header title='주소 입력'>
-              <Modal.Close onClose={toggle}>
-                <IoMdClose />
-              </Modal.Close>
-            </Modal.Header>
-            <Modal.Body>
-              <DaumPostcodeEmbed onComplete={onCompletePostcode} onClose={() => setIsModalOpen(false)} />
-            </Modal.Body>
-          </Modal>
+          <OrderAddressModal 
+            toggle={toggle}
+            onComplete={onCompletePostcode}
+          />
         </div>
         }
 
