@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { getErrorMessage } from '@/utils/getErrorMessage'
+import getErrorMessage from '@/utils/getErrorMessage'
 import { auth } from "@/helpers/firebase"; 
 import { getUser } from '@/api/getUser'
 import MetaTag from '@/components/MetaTag'

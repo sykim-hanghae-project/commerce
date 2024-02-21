@@ -1,6 +1,6 @@
 import { AuthError } from 'firebase/auth';
 
-export function getErrorMessage(error: AuthError) {
+function getErrorMessage(error: AuthError) {
   switch (error.code) {
     case "auth/user-not-found" || "auth/wrong-password":
       return "이메일 혹은 비밀번호가 일치하지 않습니다.";
@@ -20,3 +20,5 @@ export function getErrorMessage(error: AuthError) {
       return error.message;
   }
 }
+
+export default getErrorMessage
