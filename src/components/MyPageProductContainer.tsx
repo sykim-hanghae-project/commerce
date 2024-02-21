@@ -7,14 +7,13 @@ import { Button } from './ui/button';
 import getImageUrl from '@/api/getImageUrl';
 import Loading from './Loading';
 import priceToString from '@/utils/priceToString';
-
+import useDeleteProductMutation from '@/hooks/useDeleteProductMutation'
 
 interface MyPageProductContainerProps {
   product: Product,
-  onDeleteProduct: (id: string, images: string[]) => void
 }
 
-const MyPageProductContainer = ({ product, onDeleteProduct }: MyPageProductContainerProps) => {
+const MyPageProductContainer = ({ product }: MyPageProductContainerProps) => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['productImage', product.productImage[0]],
     queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
@@ -23,16 +22,19 @@ const MyPageProductContainer = ({ product, onDeleteProduct }: MyPageProductConta
 
   const navigate = useNavigate()
 
+  const { mutate } = useDeleteProductMutation()
 
   const onClickEditBtn = () => {
     navigate(`/mypage/edit-product?product=${product.id}`)
   }
 
-
   const onClickDeleteBtn = async () => {
     const res = window.confirm('상품을 삭제하시겠습니까?')
     if (res) {
-      onDeleteProduct(product.id, product.productImage)
+      mutate({ 
+        id: product.id, 
+        images: product.productImage 
+      })
     }
   }
 

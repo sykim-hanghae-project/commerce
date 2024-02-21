@@ -9,14 +9,11 @@ import getAllProductBySeller from '@/api/getAllProductBySeller'
 import MyPageProductContainer from '@/components/MyPageProductContainer'
 import { User } from '@/types/user'
 import Loading from '@/components/Loading'
-import useDeleteProductMutation from '@/hooks/useDeleteProductMutation'
 import { Product } from '@/types/product'
 import MetaTag from '@/components/MetaTag'
 
 const ViewAllProducts: React.FC = () => {
   const user = useLoaderData() as User 
-
-  const { mutate } = useDeleteProductMutation()
 
   const [ref, inView] = useInView()
   const { products, isLoading, isError, hasNextPage, fetchNextPage } = useProductsQuery({
@@ -27,11 +24,6 @@ const ViewAllProducts: React.FC = () => {
     },
     sortBy: 'createdAt'
   })
-
-
-  const deleteProductById = (id: string, images: string[]) => {
-    mutate({ id, images })
-  }
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -53,7 +45,7 @@ const ViewAllProducts: React.FC = () => {
               {products && (
                 products.map((product: Product) => (
                   <li key={`product_${product.id}`}>
-                    <MyPageProductContainer product={product} onDeleteProduct={deleteProductById} />
+                    <MyPageProductContainer product={product} />
                   </li>
                 ))
               )}
