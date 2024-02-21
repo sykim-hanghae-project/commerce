@@ -5,20 +5,18 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Product } from '@/types/product'
 import priceToString from '@/utils/priceToString'
 import getImageUrl from '@/api/getImageUrl'
-import Loading from './Loading'
 
 interface ProductImageProps {
   filename: string
 }
 
 const ProductImage = ({ filename }: ProductImageProps) => {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isError, error } = useQuery({
     queryKey: ['productImage', filename],
     queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
     staleTime: 2000
   })
 
-  if (isLoading) return <Loading />
   if (isError) {
     console.log(error)
     return <div className='w-full h-60 bg-gray-100'></div>
