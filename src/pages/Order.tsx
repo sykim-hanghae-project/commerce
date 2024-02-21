@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { IoMdClose } from "react-icons/io";
 import { DaumPostcodeEmbed, Address } from 'react-daum-postcode'
 import { v4 as uuidv4 } from 'uuid'
-import { useMutation } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/button'
 import { useCartDispatch } from '@/context/CartContext'
@@ -21,12 +20,12 @@ import useScript from '@/hooks/useScript';
 import onClickPayment from '@/helpers/iamport';
 import { RequestPayResponse } from '@/types/iamport';
 import { OrderItem } from '@/types/CartItem';
-import createOrder from '@/api/createOrder';
 import { User } from '@/types/user';
 import updateProduct from '@/api/updateProduct';
 import updateProductQuantity from '@/api/updateProductQuantity';
 import Loading from '@/components/Loading';
 import MetaTag from '@/components/MetaTag';
+import useCreateOrderMutation from '@/hooks/useCreateOrderMutation';
 
 const Order = () => {
   const user = useLoaderData() as User
@@ -44,6 +43,8 @@ const Order = () => {
   const [loading, error] = useScript("https://cdn.iamport.kr/v1/iamport.js"); // 스크립트 동적 삽입
 
   const [isPaid, setIsPaid] = useState(false)
+
+  const createOrderMutation = useCreateOrderMutation()
 
   useEffect(() => {
     //페이지 진입 시 재고 감소
@@ -150,13 +151,6 @@ const unloadEventHandler = useCallback(() => {
     )
   }
 
-  const createOrderMutation = useMutation({
-    mutationFn: async ({ items }: { items: OrderItem[] }) => {
-      items.forEach(async (item) => {
-        await createOrder(item.product.sellerId, user.id, item.product.id, item.quantity)
-      })
-    }
-  })
 
   const payCallback = (response: RequestPayResponse) => {
     const { success, error_msg } = response
@@ -170,9 +164,11 @@ const unloadEventHandler = useCallback(() => {
     //결제 성공 시
     setIsPaid(true)
     //firebase에 기록
-    createOrderMutation.mutate({ items: products }, {
+
+    createOrderMutation.mutate({ items: products, userId: user.id }, {
       onError: (error) => {
         console.log(error);
+        window.alert('결제가 실패했습니다.')
       },
       onSettled: () => {
         //장바구니 비우기
