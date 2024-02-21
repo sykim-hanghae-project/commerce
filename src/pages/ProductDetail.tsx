@@ -47,7 +47,7 @@ const ProductDetail: React.FC = () => {
 
   if (isError) console.log(error)
 
-  const AddToCart = () => {
+  const addToCart = () => {
     dispatch({ type: "ADD_ITEM", itemId: product.id, price: product.productPrice })
     window.alert('장바구니에 담겼습니다.')
   }
@@ -77,14 +77,16 @@ const ProductDetail: React.FC = () => {
 
             {/* 장바구니 */}
             <div>
-              {cartState.items.length > 0 && cartState.items.find((item) => item.id === product.id) ? (
+              {cartState.items.length > 0 && cartState.items.find((item) => item.id === product.id) 
+                ? (
                 /* 장바구니에 있으면 */
-                <CartDrawer>
-                  <Button className='w-full mt-4' variant={'secondary'}>장바구니 보기</Button>
-                </CartDrawer>
-              ) : product.productQuantity > 0 ? (
-                <Button className='w-full mt-4' onClick={AddToCart}>장바구니 담기</Button>
-              ) : <Button className='w-full mt-4' disabled>품절</Button>}
+                  <CartDrawer>
+                    <Button className='w-full mt-4' variant={'secondary'}>장바구니 보기</Button>
+                  </CartDrawer>
+                ) 
+                : product.productQuantity > 0 
+                ? <Button className='w-full mt-4' onClick={addToCart}>장바구니 담기</Button>
+                : <Button className='w-full mt-4' disabled>품절</Button>}
             </div>
             
           </div>
