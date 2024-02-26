@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
-import { User } from '@/types/user';
+import React, { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 type Item = {
   name: string
@@ -13,9 +12,12 @@ type Group = {
   items: Item[]
 }
 
-const MyPageNavigation = () => {
-  const user = useLoaderData() as User 
-  
+interface MyPageNavigationProps {
+  isSeller: boolean,
+  userNickname: string
+}
+
+const MyPageNavigation = React.memo(({ isSeller, userNickname }: MyPageNavigationProps) => { 
   const [curPath, ] = useState<string>(useLocation().pathname)
 
   const navigate = useNavigate()
@@ -76,9 +78,9 @@ const MyPageNavigation = () => {
 
   return (
     <div className='p-8'>
-      <div className='text-3xl'>{user.nickname}</div>
+      <div className='text-3xl'>{userNickname}</div>
       <ul>
-        {(user.isSeller ? sellerItems : consumerItems).concat(commonItems).map((group, idx) => (
+        {(isSeller ? sellerItems : consumerItems).concat(commonItems).map((group, idx) => (
           <li className='myPageNavGroup' key={`mpn_group_${idx}`}>
             <div className='myPageNavGroupTitle'>{group.title}</div>
             <ul>
@@ -93,6 +95,6 @@ const MyPageNavigation = () => {
       </ul>
     </div>
   )
-}
+})
 
 export default MyPageNavigation
