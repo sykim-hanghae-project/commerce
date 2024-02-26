@@ -10,8 +10,8 @@ const Signin = lazy(() => import('@/pages/Signin'))
 const Signup = lazy(() => import('@/pages/Signup'))
 const EditInfo = lazy(() => import('@/pages/EditInfo'))
 const Order = lazy(() => import('@/pages/Order'));
+const Layout = lazy(() => import('@/components/layout/Layout'))
 
-import Layout from '@/components/layout/Layout';
 import { checkAuth } from '@/utils/checkAuth';
 
 // 로그인 상태
