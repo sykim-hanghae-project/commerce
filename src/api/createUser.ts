@@ -1,23 +1,22 @@
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth"
-import { auth, db } from "@/helpers/firebase"
-import { doc, serverTimestamp, setDoc } from "firebase/firestore"
+import { db } from "@/helpers/firebase"
+import { doc, setDoc } from "firebase/firestore"
 
-async function createUser(name: string, email: string, password: string, type: string) {
-  const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-
-  const user = userCredential.user
-  
-  await setDoc(doc(db, 'users', user.uid), {
-    id: user.uid,
+async function createUser(
+  id: string,
+  nickname: string,
+  email: string, 
+  password: string, 
+  isSeller: boolean
+  ) {  
+  await setDoc(doc(db, 'users', id), {
+    id,
     email,
-    isSeller: type === "seller" ? true : false,
-    nickname: name,
+    isSeller,
+    nickname,
     password,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp()
+    createdAt: new Date(),
+    updatedAt: new Date()
   })
-
-  await signOut(auth)
 }
 
 export default createUser

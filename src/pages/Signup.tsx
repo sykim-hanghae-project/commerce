@@ -3,12 +3,14 @@ import { useForm } from 'react-hook-form'
 import * as z from "zod"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import MetaTag from '@/components/MetaTag'
+import Loading from '@/components/Loading'
 
 
 const Signup: React.FC = () => {
@@ -29,7 +31,6 @@ const Signup: React.FC = () => {
     type: z.string()
   })
 
-  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,19 +41,42 @@ const Signup: React.FC = () => {
     },
   })
 
+  const signUpMutation = useMutation({
+    mutationFn: async ({ name, email, password, type }: {
+      name: string,
+      email: string,
+      password: string,
+      type: string
+    }) => {
+      const { createUserWithEmailAndPassword, signOut } = await import("firebase/auth")
+      const { auth } = await import("@/helpers/firebase")
+      await createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        const { default: createUser } = await import('@/api/createUser')
+        await createUser(userCredential.user.uid, name, email, password, type === "seller" ? true : false)
   
+        await signOut(auth)
+
+        window.alert('회원가입이 완료되었습니다.')
+        navigate('/login')
+      })
+      .catch(async (error) => {
+        console.log('error', error)
+        const { default: getErrorMessage } = await import('@/utils/getErrorMessage')
+        setErrorMessage(getErrorMessage(error))
+      })
+    },
+    onError: () => {
+      window.alert('회원가입 실패')
+    }
+  })
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // console.log(values)
-    const { default: createUser } = await import('@/api/createUser')
-    createUser(values.name, values.email, values.password, values.type)
-    .then(() => {
-      window.alert('회원가입이 완료되었습니다.')
-      navigate('/login')
-    })
-    .catch(async (error) => {
-      console.log(error)
-      const { default: getErrorMessage } = await import('@/utils/getErrorMessage')
-      setErrorMessage(getErrorMessage(error));
+    signUpMutation.mutate({
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      type: values.type
     })
   }
 
@@ -152,6 +176,13 @@ const Signup: React.FC = () => {
             </form>
           </Form>
         </div>
+        
+        {signUpMutation.isLoading && (
+          <div className='absolute left-0 top-0 w-screen h-screen flex items-center justify-center'>
+            <Loading />
+          </div>
+        )}
+
       </div>
     </>
   )
