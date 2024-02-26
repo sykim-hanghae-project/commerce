@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from '@tanstack/react-query'
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import getErrorMessage from '@/utils/getErrorMessage'
-import { auth } from "@/helpers/firebase"; 
-import getUser from '@/api/getUser'
 import MetaTag from '@/components/MetaTag'
+import { User } from '@/types/user'
+import Loading from '@/components/Loading'
 
 
 const Signin: React.FC = () => {
@@ -19,28 +19,23 @@ const Signin: React.FC = () => {
   function onClickSignupBtn() {
     navigate('/signup')
   }
+  
+  const signInMutation = useMutation({
+    mutationFn: async ({ email, password }: { email: string, password: string }) => {
+      const { signInWithEmailAndPassword } = await import('firebase/auth')
+      const { auth } = await import("@/helpers/firebase")
 
-  const loginUser = async (email: string, password: string) => {
-    const { signInWithEmailAndPassword } = await import('firebase/auth')
-    await signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;  
-      user.getIdToken()
-      .then((token) => {
-        window.localStorage.setItem('user-token', token)
-      })
-      .catch((error) => {
-        throw(error) //fail to get token
-      })
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      const user = userCredential.user
+      const token = await user.getIdToken()
+      window.localStorage.setItem('user-token', token)
       window.localStorage.setItem('uid', user.uid)
-    })
-    .catch((error) => { //로그인 실패
-      throw(error)
-    })
 
-    const uid = window.localStorage.getItem('uid')
-    return uid ? getUser(uid) : null
-  }
+      const { default: getUser } = await import('@/api/getUser')
+
+      return getUser(user.uid)
+    }
+  })
 
   const formSchema = z.object({
     email: z.string().email(),
@@ -56,17 +51,17 @@ const Signin: React.FC = () => {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    loginUser(values.email, values.password)
-    .then((user) => {
-      if (user) {
-        window.localStorage.setItem('user-role', user.isSeller ? 'seller' : 'consumer')
+    signInMutation.mutate({ email: values.email, password: values.password}, {
+      onSuccess: (user: User | null) => {
+        if (user) {
+          window.localStorage.setItem('user-role', user.isSeller ? 'seller' : 'consumer')
+          window.alert('로그인이 완료되었습니다.')
+          window.location.replace('/')
+        }
+      },
+      onError: (error) => {
+        window.alert(error)
       }
-      
-      window.alert('로그인이 완료되었습니다.')
-      window.location.assign('/')
-    })
-    .catch((error) => {
-      window.alert(getErrorMessage(error));
     })
   }
 
@@ -114,6 +109,12 @@ const Signin: React.FC = () => {
         <button className='button mt-8' onClick={onClickSignupBtn}>
           <p className='underline underline-offset-2'>회원가입</p>
         </button>
+
+        {signInMutation.isLoading && (
+          <div className='absolute left-0 top-0 w-screen h-screen flex items-center justify-center'>
+            <Loading />
+          </div>
+        )}
       </div>
     </>
   )
