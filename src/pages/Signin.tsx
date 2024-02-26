@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import MetaTag from '@/components/MetaTag'
 import { User } from '@/types/user'
 import Loading from '@/components/Loading'
+import { AuthError } from 'firebase/auth'
 
 
 const Signin: React.FC = () => {
@@ -34,6 +35,17 @@ const Signin: React.FC = () => {
       const { default: getUser } = await import('@/api/getUser')
 
       return getUser(user.uid)
+    },
+    onSuccess: (user: User | null) => {
+      if (user) {
+        window.localStorage.setItem('user-role', user.isSeller ? 'seller' : 'consumer')
+        window.alert('로그인이 완료되었습니다.')
+        window.location.replace('/')
+      }
+    },
+    onError: async (error: AuthError) => {
+      const { default: getErrorMessage } = await import('@/utils/getErrorMessage')
+      window.alert(getErrorMessage(error))
     }
   })
 
@@ -51,18 +63,7 @@ const Signin: React.FC = () => {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    signInMutation.mutate({ email: values.email, password: values.password}, {
-      onSuccess: (user: User | null) => {
-        if (user) {
-          window.localStorage.setItem('user-role', user.isSeller ? 'seller' : 'consumer')
-          window.alert('로그인이 완료되었습니다.')
-          window.location.replace('/')
-        }
-      },
-      onError: (error) => {
-        window.alert(error)
-      }
-    })
+    signInMutation.mutate({ email: values.email, password: values.password})
   }
 
   return (
