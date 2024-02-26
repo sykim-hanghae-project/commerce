@@ -44,7 +44,7 @@ const Header = ({ title, children }: ModalHeaderProps) => {
   }
 
   return (
-    <div className="flex p-2">
+    <div className="flex p-2 bg-gray-100">
       <p className="min-w-max">{title}</p>
       {children}
     </div>
