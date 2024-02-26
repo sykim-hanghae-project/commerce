@@ -1,10 +1,8 @@
-import { lazy } from "react";
 import { BsHandbag, BsPerson } from "react-icons/bs";
 import SearchInput from './SearchInput';
 import { useCartState } from '@/context/CartContext';
 import { useNavigate } from "react-router-dom";
-
-const CartDrawer = lazy(() => import('./CartDrawer'))
+import CartDrawer from "./CartDrawer";
 
 const Header = () => {
   const cartState = useCartState()

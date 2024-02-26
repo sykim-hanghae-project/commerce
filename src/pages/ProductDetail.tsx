@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
@@ -10,8 +10,7 @@ import { useCartDispatch, useCartState } from '@/context/CartContext'
 import { Product } from '@/types/product'
 import priceToString from '@/utils/priceToString'
 import MetaTag from '@/components/MetaTag'
-
-const CartDrawer = lazy(() => import('@/components/CartDrawer'))
+import CartDrawer from '@/components/CartDrawer'
 
 interface ProductImageProps {
   filename: string
