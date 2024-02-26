@@ -1,0 +1,1 @@
+const m=(t,n,o,e,i,p)=>{if(!window.IMP)return;const{IMP:a}=window;a.init("imp17582541");const d={pg:"kakaopay",pay_method:"kakaopay",merchant_uid:t,amount:n,name:"XSO",buyer_name:o,buyer_tel:e,buyer_addr:i};a.request_pay(d,p)};export{m as default};
