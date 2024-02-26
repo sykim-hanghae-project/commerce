@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
@@ -52,6 +52,10 @@ const ProductDetail: React.FC = () => {
     window.alert('장바구니에 담겼습니다.')
   }
 
+  const isInCart = useMemo(() => {
+    return cartState.items.length > 0 && cartState.items.find((item) => item.id === product.id)
+  }, [cartState, product])
+
   return (
     <>
       <MetaTag  
@@ -77,7 +81,7 @@ const ProductDetail: React.FC = () => {
 
             {/* 장바구니 */}
             <div>
-              {cartState.items.length > 0 && cartState.items.find((item) => item.id === product.id) 
+              {isInCart 
                 ? (
                 /* 장바구니에 있으면 */
                   <CartDrawer>
