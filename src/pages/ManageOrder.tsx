@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import getAllOrderBySeller from '@/api/getAllOrderBySeller'
 import getImageUrl from '@/api/getImageUrl'
 import getProduct from '@/api/getProduct'
-import { getUser } from '@/api/getUser'
+import getUser from '@/api/getUser'
 import Loading from '@/components/Loading'
 import Modal from '@/components/Modal'
 import MyPageLayout from '@/components/layout/MyPageLayout'

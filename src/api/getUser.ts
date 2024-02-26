@@ -1,12 +1,13 @@
 import { db } from "@/helpers/firebase"
 import { doc, getDoc } from "firebase/firestore"
 
-export const getUser = async (uid: string) => {
+const getUser = async (uid: string) => {
   const docRef = doc(db, 'users', uid)
   const docSnap = await getDoc(docRef)
-
+  
   if (docSnap.exists()) {
     const data = docSnap.data()
+    
     return {
       id: data.id,
       email: data.email,
@@ -20,3 +21,5 @@ export const getUser = async (uid: string) => {
     return null
   }
 }
+
+export default getUser

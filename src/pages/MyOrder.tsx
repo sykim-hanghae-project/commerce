@@ -9,7 +9,7 @@ import MyPageLayout from '@/components/layout/MyPageLayout'
 import getAllOrderByBuyer from '@/api/getAllOrderByBuyer'
 import { User } from '@/types/user'
 import getImageUrl from '@/api/getImageUrl'
-import { getUser } from '@/api/getUser'
+import getUser from '@/api/getUser'
 import getProduct from '@/api/getProduct';
 import formatDate from '@/utils/formatDate';
 import { Status } from '@/types/order';

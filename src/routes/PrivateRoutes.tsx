@@ -13,13 +13,14 @@ const Order = lazy(() => import('@/pages/Order'));
 
 import Layout from '@/components/layout/Layout';
 import { checkAuth } from '@/utils/checkAuth';
-import { getUser } from '@/api/getUser';
 
 // 로그인 상태
 export default function PrivateRoutes(): RouteObject {
   const { token, uid, role } = checkAuth()
 
   const userLoader = async () => {
+    const { default: getUser } = await import('@/api/getUser')
+
     const uid = window.localStorage.getItem('uid')
     if (!uid) return redirect('/login')
     const user = await getUser(uid)

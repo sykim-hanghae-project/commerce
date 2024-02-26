@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import getErrorMessage from '@/utils/getErrorMessage'
 import { auth } from "@/helpers/firebase"; 
-import { getUser } from '@/api/getUser'
+import getUser from '@/api/getUser'
 import MetaTag from '@/components/MetaTag'
 
 
