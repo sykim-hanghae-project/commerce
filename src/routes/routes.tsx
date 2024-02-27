@@ -9,7 +9,6 @@ import AddProduct from '../pages/AddProduct'
 import EditProduct from '../pages/EditProduct'
 import ViewAllProducts from '../pages/ViewAllProducts'
 import ManageOrder from '../pages/ManageOrder'
-import EditInfo from '../pages/EditInfo'
 import Signin from '../pages/Signin'
 import Signup from '../pages/Signup'
 
@@ -27,7 +26,6 @@ const MyRoutes = () => {
       <Route path="/mypage/edit-product" element={<EditProduct />} />
       <Route path="/mypage/view-allproducts" element={<ViewAllProducts />} />
       <Route path="/mypage/manage-order" element={<ManageOrder />} />
-      <Route path="/mypage/edit-info" element={<EditInfo />} />
       <Route path="/login" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
     </Routes>
