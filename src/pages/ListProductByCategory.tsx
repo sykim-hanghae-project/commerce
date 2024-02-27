@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Timestamp } from 'firebase/firestore'
+
 import getProductsByCategory from '@/api/getProductsByCategory'
 import ProductList from '@/components/ProductList'
 import useProductsQuery from '@/hooks/useProductsQuery'
-import { Timestamp } from 'firebase/firestore'
 import MetaTag from '@/components/MetaTag'
 
 
