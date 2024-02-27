@@ -49,12 +49,6 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormInterface) => {
     image: z.array(z.any()).min(1, {
       message: "상품 사진은 최소 한 장 추가해주세요."
     }),
-    // image: z.array(z.object({
-    //   isOriginal : z.boolean(),
-    //   filename: z.string(),
-    //   url: z.string(),
-    //   file: z.instanceof(File) 
-    // })),
     category: z.string(),
     price: z.number().min(1),
     quantity: z.number().min(1)
