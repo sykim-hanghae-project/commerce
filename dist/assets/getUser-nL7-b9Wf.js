@@ -1,0 +1,1 @@
+import{d,c as r,e as c}from"./index-Mj_532zd.js";const o=async t=>{const s=d(r,"users",t),a=await c(s);if(a.exists()){const e=a.data();return{id:e.id,email:e.email,isSeller:e.isSeller,nickname:e.nickname,password:e.password,createdAt:e.createdAt,updatedAt:e.updatedAt}}else return null};export{o as default};

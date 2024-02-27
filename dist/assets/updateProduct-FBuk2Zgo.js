@@ -1,0 +1,1 @@
+import{d as a,p as c,t as e,c as p}from"./index-Mj_532zd.js";async function u(o,t){const d=a(p,"products",o);console.log("updating product"),await c(d,{...t,updatedAt:e()}),console.log("product updated!")}export{u as default};
