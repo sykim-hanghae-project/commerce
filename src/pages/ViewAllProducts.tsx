@@ -37,22 +37,28 @@ const ViewAllProducts: React.FC = () => {
 
       <MyPageLayout>
         <h1 className='h1 mb-12'>전체 상품 조회</h1>
+        {isLoading
+        ? <Loading />
+        : isError
+        ? <p>상품을 불러오지 못했습니다.</p>
+        : <div>
+            <div className='flex text-sm p-4 border-b border-black'>
+              <p className='w-full text-center'>상품</p>
+              <p className='w-24 text-center ml-4'>가격</p>
+              <p className='min-w-max w-20 mr-12 ml-4'>잔여 수량</p>
+            </div>
 
-        {isError ? <p>상품을 불러오지 못했습니다.</p> : (
-          <div>
-            {isLoading && <Loading />}
             <ul>
-              {products && (
-                products.map((product: Product) => (
-                  <li key={`product_${product.id}`}>
-                    <MyPageProductContainer product={product} />
-                  </li>
-                ))
-              )}
+            {products && (
+              products.map((product: Product) => (
+                <li key={`product_${product.id}`}>
+                  <MyPageProductContainer product={product} />
+                </li>
+              ))
+            )}
               <div ref={ref}></div>
             </ul>
-          </div>
-        )}
+          </div>}
       </MyPageLayout>
     </>
   )

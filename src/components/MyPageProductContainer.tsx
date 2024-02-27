@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Product } from '@/types/product'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
-import { Button } from './ui/button';
 import getImageUrl from '@/api/getImageUrl';
 import Loading from './Loading';
 import priceToString from '@/utils/priceToString';
@@ -39,13 +38,13 @@ const MyPageProductContainer = ({ product }: MyPageProductContainerProps) => {
   }
 
   return (
-    <div className='flex m-1 p-4 items-center border border-y-neutral-200 border-x-0'>
+    <div className='flex m-1 p-4 items-center'>
 
       <div className='w-24 h-24 min-w-24'>
-        {isError 
-          ? <div className='w-full h-full bg-gray-100' /> 
-          : isLoading 
+        {isLoading  
           ? <Loading /> 
+          : isError 
+          ? <div className='w-full h-full bg-gray-100' /> 
           : <img src={data} className='w-full h-full object-cover' />}
       </div>
 
@@ -54,14 +53,14 @@ const MyPageProductContainer = ({ product }: MyPageProductContainerProps) => {
           <div className='text-ellipsis	text-base line-clamp-1'>{product.productName}</div>
           <div className='text-sm text-gray-400 min-w-max'>{product.productCategory}</div>
         </div>
-        <div className='min-w-max'>{priceToString(product.productPrice)}</div>
-        <div className='w-20 flex justify-end'>{product.productQuantity}</div>
+        <div className='w-24'>{priceToString(product.productPrice)}</div>
+        <div className='w-20 ml-4 flex justify-center'>{product.productQuantity}</div>
       </div>
 
-      <div>
+      <div className='flex items-center justify-end w-8'>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost"><BsThreeDotsVertical /></Button>
+            <button><BsThreeDotsVertical /></button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-16">    
             <DropdownMenuItem onClick={onClickEditBtn}>
