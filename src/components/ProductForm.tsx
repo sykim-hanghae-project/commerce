@@ -2,6 +2,7 @@ import { useState } from "react"
 import * as z from "zod"
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from "react-router-dom"
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
 import { Input } from './ui/input'
@@ -10,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Button } from './ui/button'
 import PhotoInput from './PhotoInput'
 import { TInputImage } from "@/types/product"
-import { useNavigate } from "react-router-dom"
 
 interface ProductFormInterface {
   onSubmit: SubmitHandler<{
