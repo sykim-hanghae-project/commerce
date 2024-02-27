@@ -21,7 +21,7 @@ interface ProductImageProps {
   filename: string
 }
 
-const ProductImage = ({ filename }: ProductImageProps) => {
+const ProductImage = React.memo(({ filename }: ProductImageProps) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['productImage', filename],
     queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
@@ -37,7 +37,7 @@ const ProductImage = ({ filename }: ProductImageProps) => {
   return (
     <img src={data} className='w-full h-full object-cover' />
   )
-}
+})
 
 interface OrderContainerProps {
   orderId: string,
