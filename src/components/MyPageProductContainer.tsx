@@ -45,7 +45,7 @@ const MyPageProductContainer = ({ product }: MyPageProductContainerProps) => {
           ? <Loading /> 
           : isError 
           ? <div className='w-full h-full bg-gray-100' /> 
-          : <img src={data} className='w-full h-full object-cover' />}
+          : <img src={data} className='w-full h-full object-cover' loading='lazy' />}
       </div>
 
       <div className='flex items-center w-full justify-end cursor-pointer mx-4' onClick={() => navigate(`/product/${product.id}`)}>

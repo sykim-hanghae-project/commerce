@@ -26,7 +26,7 @@ const CartProductImage = React.memo(({ filename }: CartProductImageProps) => {
   }
 
   return (
-    <img src={data} className='w-20 h-20 object-cover min-w-20' />
+    <img src={data} className='w-20 h-20 object-cover min-w-20' loading='lazy' />
   )
 })
 

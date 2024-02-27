@@ -22,7 +22,7 @@ const ImageContainer = React.memo(({ filename }: ImageContainerProps) => {
   }
 
   return (
-    <img src={data} className='w-24 h-24 object-cover min-w-24' />
+    <img src={data} className='w-24 h-24 object-cover min-w-24' loading='lazy' />
   )
 })
 

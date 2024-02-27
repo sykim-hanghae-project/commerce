@@ -24,7 +24,7 @@ const ProductImage = React.memo(({ filename }: ProductImageProps) => {
   }
 
   return (
-    <img src={data} className='w-full h-60 object-cover' />
+    <img src={data} className='w-full h-60 object-cover' loading='lazy' />
   )
 })
 

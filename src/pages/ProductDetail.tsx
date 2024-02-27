@@ -29,7 +29,7 @@ const ProductImage = ({ filename }: ProductImageProps) => {
     return <></>
   }
   return (
-    <img src={data} className='w-full object-cover' />
+    <img src={data} className='w-full object-cover' loading='lazy' />
   )
 }
 
