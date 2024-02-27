@@ -13,7 +13,7 @@ const HomeProductsByCategory = ({ category }: HomeProductsByCategoryProps) => {
   const { data, isError, error } = useQuery({
     queryKey: ['productsByCategory', category],
     queryFn: ({ queryKey }) => getProductsByCategory(queryKey[1], 4, "createdAt", "desc", null),
-    staleTime: 2000
+    staleTime: 6000
   })
 
   const navigate = useNavigate()
