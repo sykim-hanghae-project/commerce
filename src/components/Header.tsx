@@ -1,9 +1,9 @@
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { BsHandbag, BsPerson } from "react-icons/bs";
 import SearchInput from './SearchInput';
 import { useCartState } from '@/context/CartContext';
-import { useNavigate } from "react-router-dom";
 import CartDrawer from "./CartDrawer";
 
 const Header = () => {
