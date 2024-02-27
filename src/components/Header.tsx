@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { BsHandbag, BsPerson } from "react-icons/bs";
 import SearchInput from './SearchInput';
 import { useCartState } from '@/context/CartContext';
@@ -19,6 +21,10 @@ const Header = () => {
   const onClickSearchBtn = (keyword: string) => {
     navigate(`/product/search?keyword=${keyword}`)
   }
+
+  const hasAnyItemInCart = useMemo(() => {
+    return cartState.items.length > 0
+  }, [cartState])
 
   return (
     <header className='flex items-center justify-center px-8 py-4 border-b border-slate-200'>
@@ -53,7 +59,7 @@ const Header = () => {
             <CartDrawer>
               <button className='button headerIconBtn relative'>
                 <BsHandbag />
-                {cartState.items.length > 0 && (
+                {hasAnyItemInCart && (
                   <div className='absolute top-0 right-[-0.5rem] bg-slate-400 w-4 h-4 rounded-[50%]'>
                     <p className='text-white text-xs'>{cartState.items.length}</p>
                   </div>
