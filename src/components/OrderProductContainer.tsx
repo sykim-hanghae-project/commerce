@@ -1,3 +1,4 @@
+import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import Loading from './Loading'
 import getImageUrl from '@/api/getImageUrl'
@@ -7,10 +8,11 @@ interface ImageContainerProps {
   filename: string
 }
 
-const ImageContainer = ({ filename }: ImageContainerProps) => {
+const ImageContainer = React.memo(({ filename }: ImageContainerProps) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['productImage', filename],
-    queryFn: ({ queryKey }) => getImageUrl(queryKey[1])
+    queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
+    staleTime: Infinity
   })
 
   if (isLoading) return <Loading /> 
@@ -22,7 +24,7 @@ const ImageContainer = ({ filename }: ImageContainerProps) => {
   return (
     <img src={data} className='w-24 h-24 object-cover min-w-24' />
   )
-}
+})
 
 interface OrderProductContainerProps {
   imageFilename: string,
@@ -31,7 +33,7 @@ interface OrderProductContainerProps {
   price: number
 }
 
-const OrderProductContainer = ({ imageFilename, productName, quantity, price }: OrderProductContainerProps) => {
+const OrderProductContainer = React.memo(({ imageFilename, productName, quantity, price }: OrderProductContainerProps) => {
 
   return (
     <div className='flex items-center text-sm'>
@@ -45,6 +47,6 @@ const OrderProductContainer = ({ imageFilename, productName, quantity, price }: 
       <p className='min-w-max font-medium'>{priceToString(price * quantity)}</p>
     </div>
   )
-}
+})
 
 export default OrderProductContainer
