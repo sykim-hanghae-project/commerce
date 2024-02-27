@@ -49,8 +49,8 @@ const ProductContainer = React.memo(({ product }: ProductContainerProps) => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious variant="ghost" className='absolute left-0 ' />
-        <CarouselNext variant="ghost" className='absolute right-0' />
+        <CarouselPrevious variant="accent" className='absolute left-0 ' />
+        <CarouselNext variant="accent" className='absolute right-0' />
       </Carousel>
 
       <div>
