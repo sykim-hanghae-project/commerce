@@ -15,7 +15,7 @@ const ProductImage = React.memo(({ filename }: ProductImageProps) => {
   const { data, isError, error } = useQuery({
     queryKey: ['productImage', filename],
     queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
-    staleTime: 2000
+    staleTime: 30000
   })
 
   if (isError) {
