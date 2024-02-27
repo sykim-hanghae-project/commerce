@@ -1,8 +1,9 @@
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
 import getProductsByCategory from "@/api/getProductsByCategory";
 import { IoIosArrowForward } from "react-icons/io";
 import ProductContainer from "./ProductContainer";
-import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 
 interface HomeProductsByCategoryProps {
   category: string,
