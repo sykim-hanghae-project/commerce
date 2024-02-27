@@ -1,3 +1,4 @@
+import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,7 +11,7 @@ interface ProductImageProps {
   filename: string
 }
 
-const ProductImage = ({ filename }: ProductImageProps) => {
+const ProductImage = React.memo(({ filename }: ProductImageProps) => {
   const { data, isError, error } = useQuery({
     queryKey: ['productImage', filename],
     queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
@@ -25,13 +26,13 @@ const ProductImage = ({ filename }: ProductImageProps) => {
   return (
     <img src={data} className='w-full h-60 object-cover' />
   )
-}
+})
 
 interface ProductContainerProps {
   product: Product
 }
 
-const ProductContainer = ({ product }: ProductContainerProps) => {
+const ProductContainer = React.memo(({ product }: ProductContainerProps) => {
   const navigate = useNavigate()
 
   const onClick = () => {
@@ -58,6 +59,6 @@ const ProductContainer = ({ product }: ProductContainerProps) => {
       </div>
     </div>
   )
-}
+})
 
 export default ProductContainer
