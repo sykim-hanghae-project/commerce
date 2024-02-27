@@ -63,12 +63,14 @@ const OrderContainer = React.memo(({
 
   const { data: product, isLoading, isError: isError_product, error: error_product} = useQuery({
     queryKey: ['product', productId],
-    queryFn: ({ queryKey }) => getProduct(queryKey[1])
+    queryFn: ({ queryKey }) => getProduct(queryKey[1]),
+    staleTime: Infinity
   })
 
   const { data: buyer, isError: isError_buyer, error: error_buyer} = useQuery({
     queryKey: ['user', buyerId],
-    queryFn: ({ queryKey }) => getUser(queryKey[1])
+    queryFn: ({ queryKey }) => getUser(queryKey[1]),
+    staleTime: 300000
   })
 
   const onClickContainer = () => {
@@ -180,7 +182,8 @@ const ManageOrder: React.FC = () => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['orders', user.id],
-    queryFn: ({ queryKey }) => getAllOrderBySeller(queryKey[1])
+    queryFn: ({ queryKey }) => getAllOrderBySeller(queryKey[1]),
+    staleTime: 2000
   })
 
   if (isError) console.log(error)
