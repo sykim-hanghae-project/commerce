@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
@@ -13,7 +13,7 @@ interface CartProductImageProps {
   filename: string
 } 
 
-const CartProductImage = ({ filename }: CartProductImageProps) => {
+const CartProductImage = React.memo(({ filename }: CartProductImageProps) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['productImage', filename],
     queryFn: ({ queryKey }) => getImageUrl(queryKey[1])
@@ -28,7 +28,7 @@ const CartProductImage = ({ filename }: CartProductImageProps) => {
   return (
     <img src={data} className='w-20 h-20 object-cover min-w-20' />
   )
-}
+})
 
 interface CartProductContainerProps {
   pid: string
@@ -39,7 +39,7 @@ interface CartProductContainerProps {
   error: unknown
 }
 
-const CartProductContainer = ({ pid, product, quantity: cquantity, isLoading, isError, error }: CartProductContainerProps) => {
+const CartProductContainer = React.memo(({ pid, product, quantity: cquantity, isLoading, isError, error }: CartProductContainerProps) => {
   const navigate = useNavigate()
   const dispatch = useCartDispatch()
 
@@ -125,6 +125,6 @@ const CartProductContainer = ({ pid, product, quantity: cquantity, isLoading, is
       </div>        
     </div>
   )
-}
+})
 
 export default CartProductContainer
