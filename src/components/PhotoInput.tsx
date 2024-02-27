@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from "@/components/ui/input"
 import { TiDeleteOutline } from "react-icons/ti";
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
@@ -10,7 +10,7 @@ interface PhotoContainerProps {
   onClickDeleteBtn: () => void
 }
 
-const PhotoContainer = ({ src, onClickDeleteBtn }: PhotoContainerProps) => useMemo(() => {
+const PhotoContainer = React.memo(({ src, onClickDeleteBtn }: PhotoContainerProps) => {
   return (
     <div className='relative'>
       <img src={src} className='w-28 h-28 bg-slate-200 object-cover' alt='Fail'/>
@@ -19,7 +19,7 @@ const PhotoContainer = ({ src, onClickDeleteBtn }: PhotoContainerProps) => useMe
       </button>
     </div>
   )
-}, [src, onClickDeleteBtn])
+})
 
 interface PhotoInputProps {
   defaultValues?: string[]
