@@ -70,7 +70,6 @@ const MyPageNavigation = React.memo(({ isSeller, userNickname }: MyPageNavigatio
     {
       title: '환경 설정',
       items: [
-        { name: '회원정보수정', path: '/mypage/edit-info' },
         { name: '로그아웃', onClick: onClickSignOut },
       ]
     },

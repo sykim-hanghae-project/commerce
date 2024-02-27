@@ -8,7 +8,6 @@ const ViewAllProducts = lazy(() => import('@/pages/ViewAllProducts'))
 const ManageOrder = lazy(() => import('@/pages/ManageOrder'))
 const Signin = lazy(() => import('@/pages/Signin'))
 const Signup = lazy(() => import('@/pages/Signup'))
-const EditInfo = lazy(() => import('@/pages/EditInfo'))
 const Order = lazy(() => import('@/pages/Order'));
 const Layout = lazy(() => import('@/components/layout/Layout'))
 
@@ -40,7 +39,6 @@ export default function PrivateRoutes(): RouteObject {
     { path: '/mypage/edit-product', element: <EditProduct />, loader: userLoader },
     { path: '/mypage/view-allproducts', element: <ViewAllProducts />, loader: userLoader },
     { path: '/mypage/manage-order', element: <ManageOrder />, loader: userLoader},
-    { path: '/mypage/edit-info', element: <EditInfo /> }
   ] 
 
   const children: RouteObject[] = 
