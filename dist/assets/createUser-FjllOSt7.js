@@ -1,1 +1,0 @@
-import{B as u,C as c,t,d as n,e as l,D as o,c as r}from"./index-FIlqUQy7.js";async function p(i,e,a,d){const s=(await u(r,e,a)).user;await c(n(l,"users",s.uid),{id:s.uid,email:e,isSeller:d==="seller",nickname:i,password:a,createdAt:t(),updatedAt:t()}),await o(r)}export{p as default};
