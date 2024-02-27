@@ -98,7 +98,7 @@ const OrderContainer = React.memo(({
       updateOrderStatus(orderId, statusVal)
       .then(() => {
         window.alert(`주문 상태를 변경했습니다.`)
-        window.location.reload()
+        toggle()
       })
       .catch((error) => {
         console.log(error)
