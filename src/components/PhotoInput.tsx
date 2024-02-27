@@ -11,15 +11,10 @@ interface PhotoContainerProps {
 }
 
 const PhotoContainer = ({ src, onClickDeleteBtn }: PhotoContainerProps) => useMemo(() => {
-  const onClick = () => {
-    console.log('삭제 버튼 클릭')
-    onClickDeleteBtn()
-  }
-
   return (
     <div className='relative'>
       <img src={src} className='w-28 h-28 bg-slate-200 object-cover' alt='Fail'/>
-      <button onClick={onClick} className='absolute top-0 right-0 z-20'>
+      <button onClick={onClickDeleteBtn} className='absolute top-0 right-0 z-20'>
         <TiDeleteOutline />
       </button>
     </div>
