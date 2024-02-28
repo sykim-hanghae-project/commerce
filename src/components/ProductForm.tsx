@@ -16,7 +16,7 @@ interface ProductFormInterface {
   onSubmit: SubmitHandler<{
     name: string,
     description: string,
-    image?: TInputImage[],
+    image: TInputImage[],
     category: string,
     price: number,
     quantity: number
