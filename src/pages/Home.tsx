@@ -16,6 +16,7 @@ const Home = () => {
         <img 
           className='w-full h-96 object-cover'
           src={`${import.meta.env.BASE_URL}/concept-image.jpg`}
+          decoding='async'
         />
 
         <div className='mt-12'>
