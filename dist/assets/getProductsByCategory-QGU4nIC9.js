@@ -1,0 +1,1 @@
+import{q as e,l as u,s as i,o as d,w as n,k as p,m as l,n as m,c as y}from"./index-IIH_jOnl.js";async function S(o,a,s,r,c){let t;return c?t=e(p(y,"products"),n("productCategory","==",o),d(s,r),i(c),u(a)):t=e(p(y,"products"),n("productCategory","==",o),d(s,r),u(a)),(await l(t)).docs.map(f=>m(f.data()))}export{S as g};

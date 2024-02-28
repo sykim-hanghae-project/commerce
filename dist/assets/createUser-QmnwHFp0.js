@@ -1,0 +1,1 @@
+import{B as r,d,c as o}from"./index-IIH_jOnl.js";async function u(e,a,t,s,c){await r(d(o,"users",e),{id:e,email:t,isSeller:c,nickname:a,password:s,createdAt:new Date,updatedAt:new Date})}export{u as default};
