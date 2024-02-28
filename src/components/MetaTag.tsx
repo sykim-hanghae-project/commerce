@@ -10,8 +10,8 @@ interface MetaTagProps {
 const MetaTag = ({ title, description, url, imgsrc }: MetaTagProps) => {
   const defaultTitle = 'XSO'
   const defaultUrl = 'https://sykim-hanghae-project.github.io/commerce'
-  const defaultImgsrc = "https://images.unsplash.com/photo-1504198322253-cfa87a0ff25f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
+  const defaultImgsrc = `${import.meta.env.BASE_URL}/concept-image.jpg`
+  
   return (
     <Helmet>
       <title>{title ? title : defaultTitle}</title>
