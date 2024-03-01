@@ -3,8 +3,8 @@
 
 - 배포 페이지: [https://sykim-hanghae-project.github.io/commerce/](https://sykim-hanghae-project.github.io/commerce/)
 - 테스트 계정
-- 판매자: test1@naver.com / dfadfaf2454f@
-- 구매자: consumer@naver.com / dfadfaf2454f@
+  - 판매자: test1@naver.com / dfadfaf2454f@
+  - 구매자: consumer@naver.com / dfadfaf2454f@
 
 ## 개발 환경
 - FE: React, Typescript, tailwindcss, Vite
