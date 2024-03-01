@@ -17,7 +17,8 @@ const Signup: React.FC = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
-  const regExp = /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{10,}$/;
+  //영문, 숫자, 특수문자 중 2가지 이상의 조합, 10자리 이내
+  const regExp = /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{10,}$/; 
   const formSchema = z.object({
     name: z.string(),
     email: z.string().email({
