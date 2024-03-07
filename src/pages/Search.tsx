@@ -6,6 +6,7 @@ import ProductList from '@/components/ProductList'
 import useProductsQuery from '@/hooks/useProductsQuery'
 import { Timestamp } from 'firebase/firestore'
 import MetaTag from '@/components/MetaTag'
+import Loading from '@/components/Loading'
 
 const Search = () => {
   const [searchParams, ] = useSearchParams()
@@ -15,7 +16,7 @@ const Search = () => {
   const navigate = useNavigate()
 
   const [ref, inView] = useInView()
-  const { products, isLoading, hasNextPage, fetchNextPage } = useProductsQuery({
+  const { products, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useProductsQuery({
     rowsPerPage: 8,
     qKey: [keyword!, sortBy ? sortBy : "createdAt"],  
     queryFunc: (pageParam, rowsPerPage) => {
@@ -57,7 +58,7 @@ const Search = () => {
         {!isLoading && products && (
           <ProductList products={products} onClickFilterItem={onClickFilterItem} curSortBy={sortBy === "price" ? "price" : "createdAt"} />
         )}
-        <div ref={ref}></div>
+        {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
       </div>
     </>
   )

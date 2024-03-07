@@ -16,8 +16,8 @@ const ViewAllProducts: React.FC = () => {
   const user = useLoaderData() as User 
 
   const [ref, inView] = useInView()
-  const { products, isLoading, isError, hasNextPage, fetchNextPage } = useProductsQuery({
-    rowsPerPage: 5,
+  const { products, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } = useProductsQuery({
+    rowsPerPage: 10,
     qKey: ['sellerProducts'],
     queryFunc: (pageParam, rowsPerPage) => {
       return getAllProductBySeller(user.id, pageParam as Timestamp, rowsPerPage)
@@ -56,8 +56,8 @@ const ViewAllProducts: React.FC = () => {
                 </li>
               ))
             )}
-              <div ref={ref}></div>
             </ul>
+            {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
           </div>}
       </MyPageLayout>
     </>
