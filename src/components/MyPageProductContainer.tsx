@@ -53,7 +53,7 @@ const MyPageProductContainer = ({ product }: MyPageProductContainerProps) => {
           <div className='text-ellipsis	text-base line-clamp-1'>{product.productName}</div>
           <div className='text-sm text-gray-400 min-w-max'>{product.productCategory}</div>
         </div>
-        <div className='w-24'>{priceToString(product.productPrice)}</div>
+        <div className='w-24 min-w-max'>{priceToString(product.productPrice)}</div>
         <div className='w-20 ml-4 flex justify-center'>{product.productQuantity}</div>
       </div>
 
