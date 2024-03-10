@@ -25,7 +25,8 @@ const useProductsQuery = ({ rowsPerPage, qKey, queryFunc, sortBy }: useProductsQ
           return lastpage[lastpage.length-1].productPrice 
         else // sortBy === 'productName' (검색)
           return lastpage[lastpage.length-1].productName
-      }
+      },
+      staleTime: 3000
     }
   )
 
