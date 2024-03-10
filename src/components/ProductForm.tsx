@@ -55,6 +55,8 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormInterface) => {
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
+    mode: 'onSubmit',
+    shouldFocusError: false,
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues 
       ? {
