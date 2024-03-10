@@ -53,12 +53,13 @@ const EditProduct= () => {
       const { default: updateProduct } = await import('@/api/updateProduct')
 
       //모든 사진 중 기존 사진에 있었던 사진은 blob으로
-      const blobs: Blob[] = []
+      const orgFiles: File[] = []
       if (values.image) {
         for (const img of values.image) {
           if (img.isOriginal) { //기존 사진
             const blob = await getImageBlob(img.filename!)
-            blobs.push(blob)
+            const file = new File([blob], img.filename!)
+            orgFiles.push(file)
           }
         }
       }
@@ -71,8 +72,8 @@ const EditProduct= () => {
       //사진 storage에 업로드
       const filenames: string[] = []
       //기존 사진
-      for (const blob of blobs) { 
-        const filename = await uploadImage(blob)
+      for (const file of orgFiles) { 
+        const filename = await uploadImage(file)
         filenames.push(filename)
       }
       //새로 추가된 사진
