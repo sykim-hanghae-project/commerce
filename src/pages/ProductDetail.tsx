@@ -108,7 +108,7 @@ const ProductDetail: React.FC = () => {
         </div>
 
         {/* 동일 카테고리 상품들 */}
-        {!(isError || isLoading) && (
+        {!(isLoading || isError) && (
         <div className='mt-8'>
           <p className='text-base mb-4 font-semibold'>추천 상품</p>
           <div>
