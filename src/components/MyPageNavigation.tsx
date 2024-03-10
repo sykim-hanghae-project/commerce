@@ -80,8 +80,8 @@ const MyPageNavigation = React.memo(({ isSeller, userNickname }: MyPageNavigatio
       <div className='text-3xl'>{userNickname}</div>
       <ul>
         {(isSeller ? sellerItems : consumerItems).concat(commonItems).map((group, idx) => (
-          <li className='myPageNavGroup' key={`mpn_group_${idx}`}>
-            <div className='myPageNavGroupTitle'>{group.title}</div>
+          <li className='mt-8' key={`mpn_group_${idx}`}>
+            <div className='mb-2 text-xl min-w-max'>{group.title}</div>
             <ul>
               {group.items.map((item, idx) => (
                 <li className={`myPageNavItem ${curPath === item.path && 'font-bold'}`} key={`mpn_item_${idx}`}>
