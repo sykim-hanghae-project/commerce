@@ -30,7 +30,7 @@ const PhotoInput = ({ defaultValues, onChange }: PhotoInputProps) => {
   const [images, setImages] = useState<TInputImage[]>([]) 
 
   useEffect(() => { 
-    console.log("images",images)
+    // console.log("images",images)
     onChange(images)
   }, [images]) // 이미지 삭제/추가가 이루어질때
 
