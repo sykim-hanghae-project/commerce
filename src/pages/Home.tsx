@@ -1,5 +1,6 @@
 import HomeProductsByCategory from '@/components/HomeProductsByCategory'
 import MetaTag from '@/components/MetaTag'
+import ScrollAnimationContainer from '@/components/ScrollAnimationContainer'
 
 const Home = () => {
   const category = ['Women', 'Men']
@@ -13,11 +14,21 @@ const Home = () => {
       />
 
       <div className='w-full pb-8'>
-        <img 
-          className='w-full h-96 object-cover'
-          src={`${import.meta.env.BASE_URL}/concept-image.jpg`}
-          decoding='async'
-        />
+        <ScrollAnimationContainer>
+          <img 
+            className='w-full h-screen object-cover'
+            src={`${import.meta.env.BASE_URL}/concept-image.jpg`}
+            decoding='async'
+          />
+        </ScrollAnimationContainer>
+
+        <ScrollAnimationContainer>
+          <img 
+            className='w-full h-screen object-cover'
+            src={`${import.meta.env.BASE_URL}/concept-image-2.jpg`}
+            decoding='async'
+          />
+        </ScrollAnimationContainer>
 
         <div className='mt-12'>
           <ul>

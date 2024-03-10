@@ -13,6 +13,21 @@ export default {
         'muted': '#f3f4f6',
         'accent': '#d1d5db'
       },
+      keyframes: {
+        frameIn: {
+          '0%': {
+            opacity: 0,
+            transform: 'translateX(-100%)'
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translateX(0%)'
+          }
+        }
+      },
+      animation: {
+        frameIn: 'frameIn 2s forwards'
+      }
     },
   },
   plugins: [],
