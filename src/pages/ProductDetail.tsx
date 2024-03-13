@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
-import getImageUrl from '@/api/getImageUrl'
 import getProductsByCategory from '@/api/getProductsByCategory'
 import ProductContainer from '@/components/ProductContainer'
 import { Button } from '@/components/ui/button'
@@ -11,27 +10,6 @@ import { Product } from '@/types/product'
 import priceToString from '@/utils/priceToString'
 import MetaTag from '@/components/MetaTag'
 import CartDrawer from '@/components/CartDrawer'
-
-interface ProductImageProps {
-  filename: string
-}
-
-const ProductImage = ({ filename }: ProductImageProps) => {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['productImage', filename],
-    queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
-    staleTime: 2000
-  })
-
-  if (isLoading) return <></>
-  if (isError) {
-    console.log(error)
-    return <></>
-  }
-  return (
-    <img src={data} className='w-full object-cover' loading='lazy' />
-  )
-}
 
 const ProductDetail: React.FC = () => {
   const product = useLoaderData() as Product
@@ -98,9 +76,9 @@ const ProductDetail: React.FC = () => {
           {/*이미지*/}
           <div className='w-[45%] ml-[10%]'>
             <ul>
-              {product.productImage.map((filename, idx) => 
+              {product.productImage.map((url, idx) => 
                 <li key={`product_image_${idx}`}>
-                  <ProductImage filename={filename} />
+                  <img src={url} className='w-full object-cover' loading='lazy' />
                 </li>  
               )}
             </ul>

@@ -1,19 +1,30 @@
 import { storage } from "@/helpers/firebase"
-import { ref, uploadBytes } from "firebase/storage"
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import { v4 } from "uuid"
-import imageCompression, { Options } from 'browser-image-compression'
+import imageCompression from 'browser-image-compression'
 
-async function uploadImage(file: File) {
-  const options: Options = {
+async function uploadImage(file: File, sellerId: string, productId: string) {
+  console.log('uploading...')
+  const compressedFile = await imageCompression(file, {
     maxWidthOrHeight: 1000
-  }
-  const compressedFile = await imageCompression(file, options)
+  })
+
+  const compressedThumbnail = await imageCompression(file, { //썸네일용
+    maxWidthOrHeight: 300
+  })
 
   const filename = v4()
-  const fileRef = ref(storage, `images/${filename}`)
-  await uploadBytes(fileRef, compressedFile)
-  
-  return filename
+  const orgFileRef = ref(storage, `${sellerId}/${productId}/${filename}`)
+  const thumbnailRef = ref(storage, `${sellerId}/${productId}/${filename}_small`)
+
+  await uploadBytes(orgFileRef, compressedFile)
+  await uploadBytes(thumbnailRef, compressedThumbnail)
+
+  const orgUrl = await getDownloadURL(orgFileRef)
+  const thumbnailUrl = await getDownloadURL(thumbnailRef)
+  console.log('uploaded!')
+
+  return { orgUrl, thumbnailUrl }
 }
 
 export default uploadImage

@@ -1,5 +1,6 @@
 import { lazy, useState } from 'react'
 import { useLoaderData, useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 
 import MyPageLayout from '@/components/layout/MyPageLayout'
 import { User } from '@/types/user'
@@ -33,15 +34,20 @@ const AddProduct= () => {
       const { default: uploadImage } = await import('@/api/uploadImage')
       const { default: addProduct } = await import('@/api/addProduct')
 
-      const filenames: string[] = []
+      const id = uuidv4()
+
+      let orgUrls: string[] = []
+      let thumbnailUrls: string[] = []
+
       if (values.image) {
         for (const img of values.image) {
-          const filename = await uploadImage(img.file!)
-          filenames.push(filename)
+          const { orgUrl, thumbnailUrl } = await uploadImage(img.file!, user.id, id)
+          orgUrls = [...orgUrls, orgUrl]
+          thumbnailUrls = [...thumbnailUrls, thumbnailUrl]
         }
       }
 
-      await addProduct(user.id, values.name, values.price, values.quantity, values.description, values.category, filenames)
+      await addProduct(id, user.id, values.name, values.price, values.quantity, values.description, values.category, orgUrls, thumbnailUrls)
 
       window.alert("상품을 성공적으로 등록하였습니다.")
     } 

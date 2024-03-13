@@ -1,24 +1,22 @@
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query";
-import deleteImage from "@/api/deleteImage";
 import deleteProduct from "@/api/deleteProduct";
 import { Product } from "@/types/product";
+import deleteProductImage from "@/api/deleteProductImage";
 
 interface mutationDeleteProductProps {
-  id: string,
-  images: string[]
+  productId: string,
+  userId: string
 }
 
 export default function useDeleteProductMutation() {
   const queryClient = useQueryClient()
   // 판매자의 마이페이지 - 전체 상품 조회에서 사용
   return useMutation({
-    mutationFn: async ({ id, images }: mutationDeleteProductProps) => {
-      await deleteProduct(id)
-      for (const image of images) {
-        deleteImage(image)
-      }
+    mutationFn: async ({ productId, userId }: mutationDeleteProductProps) => {
+      await deleteProductImage(userId, productId)
+      await deleteProduct(productId)
     },
-    onMutate: async ({ id }) => {
+    onMutate: async ({ productId }) => {
       const queryKey = ['getProducts', 'sellerProducts']
       await queryClient.cancelQueries({ queryKey })
 
@@ -29,7 +27,7 @@ export default function useDeleteProductMutation() {
       for (const page of oldData.pages) {
         oldDataArr = oldDataArr.concat(page)
       }
-      queryClient.setQueryData(queryKey, oldDataArr.filter(product => product.id !== id))
+      queryClient.setQueryData(queryKey, oldDataArr.filter(product => product.id !== productId))
     },
     onSuccess: async () => {
       console.log('success')

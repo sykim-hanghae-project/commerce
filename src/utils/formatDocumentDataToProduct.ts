@@ -11,6 +11,7 @@ export default function formatDocumentDataToProduct(data: DocumentData): Product
     productDescription: data.productDescription,
     productCategory: data.productCategory,
     productImage: data.productImage,
+    productThumbnail: data.productThumbnail,
     createdAt: data.createdAt,
     updatedAt: data.updatedAt
   }

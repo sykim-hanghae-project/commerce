@@ -60,26 +60,16 @@ const PhotoInput = ({ defaultValues, onChange }: PhotoInputProps) => {
     setImages(newImages)
   }
 
-  async function covertTypeOfDefaultValToTInputImage(filenames: string[]) {
-    const { default: getImageUrl } = await import('@/api/getImageUrl')
-
-    const res: TInputImage[] = []
-    for (const filename of filenames) {
-      const url = await getImageUrl(filename)
-      const newInputImage: TInputImage = {
-        isOriginal: true,
-        filename: filename,
-        url: url,
-      }
-      res.push(newInputImage)
-    }
-    return res
-  }
-
   useEffect(() => { //초기 set
     if (defaultValues) {
-      covertTypeOfDefaultValToTInputImage(defaultValues)
-      .then((res) => setImages(res)) // { isOriginal, filename, url }[]
+      const data: TInputImage[] = defaultValues.map((url) => {
+        return {
+          isOriginal: true,
+          url
+        }
+      })
+
+      setImages(data)
     }
   }, [defaultValues]) 
 

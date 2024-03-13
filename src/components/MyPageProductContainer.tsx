@@ -1,23 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Product } from '@/types/product'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
-import getImageUrl from '@/api/getImageUrl';
-import Loading from './Loading';
 import priceToString from '@/utils/priceToString';
 import useDeleteProductMutation from '@/hooks/useDeleteProductMutation'
+import { User } from '@/types/user';
 
 interface MyPageProductContainerProps {
   product: Product,
 }
 
 const MyPageProductContainer = ({ product }: MyPageProductContainerProps) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['productImage', product.productImage[0]],
-    queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
-    staleTime: Infinity,
-  })
+  const user = useLoaderData() as User
 
   const navigate = useNavigate()
 
@@ -31,8 +25,8 @@ const MyPageProductContainer = ({ product }: MyPageProductContainerProps) => {
     const res = window.confirm('상품을 삭제하시겠습니까?')
     if (res) {
       mutate({ 
-        id: product.id, 
-        images: product.productImage 
+        productId: product.id, 
+        userId: user.id
       })
     }
   }
@@ -41,11 +35,7 @@ const MyPageProductContainer = ({ product }: MyPageProductContainerProps) => {
     <div className='flex m-1 p-4 items-center'>
 
       <div className='w-24 h-24 min-w-24'>
-        {isLoading  
-          ? <Loading /> 
-          : isError 
-          ? <div className='w-full h-full bg-gray-100' /> 
-          : <img src={data} className='w-full h-full object-cover' loading='lazy' />}
+        <img src={product.productThumbnail[0]} className='w-full h-full object-cover' loading='lazy' />
       </div>
 
       <div className='flex items-center w-full justify-end cursor-pointer mx-4' onClick={() => navigate(`/product/${product.id}`)}>
