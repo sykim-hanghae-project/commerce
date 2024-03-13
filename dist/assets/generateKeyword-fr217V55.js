@@ -1,0 +1,1 @@
+function l(t){let e=[];const o=t.split(" ");for(const n of o){const r=c(n);e=e.concat(r)}return e}function c(t){const e=[];for(let o=1;o<=t.length;o+=1)for(let n=0;n<t.length;n+=1){const r=n+o;if(r<=t.length){const s=t.substring(n,r);e.push(s)}}return e}export{l as default};
