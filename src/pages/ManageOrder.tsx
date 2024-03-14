@@ -93,7 +93,7 @@ const OrderContainer = React.memo(({
 
         <div className='flex items-center mx-4 w-full'>
           <div className='w-24 h-24 min-w-24 mr-4'>
-            <img src={product.productImage[0]} className='w-full h-full object-cover' />
+            <img src={product.productThumbnail[0]} className='w-full h-full object-cover' />
           </div>
 
           <div>

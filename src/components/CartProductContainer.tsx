@@ -69,7 +69,7 @@ const CartProductContainer = React.memo(({ pid, product, quantity: cquantity, is
         <div className='absolute left-0 top-0 w-full h-full bg-white opacity-50' />
       )}
       <div className='mr-4 cursor-pointer' onClick={onClick}>
-        <img src={product.productImage[0]} className='w-20 h-20 object-cover min-w-20' loading='lazy' />
+        <img src={product.productThumbnail[0]} className='w-20 h-20 object-cover min-w-20' loading='lazy' />
       </div>
 
       <div className='w-full'>

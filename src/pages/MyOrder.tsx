@@ -105,7 +105,7 @@ const OrderContainer = ({
        ? <Loading />
        : isError_product
        ? <div className='w-full h-full bg-gray-100' />
-       : <img src={product!.productImage[0]} className='w-full h-full object-cover' />}
+       : <img src={product!.productThumbnail[0]} className='w-full h-full object-cover' />}
       </div>
 
       <div className='w-full'>
