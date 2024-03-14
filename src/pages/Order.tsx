@@ -359,7 +359,7 @@ const unloadEventHandler = useCallback(() => {
                   {products.map((item, idx) => (
                     <li className='OrderItem' key={`order_product_${idx}`} >
                       <OrderProductContainer  
-                        imageFilename={item.product.productImage[0]}
+                        imageUrl={item.product.productImage[0]}
                         productName={item.product.productName}
                         quantity={item.quantity}
                         price={item.product.productPrice}

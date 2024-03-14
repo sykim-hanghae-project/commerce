@@ -1,43 +1,18 @@
 import React from 'react'
-import { useQuery } from '@tanstack/react-query'
-import Loading from './Loading'
-import getImageUrl from '@/api/getImageUrl'
 import priceToString from '@/utils/priceToString'
 
-interface ImageContainerProps {
-  filename: string
-}
-
-const ImageContainer = React.memo(({ filename }: ImageContainerProps) => {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['productImage', filename],
-    queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
-    staleTime: Infinity
-  })
-
-  if (isLoading) return <Loading /> 
-  if (isError) {
-    console.log(error)
-    return <div className='w-24 h-24 bg-gray-100' />
-  }
-
-  return (
-    <img src={data} className='w-24 h-24 object-cover min-w-24' loading='lazy' />
-  )
-})
-
 interface OrderProductContainerProps {
-  imageFilename: string,
+  imageUrl: string,
   productName: string,
   quantity: number,
   price: number
 }
 
-const OrderProductContainer = React.memo(({ imageFilename, productName, quantity, price }: OrderProductContainerProps) => {
+const OrderProductContainer = React.memo(({ imageUrl, productName, quantity, price }: OrderProductContainerProps) => {
 
   return (
     <div className='flex items-center text-sm'>
-      <ImageContainer filename={imageFilename} />
+      <img src={imageUrl} className='w-24 h-24 object-cover min-w-24' loading='lazy' />
       
       <div className='ml-4 w-full'>
         <p className='font-medium mb-2'>{productName}</p>

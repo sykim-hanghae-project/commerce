@@ -1,34 +1,11 @@
 import React, { useState } from 'react'
-import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
-import getImageUrl from '@/api/getImageUrl'
 import priceToString from '@/utils/priceToString'
 import { useCartDispatch } from '@/context/CartContext';
 import Loading from './Loading';
 import { Product } from '@/types/product';
-
-interface CartProductImageProps {
-  filename: string
-} 
-
-const CartProductImage = React.memo(({ filename }: CartProductImageProps) => {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['productImage', filename],
-    queryFn: ({ queryKey }) => getImageUrl(queryKey[1])
-  })
-
-  if (isLoading) return <Loading />
-  if (isError) {
-    console.log(error)
-    return <div className='w-20 h-20 bg-gray-100'></div>
-  }
-
-  return (
-    <img src={data} className='w-20 h-20 object-cover min-w-20' loading='lazy' />
-  )
-})
 
 interface CartProductContainerProps {
   pid: string
@@ -92,7 +69,7 @@ const CartProductContainer = React.memo(({ pid, product, quantity: cquantity, is
         <div className='absolute left-0 top-0 w-full h-full bg-white opacity-50' />
       )}
       <div className='mr-4 cursor-pointer' onClick={onClick}>
-        <CartProductImage filename={product.productImage[0]} />
+        <img src={product.productImage[0]} className='w-20 h-20 object-cover min-w-20' loading='lazy' />
       </div>
 
       <div className='w-full'>

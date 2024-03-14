@@ -8,7 +8,6 @@ import Loading from '@/components/Loading'
 import MyPageLayout from '@/components/layout/MyPageLayout'
 import getAllOrderByBuyer from '@/api/getAllOrderByBuyer'
 import { User } from '@/types/user'
-import getImageUrl from '@/api/getImageUrl'
 import getUser from '@/api/getUser'
 import getProduct from '@/api/getProduct';
 import formatDate from '@/utils/formatDate';
@@ -16,28 +15,6 @@ import { Status } from '@/types/order';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import orderStatusToString from '@/utils/orderStatusToString';
 import MetaTag from '@/components/MetaTag';
-
-interface ProductImageProps {
-  filename: string
-}
-
-const ProductImage = React.memo(({ filename }: ProductImageProps) => {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['productImage', filename],
-    queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
-    staleTime: Infinity
-  })
-
-  if (isLoading) return <Loading />
-  if (isError) {
-    console.log(error)
-    return <div className='w-full h-full bg-gray-100'></div>
-  }
-
-  return (
-    <img src={data} className='w-full h-full object-cover' />
-  )
-})
 
 interface OrderContainerProps {
   orderId: string,
@@ -128,7 +105,7 @@ const OrderContainer = ({
        ? <Loading />
        : isError_product
        ? <div className='w-full h-full bg-gray-100' />
-       : <ProductImage filename={product!.productImage[0]} />}
+       : <img src={product!.productImage[0]} className='w-full h-full object-cover' />}
       </div>
 
       <div className='w-full'>

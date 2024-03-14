@@ -5,7 +5,6 @@ import { Timestamp } from 'firebase/firestore'
 import { IoMdClose } from "react-icons/io";
 
 import getAllOrderBySeller from '@/api/getAllOrderBySeller'
-import getImageUrl from '@/api/getImageUrl'
 import getProduct from '@/api/getProduct'
 import getUser from '@/api/getUser'
 import Loading from '@/components/Loading'
@@ -18,28 +17,6 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import orderStatusToString from '@/utils/orderStatusToString';
 import { Status } from '@/types/order';
 import MetaTag from '@/components/MetaTag';
-
-interface ProductImageProps {
-  filename: string
-}
-
-const ProductImage = React.memo(({ filename }: ProductImageProps) => {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['productImage', filename],
-    queryFn: ({ queryKey }) => getImageUrl(queryKey[1]),
-    staleTime: Infinity
-  })
-
-  if (isLoading) return <Loading />
-  if (isError) {
-    console.log(error)
-    return <div className='w-full h-full bg-gray-100'></div>
-  }
-
-  return (
-    <img src={data} className='w-full h-full object-cover' />
-  )
-}) 
 
 interface OrderContainerProps {
   orderId: string,
@@ -116,7 +93,7 @@ const OrderContainer = React.memo(({
 
         <div className='flex items-center mx-4 w-full'>
           <div className='w-24 h-24 min-w-24 mr-4'>
-            <ProductImage filename={product.productImage[0]} />
+            <img src={product.productImage[0]} className='w-full h-full object-cover' />
           </div>
 
           <div>
