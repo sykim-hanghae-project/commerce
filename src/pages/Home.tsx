@@ -17,7 +17,7 @@ const Home = () => {
         <ScrollAnimationContainer>
           <img 
             className='w-full h-screen object-cover'
-            src={`${import.meta.env.BASE_URL}/concept-image.jpg`}
+            src='/concept-image.jpg'
             decoding='async'
           />
         </ScrollAnimationContainer>
@@ -25,7 +25,7 @@ const Home = () => {
         <ScrollAnimationContainer>
           <img 
             className='w-full h-screen object-cover'
-            src={`${import.meta.env.BASE_URL}/concept-image-2.jpg`}
+            src='/concept-image-2.jpg'
             decoding='async'
           />
         </ScrollAnimationContainer>
