@@ -1,7 +1,7 @@
 ## 프로젝트 소개
 - 다양한 상품을 구매하거나 판매할 수 있는 이커머스 온라인 쇼핑몰입니다.
 
-- 배포 페이지: [https://sykim-hanghae-project.github.io/commerce/](https://sykim-hanghae-project.github.io/commerce/)
+- 배포 페이지: [https://commerce-seven-chi-53.vercel.app/](https://commerce-seven-chi-53.vercel.app/)
 - 테스트 계정
   - 판매자: test1@naver.com / dfadfaf2454f@
   - 구매자: consumer@naver.com / dfadfaf2454f@
