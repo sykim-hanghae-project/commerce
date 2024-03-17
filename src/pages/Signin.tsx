@@ -84,7 +84,7 @@ const Signin: React.FC = () => {
                   <FormItem>
                     <FormLabel>이메일</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input data-cy="email-input" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -98,12 +98,12 @@ const Signin: React.FC = () => {
                   <FormItem>
                     <FormLabel>비밀번호</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input data-cy="pwd-input" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              <Button type="submit" className='mt-7 w-full'>로그인</Button>
+              <Button type="submit" className='mt-7 w-full' data-cy="submit">로그인</Button>
             </form>
           </Form>
         </div>

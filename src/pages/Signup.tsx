@@ -98,7 +98,7 @@ const Signup: React.FC = () => {
                 <FormItem>
                   <FormLabel>이름</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input data-cy="name-input" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -113,7 +113,7 @@ const Signup: React.FC = () => {
                   <FormItem>
                     <FormLabel>이메일</FormLabel>
                     <FormControl>
-                      <Input placeholder="id@google.com" {...field} />
+                      <Input placeholder="id@google.com" data-cy="email-input" {...field} />
                     </FormControl>
                     <FormMessage>
                       {errorMessage}
@@ -129,7 +129,7 @@ const Signup: React.FC = () => {
                   <FormItem>
                     <FormLabel>비밀번호</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input data-cy="pwd-input" {...field} />
                     </FormControl>
                     <FormDescription>
                     최소 10자리의 영어 대/소문자, 숫자, 특수문자 중 2종류 문자 조합
