@@ -1,1 +1,0 @@
-var r=(e=>(e.order_completed="order_completed",e.waiting_deliver="waiting_deliver",e.deliver_started="deliver_started",e.deliver_completed="deliver_completed",e.order_canceled="order_canceled",e))(r||{});export{r as S};

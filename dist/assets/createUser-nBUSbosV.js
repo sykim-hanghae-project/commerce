@@ -1,1 +1,0 @@
-import{x as c,d,e as o}from"./index-Vq1JXboX.js";async function u(e,a,t,s,r){await c(d(o,"users",e),{id:e,email:t,isSeller:r,nickname:a,password:s,createdAt:new Date,updatedAt:new Date})}export{u as default};

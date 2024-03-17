@@ -1,1 +1,0 @@
-import{q as c,l as u,s as i,o as p,w as d,m as n,n as l,p as m,e as y}from"./index-Vq1JXboX.js";async function S(o,a,s,r,e){let t;return e?t=c(n(y,"products"),d("productCategory","==",o),p(s,r),i(e),u(a)):t=c(n(y,"products"),d("productCategory","==",o),p(s,r),u(a)),(await l(t)).docs.map(f=>m(f.data()))}export{S as g};
