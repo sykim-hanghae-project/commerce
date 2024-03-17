@@ -40,7 +40,7 @@ const Signin: React.FC = () => {
       if (user) {
         window.localStorage.setItem('user-role', user.isSeller ? 'seller' : 'consumer')
         window.alert('로그인이 완료되었습니다.')
-        window.location.replace('/commerce')
+        window.location.replace('/')
       }
     },
     onError: async (error: AuthError) => {
