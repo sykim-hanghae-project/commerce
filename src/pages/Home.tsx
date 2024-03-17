@@ -1,6 +1,9 @@
-import HomeProductsByCategory from '@/components/HomeProductsByCategory'
+// import HomeProductsByCategory from '@/components/HomeProductsByCategory'
 import MetaTag from '@/components/MetaTag'
 import ScrollAnimationContainer from '@/components/ScrollAnimationContainer'
+import { lazy } from 'react'
+
+const HomeProductsByCategory = lazy(() => import('@/components/HomeProductsByCategory'))
 
 const Home = () => {
   const category = ['Women', 'Men']
