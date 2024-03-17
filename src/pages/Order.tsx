@@ -1,4 +1,4 @@
-import { lazy, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import * as z from "zod"
 import { useForm } from 'react-hook-form'
@@ -22,9 +22,8 @@ import updateProduct from '@/api/updateProduct';
 import updateProductQuantity from '@/api/updateProductQuantity';
 import MetaTag from '@/components/MetaTag';
 import useCreateOrderMutation from '@/hooks/useCreateOrderMutation';
-
-const OrderAddressModal = lazy(() => import('@/components/OrderAddressModal'))
-const Loading = lazy(() => import('@/components/Loading'))
+import Loading from '@/components/Loading';
+import OrderAddressModal from '@/components/OrderAddressModal';
 
 const Order = () => {
   const user = useLoaderData() as User
