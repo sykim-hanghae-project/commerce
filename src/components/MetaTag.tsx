@@ -9,7 +9,7 @@ interface MetaTagProps {
 
 const MetaTag = ({ title, description, url, imgsrc }: MetaTagProps) => {
   const defaultTitle = 'XSO'
-  const defaultUrl = 'https://sykim-hanghae-project.github.io/commerce'
+  const defaultUrl = 'https://commerce-seven-chi-53.vercel.app/'
   const defaultImgsrc = `/concept-image.jpg`
   
   return (
