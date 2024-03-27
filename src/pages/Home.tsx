@@ -20,12 +20,12 @@ const Home = () => {
         <ScrollAnimationContainer>
           <picture>
             <source
-              className='w-full h-screen object-cover' 
+              className='homeImage' 
               srcSet='/concept-image.webp' 
               type='image/webp'
             />
             <img 
-              className='w-full h-screen object-cover'
+              className='homeImage'
               src='/concept-image.jpg'
               decoding='async'
             />
@@ -35,12 +35,12 @@ const Home = () => {
         <ScrollAnimationContainer>
           <picture>
             <source 
-              className='w-full h-screen object-cover'
+              className='homeImage'
               srcSet='/concept-image-2.webp'
               type='image/webp'
             />
             <img 
-              className='w-full h-screen object-cover'
+              className='homeImage'
               src='/concept-image-2.jpg'
               decoding='async'
             />
