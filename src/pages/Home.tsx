@@ -18,19 +18,33 @@ const Home = () => {
 
       <div className='w-full pb-8'>
         <ScrollAnimationContainer>
-          <img 
-            className='w-full h-screen object-cover'
-            src='/concept-image.jpg'
-            decoding='async'
-          />
+          <picture>
+            <source
+              className='w-full h-screen object-cover' 
+              srcSet='/concept-image.webp' 
+              type='image/webp'
+            />
+            <img 
+              className='w-full h-screen object-cover'
+              src='/concept-image.jpg'
+              decoding='async'
+            />
+          </picture>
         </ScrollAnimationContainer>
 
         <ScrollAnimationContainer>
-          <img 
-            className='w-full h-screen object-cover'
-            src='/concept-image-2.jpg'
-            decoding='async'
-          />
+          <picture>
+            <source 
+              className='w-full h-screen object-cover'
+              srcSet='/concept-image-2.webp'
+              type='image/webp'
+            />
+            <img 
+              className='w-full h-screen object-cover'
+              src='/concept-image-2.jpg'
+              decoding='async'
+            />
+          </picture>
         </ScrollAnimationContainer>
 
         <div className='mt-12'>
