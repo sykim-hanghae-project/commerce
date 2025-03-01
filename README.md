@@ -5,6 +5,7 @@
 - 테스트 계정
   - 판매자: test1@naver.com / dfadfaf2454f@
   - 구매자: consumer@naver.com / dfadfaf2454f@
+- 기록: [https://sykim-hanghae-project.gitbook.io/note/](https://sykim-hanghae-project.gitbook.io/note/)
 
 ## 개발 환경
 - FE: React, Typescript, tailwindcss, Vite
